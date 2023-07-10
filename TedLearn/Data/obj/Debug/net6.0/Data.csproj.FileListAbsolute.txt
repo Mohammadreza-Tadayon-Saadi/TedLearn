@@ -1,0 +1,17 @@
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\bin\Debug\net6.0\Data.deps.json
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\bin\Debug\net6.0\Data.runtimeconfig.json
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\bin\Debug\net6.0\Data.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\bin\Debug\net6.0\Data.pdb
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\bin\Debug\net6.0\Core.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\bin\Debug\net6.0\Core.pdb
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.csproj.AssemblyReference.cache
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.AssemblyInfoInputs.cache
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.AssemblyInfo.cs
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.csproj.CoreCompileInputs.cache
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.csproj.CopyComplete
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\refint\Data.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.pdb
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\Data.genruntimeconfig.cache
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\Data\obj\Debug\net6.0\ref\Data.dll
