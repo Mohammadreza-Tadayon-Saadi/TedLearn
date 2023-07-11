@@ -80,3 +80,15 @@ C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\T
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\ref\TedLearnPresentation.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Humanizer.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\TedLearnPresentation.RazorAssemblyInfo.cache
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\TedLearnPresentation.RazorAssemblyInfo.cs
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Sinks.Console.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.AspNetCore.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Extensions.Hosting.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Extensions.Logging.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Formatting.Compact.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Settings.Configuration.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Sinks.Debug.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Serilog.Sinks.File.dll

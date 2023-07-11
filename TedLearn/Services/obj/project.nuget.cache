@@ -1,14 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "M6XofBvAERdsYnt9xmvufkDYaq/CrP5h97sk+pO48l1gQLfpjHnReMIy+Lfje1g8/TtCNFMOmzUChtFq6PT5Mg==",
+  "dgSpecHash": "Tf9Ov6ZsxDpJgEfTHViPiK9UxvjL07xXz236ylJZiGpxqnOJHPdBeCz9a1m2UsYkdNW1sHeGOH7gtIZqrSLDug==",
   "success": true,
   "projectFilePath": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\Services\\Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tedi\\.nuget\\packages\\advancedstringbuilder\\0.1.0\\advancedstringbuilder.0.1.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\htmlsanitizer\\8.0.645\\htmlsanitizer.8.0.645.nupkg.sha512",
-    "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.entityframeworkcore\\6.0.19\\microsoft.entityframeworkcore.6.0.19.nupkg.sha512",

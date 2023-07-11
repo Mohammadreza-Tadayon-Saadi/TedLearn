@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <partial name="_MetaTags"/>
+    <partial name="_Styles"/>
+    <title>TedLearn | @ViewData["Title"]</title>
+</head>
+
+<body dir="rtl" class="
+             @((ViewData["Title"] == "صفحه اصلی" || ViewData["Title"].ToString().Contains("آموزش") || ViewData["Title"] == "دوره های سایت" || ViewData["Title"] == "سبد خرید" || ViewData["Title"] == "پرسش و پاسخ" || ViewData["Title"] == "ایجاد پرسش" || ViewData["Title"] == "صفحه مورد نظر یافت نشد") ? "font-farsi overflow-x-hidden bg-md-header":"")
+             @((ViewData["Title"] == "ثبت نام" || ViewData["Title"] == "ورود" || 
+                ViewData["Title"] == "تایید تلفن همراه" || ViewData["Title"] == "فراموشی رمز عبور" || 
+                ViewData["Title"] == "باز نشانی رمز عبور") ? "font-farsi bg-md-header md:bg-login-md overflow-x-hidden bg-cover bg-center md:bg-center-none" : "")
+             @((ViewData["Title"] == "مدرسین" || ViewData["Title"] == "دوره های مدرس") ? "font-farsi bg-md-header overflow-x-hidden bg-cover bg-center md:bg-center-none" : "")
+            ">
+    <partial name="_SideBar"/>
+
+    <!-- Header Site -->
+    @await RenderSectionAsync("Header" , required: true)
+    <!-- End Header Site -->
+
+    <!-- Main Site -->
+    @RenderBody()
+    
+    <!-- End Main Site -->
+
+    <!-- Footer -->
+    @await RenderSectionAsync("Footer" , required: false)
+    <!-- End Footer -->
+
+    <script src="/js/scripts.js"></script>
+    @await RenderSectionAsync("Scripts" , required: false)
+</body>
+</html>

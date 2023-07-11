@@ -1,9 +1,11 @@
 ﻿using Data.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebMarkupMin.AspNetCore6;
+using Serilog;
 
 namespace WebConfig.IoC;
 
@@ -44,6 +46,14 @@ public static class ServiceInjectionExtentions
             options.LoginPath = "/Login";
             options.LogoutPath = "/LogOut";
             options.ExpireTimeSpan = TimeSpan.FromDays(30);
+        });
+    }
+
+    public static void AddSerilog(this ConfigureHostBuilder hostBuilder)
+    {
+        hostBuilder.UseSerilog((hostingContext, loggerConfiguration) =>
+        {
+            loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration);
         });
     }
 }

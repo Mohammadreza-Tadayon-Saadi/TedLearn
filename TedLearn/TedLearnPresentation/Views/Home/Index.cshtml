@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+@section Header{
+    <!-- NavBar -->
+    <partial name="_HomeNavBar" />  
+    <!-- End NavBar -->
+    <header class="w-full md:text-base h-screen md:bg-md-header md:bg-cover md:bg-center">
+        <!-- Main Header -->
+        <section class="flex justify-center md:justify-between h-screen md:h-3/4 bg-header bg-polygan md:bg-none md:bg-polygan-none bg-center bg-cover">
+
+            <!-- article 1 -->
+            <article class="w-full h-full">
+                <!-- Title -->
+                <div class="h-1/2 md:h-3/5 md:mx-4 md:w-full flex items-end justify-center md:mt-0 mb-4 text-gray-700 text-center">
+                    <h1 class="font-extrabold text-xl text-slate-300 md:text-black">
+                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
+                    </h1>
+                </div>
+                <!-- End Title -->
+                <!-- Search Box -->
+                <div class="w-full flex justify-center z-20">
+                    <form action="/Home/Courses" class="flex text-xs sm:text-sm md:text-base w-11/12 sm:w-3/4 justify-center relative">
+                        <input type="text" name="filterByCourseTitle" id="autoFilter" class="w-full outline-none shadow-sm shadow-slate-400 bg-slate-100 h-10 rounded-full px-4 transition-all duration-300 focus:bg-slate-200 focus:placeholder-slate-800 focus:shadow-slate-600" placeholder="چی میخوای یاد بگیری؟">
+                        <button type="submit" class="absolute left-4 top-3 text-base text-slate-400 hover:text-blue-700 hover:translate-x-1 transition-all duration-500">
+                            <i class="fi fi-rr-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </div>
+                <!-- End Search Box -->
+
+            </article>
+            <!-- End article 1 -->
+            <!-- article 2(Vector In MD Resolution) -->
+            <article class="w-full hidden md:flex items-end">
+                <img class="w-full" src="/images/MainHeader-md.png" alt="Main-Header Image">
+            </article>
+            <!-- End article 2(Vector In MD Resolution) -->
+
+        </section>
+        <!-- End Main Header -->
+    </header>
+}
+
+    <main class="w-full mb-10">
+        <!-- Header -->
+        @*@await Component.InvokeAsync("CourseGroupComponent")*@
+        <!-- End Header -->
+
+        <!-- Course List -->
+        <section class="">
+            <!-- Header Course -->
+            <div class="md:mr-6 pt-14 pb-8">
+                <span class="text-indigo-700 ml-2 text-xl relative top-1 mr-4 md:mr-0">
+                    <i class="fi fi-rr-thumbtack"></i>
+                </span>
+                <h1 class="font-bold-farsi text-2xl inline-block">آخرین دوره ها :</h1>
+            </div>
+            <!-- End Header Course -->
+
+
+            <div class="flex justify-center">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
+
+                    @*@await Component.InvokeAsync("CourseComponent")*@
+
+                </div>
+            </div>
+        </section>
+        <!-- End Course List -->
+    </main>
+
+
+@if (ViewBag.SuccessSign == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1004] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-circle-check text-6xl text-green-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">عملیات موفق</h1>
+                <p class="text-sm text-center mt-2">
+                    ورود شما با موفقیت انجام شد.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-green-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+}
+
+@section Footer{
+    <partial name="_Footer" />
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#autoFilter").autocomplete({
+                source: 'api/courseapi/Search'
+            });
+        });
+    </script>
+}

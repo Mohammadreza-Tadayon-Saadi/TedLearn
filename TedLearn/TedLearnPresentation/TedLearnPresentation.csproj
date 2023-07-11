@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <Folder Include="Areas\" />
-    <Folder Include="GlobalUsings\" />
     <Folder Include="ViewComponents\" />
-    <Folder Include="Views\" />
+    <Folder Include="wwwroot\ckEditorFile\" />
+    <Folder Include="wwwroot\Courses\course-demos\" />
+    <Folder Include="wwwroot\Courses\course-episodes-file\" />
+    <Folder Include="wwwroot\Courses\course-episodes-video\free\" />
+    <Folder Include="wwwroot\Courses\course-episodes-video\purchacable\" />
     <Folder Include="wwwroot\DownloadSeriLog\" />
+    <Folder Include="wwwroot\SeriLog\" />
   </ItemGroup>
 
   <ItemGroup>
