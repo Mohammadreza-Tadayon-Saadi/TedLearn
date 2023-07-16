@@ -1,0 +1,86 @@
+﻿@using Core.Utilities;
+@using Services.Contracts.Interfaces;
+@*@inject TedLearn_Core.Services.UserPanelServices _userPanelServices*@
+@inject IUserServices _userService
+@{
+    int userId = User.Identity.GetUserId<int>();
+    var userAvatar = await _userService.GetUserAvatar(userId);
+}
+<header>
+    <!-- NavBar -->
+    <nav class="h-12 flex text-xs md:text-base items-center justify-end w-full text-slate-100 bg-indigo-700 shadow-2xl rounded-bl-3xl sm:h-16">
+        <!-- Logo -->
+        <div class="mx-6 invisible logo md:hidden">
+            <a href="/">
+                <img class="w-10 md:w-14" src="/images/logo.png" alt="Logo Image">
+            </a>
+        </div>
+        <!-- End Logo -->
+        <!-- Links -->
+        <nav class="after:border-l-2 md:after:border-none">
+            <span id="burger" class="text-lg md:hidden cursor-pointer relative top-1 ml-4 transition-color duration-300 hover:text-sky-300">
+                <i class="fi fi-rr-menu-burger md:hidden"></i>
+            </span>
+        </nav>
+        <!-- End Links -->
+        <!-- Profile -->
+        <div id="profile" class="relative mr-3 ml-9 md:ml-0 md:mr-0 h-full pt-1 sm:pt-2 md:pl-1">
+            <div class="flex justify-center">
+                <div class="flex sm:bg-slate-200 items-center justify-center max-w-[15rem] text-xs md:text-sm font-semibold md:mx-6 sm:pr-3 sm:pl-1 sm:text-gray-400 sm:border sm:border-gray-400 rounded-full">
+                    <button type="button" dir="ltr" class="profile-button hover:text-sky-400 hover:sm:text-indigo-700 truncate transition-colors duration-300 ml-2">
+                        @User.Identity.Name
+                        <i class="fi fi-rr-angle-small-down relative top-[2px]"></i>
+                    </button>
+                    <img class="profile-img w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer" src="/UserAvatar/@userAvatar" alt="User Avatar">
+                </div>
+            </div>
+
+
+            <!-- DropDown -->
+            <div class="flex justify-center absolute -left-8 sm:-left-[29px] md:left-1 z-[1000]">
+                <div id="profile-dropdown" class="profileClass bg-slate-50 p-3 relative text-gray-600 w-44 md:w-48 mt-1 rounded-md shadow-lg border border-gray-300">
+                    <ul class="w-full text-xs lg:text-sm font-semibold">
+                        <li class="mb-2 pr-4 relative">
+                            <a href="/UserPanel" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2 before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                مشاهده حساب کاربری
+                            </a>
+                        </li>
+                        <li class="mb-2 pr-4 relative">
+                            <a href="/UserPanel/EditUserProfile" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2 before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                ویرایش حساب کاربری
+                            </a>
+                        </li>
+                        <li class="mb-2 pr-4 relative">
+                            <a href="/UserPanel/ChangePassword" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2 before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                تغییر کلمه عبور
+                            </a>
+                        </li>
+                        <li class="mb-2 pr-4 relative">
+                            <a href="/UserPanel/MyCourses" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2 before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                دوره های من
+                            </a>
+                        </li>
+                        <li class="mb-2 pr-4 relative">
+                            <a href="/UserPanel/AddTransaction" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2 before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                کیف پول من
+                            </a>
+                        </li>
+                        <li class="mb-2 pr-4 relative">
+                            <a href="/UserPanel/Orders" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2 before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                فاکتورهای من
+                            </a>
+                        </li>
+                        <li class="pr-4 relative">
+                            <a href="/LogOut" class="transition-colors duration-300 hover:text-indigo-700 before:content-[''] before:w-1 before:h-1 before:absolute before:top-2  before:right-1 before:bg-indigo-700 before:rounded-2xl">
+                                خروج از حساب
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- End DropDown -->
+        </div>
+        <!-- End Profile -->
+    </nav>
+    <!-- End NavBar -->
+</header>

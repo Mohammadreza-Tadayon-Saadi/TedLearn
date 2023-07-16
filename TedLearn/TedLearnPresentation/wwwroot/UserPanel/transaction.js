@@ -1,5 +1,4 @@
-var userName = document.getElementById("userName").getAttribute("userName");
-$("#result").load("/UserPanel/GetUserTransactions/" + userName);
+$("#result").load("/UserPanel/GetUserTransactions");
 
 const form = document.getElementById("form");
 const amount = document.getElementById("amount");

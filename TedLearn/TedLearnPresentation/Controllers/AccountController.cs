@@ -3,9 +3,9 @@ using Core.Securities;
 using Data.Entities.Persons.Users;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Services.Interfaces;
 using System.Security.Claims;
-using WebConfig.DTOs.Account;
+using Services.DTOs.Account;
+using Services.Contracts.Interfaces;
 
 namespace TedLearnPresentation.Controllers;
 
@@ -41,22 +41,16 @@ public class AccountController : Controller
     [Route("/Account/Register")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterDto model)
+    public async Task<IActionResult> Register(RegisterDto model , CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return View(model);
 
         #region ValidationInput
 
-        if (!RegularExpression.MatchPassword(model.Password))
-        {
-            ModelState.AddModelError(nameof(model.Password), "رمز عبور وارد شده حداقل باید شامل حرف و عدد باشد.");
-            return View(model);
-        }
-
         //User Exist And Confirmed His Phone
-        if (await _userServices.IsUserExistAsync(model.UserName.Trim(), model.PhoneNumber))
+        if (await _userServices.IsUserExistAsync(model.UserName.Trim(), model.PhoneNumber , cancellationToken))
         {
-            if (await _userServices.IsPhoneConfirmedAsync(model.PhoneNumber))
+            if (await _userServices.IsPhoneConfirmedAsync(model.PhoneNumber, cancellationToken))
             {
                 ViewBag.IsUserExist = true;
                 return View(model);
@@ -65,7 +59,7 @@ public class AccountController : Controller
         }
 
         ////Duplicate UserName & PhoneNumber
-        if (await _userServices.IsUserNameOrPhoneNumberExistAsync(model.UserName.Trim(), model.PhoneNumber))
+        if (await _userServices.IsUserNameOrPhoneNumberExistAsync(model.UserName.Trim(), model.PhoneNumber, cancellationToken))
         {
             ViewBag.CanNotSignUp = true;
             return View(model);
@@ -83,7 +77,7 @@ public class AccountController : Controller
             PhoneNumberConfirmed = false,
         };
 
-        await _userServices.SignUpUserAsync(user);
+        await _userServices.SignUpUserAsync(user , cancellationToken , false);
 
         return Redirect($"/Account/RegisterPhone/{model.PhoneNumber}");
     }
@@ -93,17 +87,17 @@ public class AccountController : Controller
     #region RegisterPhone
 
     [Route("/Account/RegisterPhone/{phone}/{forgetPassword?}")]
-    public async Task<IActionResult> RegisterPhone(string phone, bool forgetPassword = false)
+    public async Task<IActionResult> RegisterPhone(string phone, CancellationToken cancellationToken, bool forgetPassword = false)
     {
         if (User.Identity.IsAuthenticated) return Redirect("/");
-        if (!await _userServices.IsPhoneExistAsync(phone)) return NotFound();
+        if (!await _userServices.IsPhoneExistAsync(phone, cancellationToken)) return NotFound();
 
         var model = new RegisterPhoneDto
         {
             PhoneNumber = phone,
         };
 
-        var timeExpired = (int)_userServices.LeftTimeActivateCode(phone, expirationActivateCodeTime);
+        var timeExpired = (int)await _userServices.LeftTimeActivateCode(phone, expirationActivateCodeTime , cancellationToken);
         if (timeExpired > 0)
         {
             model.ExpirationTime = DateTime.Now.AddSeconds(timeExpired);
@@ -115,7 +109,7 @@ public class AccountController : Controller
 
         //TODO Send SMS(totpCode)
 
-        await _userServices.AddActiveCodForUserAsync(phone, activeCodeForUser);
+        await _userServices.AddActiveCodForUserAsync(phone, activeCodeForUser, cancellationToken , false);
 
         ViewBag.ForgetPassword = forgetPassword;
         model.ExpirationTime = DateTime.Now.AddSeconds(expirationActivateCodeTime);
@@ -126,11 +120,11 @@ public class AccountController : Controller
     [Route("/Account/RegisterPhone/{phone?}/{forgetPassword?}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> RegisterPhone(RegisterPhoneDto model, bool forgetPassword = false)
+    public async Task<IActionResult> RegisterPhone(RegisterPhoneDto model, CancellationToken cancellationToken, bool forgetPassword = false)
     {
         if (!ModelState.IsValid) return View(model);
 
-        var user = await _userServices.GetUserByPhoneNumberAsync(model.PhoneNumber);
+        var user = await _userServices.GetUserByPhoneNumberAsync(model.PhoneNumber, cancellationToken);
         if (user == null) return NotFound();
 
         #region Validation Active Code
@@ -154,7 +148,7 @@ public class AccountController : Controller
         #endregion Validation Active Code
 
         user.PhoneNumberConfirmed = true;
-        await _userServices.UpdateUserAsync(user);
+        await _userServices.UpdateUserAsync(user , cancellationToken, false);
 
         #region SignInUser
 
@@ -162,8 +156,6 @@ public class AccountController : Controller
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name , user.UserName),
-                new Claim(ClaimTypes.Role , "کاربر عادی"),
-                new Claim("Avatar" , user.UserAvatar),
             };
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -195,22 +187,23 @@ public class AccountController : Controller
     [Route("/Account/Login")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> Login(LoginDto model, string? ReturnUrl)
+    public async Task<IActionResult> Login(LoginDto model, string? ReturnUrl, CancellationToken cancellationToken)
     {
+        #region ValidationUser
+
         if (!ModelState.IsValid)
         {
             ViewData["ReturnUrl"] = ReturnUrl;
             return View(model);
         }
-        var user = await _userServices.CheckUserForLoginAsync(model.UserName,
-            SecurityHelper.GetSha256Hash(model.Password));
+        var user = await _userServices.CheckUserForLoginAsync(model.UserName,model.Password, cancellationToken);
         if (user == null)
         {
             ViewBag.IsNotExist = true;
             ViewData["ReturnUrl"] = ReturnUrl;
             return View(model);
         }
-        if (!await _userServices.IsPhoneConfirmedAsync(user.PhoneNumber))
+        if (!await _userServices.IsPhoneConfirmedAsync(user.PhoneNumber, cancellationToken))
         {
             ViewBag.IsNotConfirmedPhone = true;
             ViewBag.PhoneNumber = user.PhoneNumber;
@@ -218,19 +211,15 @@ public class AccountController : Controller
             return View(model);
         }
 
-        #region SignInUser
+        #endregion ValidationUser
 
-        var userRolesName = await _permissionServices.GetUserRolesName(user.UserId);
+        #region SignInUser
 
         var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name , user.UserName),
-                new Claim("Avatar" , user.UserAvatar),
             };
-
-        foreach (var roleName in userRolesName)
-            claims.Add(new Claim(ClaimTypes.Role, roleName));
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -278,12 +267,12 @@ public class AccountController : Controller
     [Route("/ForgetPassword")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> ForgetPassword(ForgetPasswordDto model)
+    public async Task<IActionResult> ForgetPassword(ForgetPasswordDto model , CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return View(model);
 
-        if (!await _userServices.IsPhoneExistAsync(model.PhoneNumber) || 
-            !await _userServices.IsPhoneConfirmedAsync(model.PhoneNumber))
+        if (!await _userServices.IsPhoneExistAsync(model.PhoneNumber, cancellationToken) || 
+            !await _userServices.IsPhoneConfirmedAsync(model.PhoneNumber, cancellationToken))
         {
             ModelState.AddModelError(nameof(model.PhoneNumber), "شماره تلفن وارد شده معتبر نیست.");
             return View(model);
@@ -297,12 +286,12 @@ public class AccountController : Controller
     #region ResetPassword
 
     [Route("/Account/ResetPassword/{phoneNumber}")]
-    public async Task<IActionResult> ResetPassword(string phoneNumber)
+    public async Task<IActionResult> ResetPassword(string phoneNumber , CancellationToken cancellationToken)
     {
         if (User.Identity.IsAuthenticated) return Redirect("/");
 
-        var user = await _userServices.GetUserByPhoneNumberAsync(phoneNumber);
-        if (user == null || !await _userServices.IsPhoneConfirmedAsync(user.PhoneNumber)) return NotFound();
+        var user = await _userServices.GetUserByPhoneNumberAsync(phoneNumber , cancellationToken , false);
+        if (user == null || !await _userServices.IsPhoneConfirmedAsync(user.PhoneNumber, cancellationToken)) return NotFound();
 
         var model = new ResetPasswordDto() { UserId = user.UserId };
 
@@ -312,17 +301,11 @@ public class AccountController : Controller
     [Route("/Account/ResetPassword")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> ResetPassword(ResetPasswordDto model)
+    public async Task<IActionResult> ResetPassword(ResetPasswordDto model, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return View(model);
 
-        if (!RegularExpression.MatchPassword(model.NewPassword))
-        {
-            ModelState.AddModelError(nameof(model.NewPassword), "رمز عبور وارد شده حداقل باید شامل حرف و عدد باشد.");
-            return View(model);
-        }
-
-        var user = await _userServices.GetUserByIdAsync(model.UserId);
+        var user = await _userServices.GetUserByIdAsync(model.UserId, cancellationToken);
         if (user == null) return NotFound();
 
         var newHashPass = SecurityHelper.GetSha256Hash(model.NewPassword.Trim());
@@ -334,21 +317,15 @@ public class AccountController : Controller
         }
 
         user.PasswordHash = newHashPass;
-        await _userServices.UpdateUserAsync(user);
+        await _userServices.UpdateUserAsync(user, cancellationToken, false);
 
         #region SignInUser
-
-        var userRolesName = await _permissionServices.GetUserRolesName(user.UserId);
 
         var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.Name , user.UserName),
-                new Claim("Avatar" , user.UserAvatar),
             };
-
-        foreach (var roleName in userRolesName)
-            claims.Add(new Claim(ClaimTypes.Role, roleName));
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

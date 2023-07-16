@@ -1,4 +1,5 @@
-﻿@using WebConfig.DTOs.Account;
+﻿@using Core.CustomResults;
+@using Services.DTOs.Account;
 @model LoginDto
 @{
     ViewData["Title"] = "ورود";
@@ -153,52 +154,22 @@
 
 @if (ViewBag.IsNotConfirmedPhone == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 z-30 top-0 right-0">
-        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2 z-50">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                <p class="text-sm text-center mt-2">
-                    شما وقتی ثبت نام کردید شماره تلفن خود را تایید نکردید.لطفا با این
-                    <a href="/Account/RegisterPhone/@ViewBag.PhoneNumber" class="text-indigo-700 font-semibold">لینک</a>
-                    شماره تلفن خود را تایید کنید.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    {
+        var card = new MessageCardInfo("عملیات ناموفق",
+        "شما وقتی ثبت نام کردید شماره تلفن خود را تایید نکردید.لطفا با این " +
+        $"<a href ='/Account/RegisterPhone/{ViewBag.PhoneNumber}' class='text-indigo-700 font-semibold'>لینک</a> " +
+        "شماره تلفن خود را تایید کنید."
+        , MessageCardStatus.Error);
+        <partial name="_MessageCardInfo" model="@card" />
+    }
 }
 
 @if (ViewBag.ChangePassword == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 z-30 top-0 right-0">
-        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2 z-50">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-circle-check text-6xl text-green-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات موفق</h1>
-                <p class="text-sm text-center mt-2">
-                    شما رمز عبور خود را عوض کردید.لطفا وارد حساب کاربری خود شوید.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-green-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    {
+        var card = new MessageCardInfo("عملیات موفق", "رمز عبور خود را عوض کردید.لطفا وارد حساب کاربری خود شوید.", MessageCardStatus.Ok);
+        <partial name="_MessageCardInfo" model="@card" />
+    }
 }
 
 

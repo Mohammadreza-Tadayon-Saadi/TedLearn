@@ -1,0 +1,156 @@
+﻿@using Core.CustomResults;
+@using Core.Utilities;
+@using Services.DTOs.UserPanel;
+@model UserInformationDto
+@{
+    ViewData["Title"] = "صفحه اصلی";
+    bool hasEmail = Model.Email.HasValue();
+    bool hasFullName = Model.FullName.HasValue();
+    bool hasBiography = Model.Biography.HasValue();
+    bool hasWebsiteAddress = Model.WebsiteAddress.HasValue();
+    string resultOfUpdateUserAvatar = ViewBag.StateOfUpdateAvatar as string;
+}
+
+<!-- Section 2(Main) -->
+<section class="w-[85%] md:w-3/4">
+    <!-- Rout -->
+    <article class="flex justify-center z-[1] text-sm md:text-base w-full h-12 md:h-16 mt-8 md:mt-4 md:mb-6">
+        <div class="w-11/12 border z-[1] border-slate-300 rounded-xl shadow-xl bg-slate-50">
+            <ul class="flex flex-wrap h-full items-center pr-4 font-bold text-gray-500">
+                <li class="relative top-1">
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                    <a href="/" class="text-base md:text-lg lg:text-xl hover:text-indigo-700 transition-colors duration-300"><i class="fi fi-rr-home"></i></a>
+                </li>
+                <li class="text-indigo-700 text-[12px] sm:text-sm md:text-base">
+                    <p>پنل کاربری</p>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <!-- End Rout -->
+    <!-- User Information -->
+    <article class="mb-4">
+        <div class="flex justify-center text-sm sm:text-base lg:text-sm xl:text-base w-full mt-8 md:mt-4 md:mb-6">
+            <div class="w-11/12 md:flex border border-slate-300 rounded-xl drop-shadow-xl shadow-lg bg-slate-50 overflow-hidden">
+                <!-- Change Avatar -->
+                <form id="changeAvatar" asp-action="ChangeAvatar" method="post" enctype="multipart/form-data" class="flex justify-center relative bg-gradient-profile hover:opacity-70 transition-opacity duration-300 items-center w-full h-64 md:w-36 md:h-36 lg:w-40 lg:h-40 xl:w-44 xl:h-44">
+                    <input id="avatarName" type="hidden" name="avatarName" value="@Model.UserAvatar">
+                    <input id="avatarFile" type="file" name="avatarFile" accept=".jpeg , .jpg , .png" class="absolute top-0 left-0 w-full h-full cursor-pointer opacity-0">
+                    <img id="avatar" class="md:bg-slate-50 w-36 h-36 sm:w-40 sm:h-40 bg-center bg-cover xl:w-44 xl:h-44 rounded-full md:rounded-none" src="/UserAvatar/@Model.UserAvatar" alt="User Avatar">
+                </form>
+                <!-- End Change Avatar -->
+                <!-- Information -->
+                <div class="grid grid-cols-1 gap-4 lg:gap-5 p-6 text-sm lg:text-base">
+                    <div id="profile-dashbord">
+                        <label class="cursor-text">
+                            <i class="fa fa-user pl-[6px] text-gray-400"></i>
+                            نام و نام خانوادگی :
+                            @if (!hasFullName)
+                            {
+                                <span class="text-red-500">موردی برای نمایش وجود ندارد.</span>
+                            }
+                            else
+                            {
+                                @Model.FullName
+                            }
+                        </label>
+                    </div>
+                    <div id="profile-dashbord" class="lg:my-0">
+                        <label class="cursor-text">
+                            <i class="fa fa-phone pl-[6px] text-gray-400"></i>
+                            شماره تلفن :
+                            @Model.PhoneNumber
+                        </label>
+                    </div>
+                    <div id="profile-dashbord">
+                        <label class="cursor-text">
+                            <i class="fa fa-envelope pl-[6px] text-gray-400"></i>
+                            ایمیل :
+                            @if (!hasEmail)
+                            {
+                                <span class="text-red-500">موردی برای نمایش وجود ندارد.</span>
+                            }
+                            else
+                            {
+                                @Model.Email
+                            }
+                        </label>
+                    </div>
+
+                </div>
+                <!-- End Information -->
+            </div>
+        </div>
+
+        <!-- Biography And Site Name -->
+        <div class="flex justify-center text-sm sm:text-base lg:text-sm xl:text-base w-full mt-8 md:mt-4 md:mb-6">
+            <div class="w-11/12 border border-slate-300 p-6 rounded-xl drop-shadow-xl shadow-lg bg-slate-50 overflow-hidden">
+                <div id="profile-dashbord">
+                    <label class="cursor-text">
+                        <i class="fa fa-comment-alt pl-[6px] text-gray-400"></i>
+                        بیوگرافی :
+                        @if (!hasBiography)
+                        {
+                            <span class="text-sm text-red-500">موردی برای نمایش وجود ندارد.</span>
+                        }
+                    </label>
+                    @if (hasBiography)
+                    {
+                        <p class="mb-4 mt-2 text-sm">
+                            @Model.Biography
+                        </p>
+                    }
+                </div>
+
+
+                <div id="profile-dashbord" class="
+                                            @((!hasBiography) ? "mt-4":"")">
+                    <label class="cursor-text">
+                        <i class="fa fa-globe pl-[6px] text-gray-400"></i>
+                        ادرس سایت :
+                        @if (!hasWebsiteAddress)
+                        {
+                            <span class="text-red-500">موردی برای نمایش وجود ندارد.</span>
+                        }
+                        else
+                        {
+                            @Model.WebsiteAddress
+                        }
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!-- End Biography And Site Name -->
+        @if (!hasEmail || !hasBiography || !hasFullName || !hasWebsiteAddress)
+        {
+            <div class="flex justify-center text-sm sm:text-base lg:text-sm xl:text-base w-full mt-8 md:mt-4 md:mb-6">
+                <div class="w-11/12">
+                    <a href="/UserPanel/EditUserProfile" class="block md:w-32 py-3 md:py-2 bg-indigo-700 text-slate-50 text-center rounded-md hover:bg-indigo-900 transition-color duration-300">تکمیل پروفایل</a>
+                </div>
+            </div>
+        }
+    </article>
+    <!-- End User Information -->
+</section>
+<!-- End Section 2(Main) -->
+
+@if (!resultOfUpdateUserAvatar.HasValue())
+{
+    switch (resultOfUpdateUserAvatar)
+    {
+        case "NullFile":
+            var nullFileCard = new MessageCardInfo("عملیات ناموفق", "شما هنوز عکس پروفایلی انتخاب نکردید.(لطفا فقط عکس با فرمت های .jpg و .jpeg و یا .png بارگذاری کنید)", MessageCardStatus.Error);
+            <partial name="_MessageCardInfo" model="@nullFileCard" />
+            break;
+        case "ToMuchLength":
+            var toMuchLengthCard = new MessageCardInfo("عملیات ناموفق", "حجم عکس پروفیل شما زیاد است.عکس پروفایل فقط میتواند تا 5 مگابایت باشد.", MessageCardStatus.Error);
+            <partial name="_MessageCardInfo" model="@toMuchLengthCard" />
+            break;
+        case "SuccessEdit":
+            var successEditCard = new MessageCardInfo("عملیات موفق", "عکس پروفیل شما با موفقیت تغییر یافت.", MessageCardStatus.Ok);
+            <partial name="_MessageCardInfo" model="@successEditCard" />
+            break;
+    }
+}

@@ -1,0 +1,118 @@
+﻿@using Core.CustomResults;
+@using Services.DTOs.UserPanel;
+@model EditUserProfileDto
+@{
+    ViewData["Title"] = "ویرایش حساب کاربری";
+}
+
+<!-- Section 2(Main Content) -->
+<section class="w-[85%] md:w-3/4">
+    <!-- Rout -->
+    <article class="flex justify-center z-[1] text-sm xl:text-base w-full h-12 md:h-16 mt-8 md:mt-4 md:mb-6">
+        <div class="w-11/12 h-full z-[1] border border-slate-300 rounded-xl shadow-xl bg-slate-50">
+            <ul class="flex flex-wrap h-full items-center pr-4 font-bold text-gray-500">
+                <li class="relative top-1">
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                    <a href="/" class="text-base md:text-lg lg:text-xl hover:text-indigo-700 transition-colors duration-300"><i class="fi fi-rr-home"></i></a>
+                </li>
+                <li class="text-[12px] sm:text-sm md:text-base">
+                    <a href="/UserPanel" class="inline-block relative bottom-[px] hover:text-indigo-700 transition-colors duration-300">پنل کاربری</a>
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3 relative top-1">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                </li>
+                <li class="text-indigo-700 text-[12px] sm:text-sm md:text-base">
+                    <p>@ViewData["Title"]</p>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <!-- End Rout -->
+    <!-- Edit Information For User -->
+    <article class="flex justify-center mb-4 text-sm sm:text-base lg:text-sm xl:text-base w-full mt-8 md:mt-4 md:mb-6">
+        <div class="w-11/12 border border-slate-300 rounded-xl drop-shadow-xl shadow-lg bg-slate-50 overflow-hidden">
+            <!-- Change Avatar -->
+            <form id="changeAvatar" asp-action="ChangeAvatar" method="post" enctype="multipart/form-data" class="md:hidden flex justify-center relative bg-gradient-profile hover:opacity-70 transition-opacity duration-300 items-center w-full h-64 md:w-36 md:h-36 lg:w-40 lg:h-40 xl:w-44 xl:h-44">
+                <input id="avatarName" type="hidden" name="avatarName" value="@Model.UserAvatar">
+                <input id="avatarFile" type="file" name="avatarFile" accept=".jpeg , .jpg , .png" class="absolute top-0 left-0 w-full h-full cursor-pointer opacity-0">
+                <img id="avatar" class="md:bg-slate-50 w-36 h-36 sm:w-40 sm:h-40 bg-center bg-cover xl:w-44 xl:h-44 rounded-full md:rounded-none" src="/UserAvatar/@Model.UserAvatar" alt="User Avatar">
+            </form>
+            <!-- End Change Avatar -->
+            <!-- Header -->
+            <div class="mr-3 sm:mr-6 mt-6 text-[15px] sm:text-base md:text-lg font-semibold">
+                <p>@ViewData["Title"] :</p>
+            </div>
+            <!-- End Header -->
+            <!-- Edit -->
+            <div class="flex justify-center px-2 sm:px-4 mt-5">
+                <form asp-controller="Home" asp-action="EditUserProfile" method="post" id="form" class="grid grid-cols-1 gap-6 text-sm w-full sm:w-11/12">
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div id="profile-dashbord" class="form-control text-gray-700">
+                            <label class="cursor-text">
+                                <i class="fa fa-user pl-[6px] text-gray-400"></i>
+                                نام :
+                            </label>
+                            <input type="text" asp-for="FirstName" id="firstName" data-max-chars="70" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                            <span asp-validation-for="FirstName" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                        </div>
+                        <div id="profile-dashbord" class="form-control text-gray-700">
+                            <label class="cursor-text">
+                                <i class="fa fa-user pl-[6px] text-gray-400"></i>
+                                نام خانوادگی :
+                            </label>
+                            <input type="text" asp-for="LastName" id="lastName" data-max-chars="70" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                            <span asp-validation-for="LastName" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                        </div>
+                    </div>
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        <div id="profile-dashbord" class="form-control text-gray-600">
+                            <label class="cursor-text">
+                                <i class="fa fa-envelope pl-[6px] text-gray-400"></i>
+                                ایمیل :
+                            </label>
+                            <input type="text" asp-for="Email" id="email" data-max-chars="100" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                            <span asp-validation-for="Email" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                        </div>
+                        <div id="profile-dashbord" class="form-control text-gray-600">
+                            <label class="cursor-text">
+                                <i class="fa fa-globe pl-[6px] text-gray-400"></i>
+                                آدرس سایت :
+                            </label>
+                            <input type="text" asp-for="WebsiteAddress" id="websiteAddress" data-max-chars="100" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                            <span asp-validation-for="WebsiteAddress" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                        </div>
+                    </div>
+                    <div id="profile-dashbord" class="form-control text-gray-600 block">
+                        <label class="cursor-text">
+                            <i class="fa fa-comment-alt pl-[6px] text-gray-400"></i>
+                            بیوگرافی :
+                        </label>
+                        <textarea asp-for="Biography" data-max-chars="1000" id="biography" class="w-full min-h-[90px] h-[90px] py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition duration-300 rounded-lg outline-none"></textarea>
+                        <span asp-validation-for="Biography" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                    </div>
+                    <input type="hidden" asp-for="Base64Version" />
+                    <input type="hidden" asp-for="UserAvatar" />
+                    <div class="grid lg:grid-cols-2 mb-4">
+                        <button type="submit" class="bg-yellow-500 border-[1px] shadow-lg border-yellow-600 w-full h-10 text-slate-100 rounded-lg hover:bg-yellow-600 transition-colors duration-300">ثبت تغییرات</button>
+                    </div>
+                </form>
+            </div>
+            <!-- End Edit -->
+        </div>
+    </article>
+    <!-- End Edit Information For User -->
+</section>
+<!-- End Section 2(Main) -->
+@if (ViewBag.ConCurrency == true)
+{
+    {
+        var card = new MessageCardInfo("خطای همزمانی", "متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+        <partial name="_MessageCardInfo" model="@card" />
+    }
+}
+
+@section Scripts{
+    <script src="/UserPanel/editUserProfile.js"></script>
+}

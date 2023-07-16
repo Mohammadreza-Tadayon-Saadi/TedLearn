@@ -1,49 +1,33 @@
-﻿using System;
-
-namespace Core.Utilities;
+﻿namespace Core.Utilities;
 
 public static class StringExtensions
 {
     public static bool HasValue(this string value, bool ignoreWhiteSpace = true)
-    {
-        return ignoreWhiteSpace ? !string.IsNullOrWhiteSpace(value) : !string.IsNullOrEmpty(value);
-    }
+        => ignoreWhiteSpace ? !string.IsNullOrWhiteSpace(value) : !string.IsNullOrEmpty(value);
 
     public static int ToInt(this string value)
-    {
-        return Convert.ToInt32(value);
-    }
+        => Convert.ToInt32(value);
 
     public static decimal ToDecimal(this string value)
-    {
-        return Convert.ToDecimal(value);
-    }
+        => Convert.ToDecimal(value);
 
     public static string ToNumeric(this int value)
-    {
-        return value.ToString("N0"); //"123,456"
-    }
+        => value.ToString("N0"); //"123,456"
 
     public static string ToNumeric(this decimal value)
-    {
-        return value.ToString("N0");
-    }
+        => value.ToString("N0");
 
-    public static string ToCurrency(this int value)
-    {
+    public static string ToToman(this int value , bool withToman = true)
         //fa-IR => current culture currency symbol => ریال
         //123456 => "123,123ریال"
-        return value.ToString("C0");
-    }
+        => withToman ? value.ToString("#,0 تومان") : value.ToString("#,0");
+        
 
-    public static string ToCurrency(this decimal value)
-    {
-        return value.ToString("C0");
-    }
+    public static string ToToman(this decimal value, bool withToman = true)
+        => withToman ? value.ToString("#,0 تومان") : value.ToString("#,0");
 
     public static string En2Fa(this string str)
-    {
-        return str.Replace("0", "۰")
+        => str.Replace("0", "۰")
             .Replace("1", "۱")
             .Replace("2", "۲")
             .Replace("3", "۳")
@@ -53,11 +37,9 @@ public static class StringExtensions
             .Replace("7", "۷")
             .Replace("8", "۸")
             .Replace("9", "۹");
-    }
 
     public static string Fa2En(this string str)
-    {
-        return str.Replace("۰", "0")
+        => str.Replace("۰", "0")
             .Replace("۱", "1")
             .Replace("۲", "2")
             .Replace("۳", "3")
@@ -78,11 +60,9 @@ public static class StringExtensions
             .Replace("٧", "7")
             .Replace("٨", "8")
             .Replace("٩", "9");
-    }
 
     public static string FixPersianChars(this string str)
-    {
-        return str.Replace("ﮎ", "ک")
+        => str.Replace("ﮎ", "ک")
             .Replace("ﮏ", "ک")
             .Replace("ﮐ", "ک")
             .Replace("ﮑ", "ک")
@@ -91,15 +71,10 @@ public static class StringExtensions
             .Replace(" ", " ")
             .Replace("‌", " ")
             .Replace("ھ", "ه");//.Replace("ئ", "ی");
-    }
 
     public static string CleanString(this string str)
-    {
-        return str.Trim().FixPersianChars().Fa2En().NullIfEmpty();
-    }
+        => str.Trim().FixPersianChars().Fa2En().NullIfEmpty();
 
     public static string NullIfEmpty(this string str)
-    {
-        return str?.Length == 0 ? null : str;
-    }
+        => str?.Length == 0 ? null : str;
 }

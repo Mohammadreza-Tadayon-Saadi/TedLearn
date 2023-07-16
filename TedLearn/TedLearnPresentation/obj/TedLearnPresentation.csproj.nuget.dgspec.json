@@ -44,9 +44,21 @@
               "target": "Package",
               "version": "[8.0.645, )"
             },
+            "MediaInfoDotNet": {
+              "target": "Package",
+              "version": "[0.7.79.40925, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.19, )"
+            },
+            "SharpCompress": {
+              "target": "Package",
+              "version": "[0.33.0, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[6.0.0, )"
             },
             "WebMarkupMin.AspNetCore6": {
               "target": "Package",
@@ -197,6 +209,14 @@
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[12.0.1, )"
+            },
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.6.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
             }
           },
           "imports": [
@@ -265,6 +285,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[6.0.19, )"
+            },
+            "ZarinpalSandbox": {
+              "target": "Package",
+              "version": "[2.0.4, )"
             }
           },
           "imports": [
@@ -330,14 +354,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
-            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
             "Serilog.AspNetCore": {
               "target": "Package",
               "version": "[6.1.0, )"

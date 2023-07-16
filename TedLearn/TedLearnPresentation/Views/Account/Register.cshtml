@@ -1,4 +1,5 @@
-﻿@model WebConfig.DTOs.Account.RegisterDto
+﻿@using Core.CustomResults;
+@model Services.DTOs.Account.RegisterDto
 @{
     ViewData["Title"] = "ثبت نام";
 }
@@ -146,53 +147,24 @@
 
 @if (ViewBag.IsUserExist == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 z-30 top-0 right-0">
-        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2 z-50">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-warning text-6xl text-yellow-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                <p class="text-sm text-center mt-2">
-                    شما قبلا ثبت نام کردید.لطفا از طریق این
-                    <a class="text-indigo-700 font-semibold" asp-controller="Account" asp-action="Login">لینک</a>
-                    وارد حساب کاربری خود شوید.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-yellow-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    {
+        var card = new MessageCardInfo("عملیات ناموفق", 
+        "شما قبلا ثبت نام کردید.لطفا از طریق این " +
+        "<a class='text-indigo-700 font-semibold' href='/Account/Login'>لینک</a> "+
+        "وارد حساب کاربری خود شوید.", 
+        MessageCardStatus.Warning);
+        <partial name="_MessageCardInfo" model="@card" />
+    }
 }
 
 @if (ViewBag.CanNotSignUp == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 z-30 top-0 right-0">
-        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2 z-50">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                <p class="text-sm text-center mt-2">
-                    مشخصات وارد شده معتبر نمیباشد.لطفا دوباره امتحان کنید.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-    <script src="/js/notice.js"></script>
+    {
+        var card = new MessageCardInfo("عملیات ناموفق", "مشخصات وارد شده معتبر نمیباشد.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+        <partial name="_MessageCardInfo" model="@card" />
+    }
 }
 
 @section Scripts{
-    <script asp-append-version="true" src="/js/register.js"></script>
+    <script src="/js/register.js"></script>
 }

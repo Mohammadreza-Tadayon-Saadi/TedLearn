@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Services.Interfaces;
-using Services.Services;
+using Services.Contracts.Interfaces;
+using Services.Contracts.Services;
 
 namespace WebConfig.IoC;
 
@@ -10,5 +10,6 @@ public static class DependencyContainer
     {
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<IPermissionServices, PermissionServices>();
+        services.AddScoped<IUserPanelServices, UserPanelServices>();
     }
 }

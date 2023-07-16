@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <partial name="_MetaTags"/>
+    <partial name="_Styles"/>
+    <title>پنل کاربری | @ViewData["Title"]</title>
+</head>
+<body dir="rtl" class="font-farsi overflow-x-hidden bg-slate-200">
+
+    <partial name="_SideBar" view-data="ViewData"/>
+
+    <!-- Header -->
+    <partial name="_Header"/>
+    <!-- End Header -->
+
+
+    <!-- Main -->
+    <main class="flex z-40 min-h-screen">
+        <!-- Section 1 (Navbar) -->
+        <partial name="_UserSettings"/>
+        <!-- End Section 1 (Navbar) -->
+
+        <div class="w-[15%] md:w-1/4"></div>
+
+        @RenderBody()
+    </main>
+    <!-- End Main -->
+
+   
+</body>
+    <script asp-append-version="true" src="/js/scripts.js"></script>
+    <script asp-append-version="true" src="/UserPanel/userPanel.js"></script>
+    @await RenderSectionAsync("Scripts" , required: false)
+    @if(ViewData["Title"] == "ویرایش حساب کاربری" || ViewData["Title"] == "صفحه اصلی"){
+       <script src="/js/jquery-3.6.0.min.js"></script>
+       <script type="text/javascript">
+            $("#avatarFile").change(function() {
+                $("#changeAvatar").submit();
+            });
+       </script>
+    }
+</html>

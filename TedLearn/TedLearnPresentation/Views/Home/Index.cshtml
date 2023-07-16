@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Core.CustomResults;
+@{
     ViewData["Title"] = "صفحه اصلی";
 }
 @section Header{
@@ -73,26 +74,10 @@
 
 @if (ViewBag.SuccessSign == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1004] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
-        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-circle-check text-6xl text-green-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات موفق</h1>
-                <p class="text-sm text-center mt-2">
-                    ورود شما با موفقیت انجام شد.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-green-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    {
+        var card = new MessageCardInfo("عملیات موفق", "ورود شما با موفقیت انجام شد.", MessageCardStatus.Ok);
+        <partial name="_MessageCardInfo" model="@card" />
+    }
 }
 
 @section Footer{

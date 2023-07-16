@@ -1,33 +1,19 @@
 ﻿using System.Text.RegularExpressions;
+using Core.CustomResults;
 
 namespace Core.Securities;
 
 public static class RegularExpression
 {
-    public static bool MatchPassword(string? password)
-    {
-        if (String.IsNullOrEmpty(password)) return false;
+    public static PasswordValidationInfo GetPasswordValidationPatternAndMessage()
+        => new PasswordValidationInfo(@"(?=.*\d)(?=.*[a-z])|(?=.*[A-Z])", "رمز عبور وارد شده حداقل باید شامل حرف انگلیسی و عدد باشد");
 
-        var pattern = @"(?=.*\d)(?=.*[a-z])|(?=.*[A-Z])";
-        var reg = new Regex(pattern);
-        return reg.IsMatch(password.Trim());
-    }
+    public static string PhoneRegularExpression()
+        => @"^09[0|1|2|3|4|9][0-9]{8}$";
 
-    public static bool isEmail(this string email)
-    {
-        if (String.IsNullOrEmpty(email)) return true;
+    public static string EmailRegularExpression()
+        => @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
 
-        var pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-        var reg = new Regex(pattern);
-        return reg.IsMatch(email);
-    }
-
-    public static bool isUrl(this string url)
-    {
-        if (String.IsNullOrEmpty(url)) return true;
-
-        var pattern = @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})";
-        var reg = new Regex(pattern);
-        return reg.IsMatch(url);
-    }
+    public static string UrlRegularExpression()
+        => @"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})";
 }

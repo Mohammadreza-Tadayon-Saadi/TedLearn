@@ -1,12 +1,21 @@
+using FluentValidation.AspNetCore;
 using WebConfig.Configurations;
-using WebConfig.CustomMappings.Configurations;
+using Services.CustomMappings.Configurations;
 using WebConfig.IoC;
 using WebConfig.Middlewares;
 using WebMarkupMin.AspNetCore6;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+var webConfigAssembly = typeof(ServiceInjectionExtentions).Assembly;
+builder.Services.AddControllersWithViews()
+    .AddFluentValidation(options =>
+    {
+        options.AutomaticValidationEnabled = true;
+        options.RegisterValidatorsFromAssembly(webConfigAssembly);
+        options.DisableDataAnnotationsValidation = true;
+        options.LocalizationEnabled = true;
+    });
 builder.Services.AddTedLearnContext(builder.Configuration);
 builder.Services.AddMarkupMin();
 builder.Services.AddWebAuthentication();

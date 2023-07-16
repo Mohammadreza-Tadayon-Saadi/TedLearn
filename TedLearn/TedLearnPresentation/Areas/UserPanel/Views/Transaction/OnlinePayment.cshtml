@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "پرداخت آنلاین";
+}
+<section class="w-[85%] md:w-3/4">
+    <article class="flex justify-center w-full mt-8 md:mt-4 mb-6">
+        <div class="w-11/12 px-5 sm:px-8">
+            @if (ViewBag.IsInValidTransaction == true)
+            {
+                <div class=" p-3 pr-4 my-4 relative border border-dashed border-red-600 bg-red-200 rounded-md text-red-600 font-semibold text-[12px] drop-shadow-xl">
+                    <p>
+                        <span class="absolute top-2 -right-2 h-0 bg-red-200 text-lg"><i class="fa fa-warning"></i></span>
+                        متاسفانه تراکنش شما انجام نشد،لطفا دوباره امتحان کنید.
+                    </p>
+                </div>
+            }
+
+            @if (ViewBag.IsSuccess == true)
+            {
+                <div class="p-3 pr-4 mb-4 relative border border-dashed border-green-600 bg-green-200 rounded-md text-green-600 font-semibold text-[12px] drop-shadow-xl"
+                 style="background-color: rgb(187 ,247 ,208);">
+                    <p>
+                        <span class="absolute top-[10px] -right-2 w-[19px] h-[19px] rounded-full bg-green-200 text-lg"><i class="fa fa-circle-check"></i></span>
+                        تراکنش شما با کد پیگیری @ViewBag.TrackingCode با موفقیت انجام شد.
+                    </p>
+                </div>
+            }
+        </div>
+    </article>
+</section>

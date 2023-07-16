@@ -1,0 +1,245 @@
+﻿@{
+    var userName = User.Identity.Name;
+    var data = ViewData["Title"];
+}
+
+<nav id="userPanelNavbar" class="fixed w-[15%] z-[1003] md:w-1/4 overflow-scroll overflow-x-hidden h-screen top-0 transition-all duration-500 bg-indigo-700 pt-10 px-2 md:pr-6 text-slate-100 z-[1002]">
+    <!-- Finger Print -->
+    <div id="fingerprint" class="md:hidden w-full mt-2">
+        <!-- Logo -->
+        <div id="logo-userPanel-Navbar" class="flex justify-center mb-4 invisible">
+            <a href="/">
+                <img class="w-20" src="/images/logo.png" alt="Logo Image">
+            </a>
+        </div>
+        <!-- End Logo -->
+
+        <div class="flex justify-center">
+            <button id="blinker" class="flex justify-center pt-2 items-center bg-indigo-900 blinker transition-all duration-500 rounded-lg w-7 h-7 sm:w-8 sm:h-8 px-1">
+                <span class="icons">
+                    <i class="fi fi-rr-fingerprint"></i>
+                </span>
+            </button>
+        </div>
+    </div>
+    <!-- End Finger Print -->
+    <!-- Navbar -->
+    <div class="flex justify-center w-full">
+        <!-- Navbar For Mobile -->
+        <!-- Default Navbar -->
+        <div id="userPanelNavbar-Unactive" class="md:hidden">
+            <div class="w-full flex justify-end my-2 relative">
+                <a class="bg-slate-flex flex justify-center items-center bg-slate-100 text-indigo-700 rounded-lg w-7 h-7 sm:w-8 sm:h-8">
+                    <span class="icons absolute top-2">
+                        <i class="fi fi-rr-user" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/UserPanel" class="flex justify-center items-center rounded-lg w-7 h-7 sm:w-8 sm:h-8
+                                                        @((data == "صفحه اصلی") ? "bg-indigo-500":"bg-indigo-900")">
+                    <span class="icons absolute top-2">
+                        <i class="fi fi-rr-dashboard" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/UserPanel/EditUserProfile" class="flex justify-center items-center bg-indigo-900 rounded-lg w-7 h-7 sm:w-8 sm:h-8
+                                                                        @((data == "ویرایش حساب کاربری") ? "bg-indigo-500":"bg-indigo-900")">
+                    <span class="icons absolute top-2">
+                        <i class="fi fi-rr-edit" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/UserPanel/ChangePassword" class="flex justify-center items-center rounded-lg w-7 h-7 sm:w-8 sm:h-8
+                                                                        @((data == "تغییر رمز عبور") ? "bg-indigo-500":"bg-indigo-900")">
+                    <span class="icons absolute top-2">
+                        <i class="fi fi-rr-lock" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/UserPanel/MyCourses" class="flex justify-center items-center bg-indigo-900 rounded-lg w-7 h-7 sm:w-8 sm:h-8
+                                                                        @((data == "دوره های من") ? "bg-indigo-500":"bg-indigo-900")">
+                    <span class="icons absolute top-2">
+                        <i class="fas fa-chalkboard" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/UserPanel/AddTransaction" class="flex justify-center items-center rounded-lg w-7 h-7 sm:w-8 sm:h-8
+                                                                    @((data == "کیف پول") ? "bg-indigo-500":"bg-indigo-900")">
+                    <span class="icons absolute top-2">
+                        <i class="fa fa-wallet"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/UserPanel/MyOrders" class="flex justify-center items-center bg-indigo-900 rounded-lg w-7 h-7 sm:w-8 sm:h-8
+                                                                    @((data == "فاکتورها") ? "bg-indigo-500":"bg-indigo-900")">
+                    <span class="icons absolute top-2">
+                        <i class="fi fi-rr-file-invoice"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="w-full flex justify-end my-2 relative">
+                <a href="/LogOut" class="flex justify-center items-center bg-indigo-900 rounded-lg w-7 h-7 sm:w-8 sm:h-8">
+                    <span class="icons absolute top-2">
+                        <i class="fi fi-rr-power"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!-- Default Navbar -->
+        <!-- Active Finger Print For Show Navbar -->
+        <ul id="userPanelNavbar-Active" class="md:hidden w-full px-[6px] text-xs userPanelNavbar-Close mb-6">
+            <li id="userName" userName="@userName" class="w-full mr-1 rounded-lg py-2 text-center truncate bg-slate-100 text-indigo-700 font-semibold px-4 mt-2 relative">
+                @userName
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 px-4 mt-2 relative
+                                    @((data == "صفحه اصلی") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel" class="w-full">
+                    داشبورد
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fi fi-rr-dashboard" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 px-4 mt-2 relative
+                                    @((data == "ویرایش حساب کاربری") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/EditUserProfile" class="w-full">
+                    ویرایش حساب کاربری
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fi fi-rr-edit" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 px-4 mt-2 relative
+                                    @((data == "تغییر رمز عبور") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/ChangePassword" class="w-full">
+                    تغییر رمز عبور
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fi fi-rr-lock" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 bg-indigo-900 px-4 mt-2 relative
+                                    @((data == "دوره های من") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/MyCourses" class="w-full">
+                    دوره های خریداری شده من
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fas fa-chalkboard" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 px-4 mt-2 relative
+                                    @((data == "کیف پول") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/AddTransaction" class="w-full">
+                    کیف پول
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fa fa-wallet"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 bg-indigo-900 px-4 mt-2 relative
+                                    @((data == "فاکتورها") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/MyOrders" class="w-full">
+                    فاکتور ها
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fi fi-rr-file-invoice"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-full mr-1 rounded-lg py-2 bg-indigo-900 px-4 mt-2 relative">
+                <a href="/LogOut" class="w-full">
+                    خروج
+                    <span class="absolute left-3 top-2 text-base cursor-text">
+                        <i class="fi fi-rr-power"></i>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <!-- End Active Finger Print For Show Navbar -->
+        <!-- End Navbar For Mobile -->
+        <!-- Navbar For Md -->
+        <ul class="hidden md:block w-full text-sm xl:text-base">
+            <li class="w-11/12 rounded-lg transition duration-200 py-2 bg-indigo-700 px-4 mb-2 relative">
+                <!-- Logo -->
+                <div class="mx-6 invisible logo flex justify-center">
+                    <a href="/">
+                        <img class="w-10 md:w-20" src="/images/logo.png" alt="Logo Image">
+                    </a>
+                </div>
+                <!-- End Logo -->
+            </li>
+            <li class="text-center w-11/12 truncate rounded-lg transition duration-200 py-2 bg-slate-100 text-indigo-700 font-semibold px-4 relative ">
+                @userName
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 px-4 my-2 relative
+                                @((data == "صفحه اصلی") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel">
+                    داشبورد
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fi fi-rr-dashboard" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 px-4 my-2 relative
+                                @((data == "ویرایش حساب کاربری") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/EditUserProfile">
+                    ویرایش حساب کاربری
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fi fi-rr-edit" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 px-4 relative
+                                @((data == "تغییر رمز عبور") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/ChangePassword">
+                    تغییر رمز عبور
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fi fi-rr-lock" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 bg-indigo-900 px-4 my-2 relative
+                                @((data == "دوره های من") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/MyCourses">
+                    دوره های خریداری شده من
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fas fa-chalkboard" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 px-4 relative
+                               @((data == "کیف پول") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/AddTransaction">
+                    کیف پول
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fas fa-wallet"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 bg-indigo-900 px-4 my-2 relative
+                                @((data == "فاکتورها") ? "bg-indigo-500":"bg-indigo-900")">
+                <a href="/UserPanel/MyOrders">
+                    فاکتور ها
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fi fi-rr-file-invoice"></i>
+                    </span>
+                </a>
+            </li>
+            <li class="w-11/12 rounded-lg hover:bg-indigo-500 transition duration-200 py-2 bg-indigo-900 px-4 relative">
+                <a href="/LogOut">
+                    خروج
+                    <span class="absolute left-4 top-3 cursor-text">
+                        <i class="fi fi-rr-power"></i>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <!-- End Navbar For Md -->
+    </div>
+    <!-- End Navbar -->
+</nav>

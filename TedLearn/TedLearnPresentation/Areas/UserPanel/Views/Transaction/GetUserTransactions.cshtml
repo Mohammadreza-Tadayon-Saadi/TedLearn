@@ -1,0 +1,57 @@
+﻿@using Core.Convertors
+@using Core.Utilities
+@model Services.DTOs.UserPanel.TransactionReportsWithPaginationDto
+
+@if (Model.TransactionReports.Any())
+{
+    @foreach (var item in Model.TransactionReports)
+    {
+        <tr class="text-gray-700 cursor-default border-b-[1px] border-slate-300 text-center">
+            @if (item.TypeId == 1)
+            {
+                <td class="py-2 text-green-500">واریز</td>
+            }
+            else
+            {
+                <td class="py-2 text-red-500">برداشت</td>
+            }
+            <td class="py-2 ">@item.Amount.ToToman(false)</td>
+            <td class="py-2 ">@item.CreateDate.MiladiToShamsi()</td>
+            @{
+                var orderId = item.Description.Replace("فاکتور شماره #", "");
+                var hrefTag = "<a href='/UserPanel/MyOrders' >#" + orderId + "</a>";
+            }
+            <td class="py-2">@Html.Raw(item.Description.Replace("#"+orderId , hrefTag))</td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4">
+            @*<span pre-pageId="@(Model.PageCount - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+            <div id="paging" class="my-4 flex justify-center">
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <span pageId="@i" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-1
+                            @((i == Model.CurrentPage)? "bg-indigo-700":"bg-indigo-300")">@i</span>
+                }
+            </div>
+            @*<span pre-pageId="@(Model.PageCount + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+        </td>
+    </tr>
+
+
+}
+else
+{
+    <tr class="text-gray-700 border-b-[1px] border-slate-300 text-center">
+        <td class="text-center py-3" colspan="4">موردی برای نمایش وجود ندارد.</td>
+    </tr>
+}
+
+<script type="text/javascript">
+    document.querySelectorAll("#paging > span").forEach(item => {
+        var pageId = item.getAttribute("pageid");
+        item.addEventListener("click", function () {
+            $("#result").load("/UserPanel/GetUserTransactions/" + userName + "?pageId=" + pageId);
+        });
+    });
+</script>

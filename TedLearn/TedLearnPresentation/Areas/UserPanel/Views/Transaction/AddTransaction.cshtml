@@ -1,0 +1,182 @@
+﻿@using Core.Utilities;
+@using Services.DTOs.UserPanel;
+@using Core.Convertors
+@model TransactionDto
+@{
+    ViewData["Title"] = "کیف پول";
+}
+
+
+<!-- Section 2(Main) -->
+<section class="w-[85%] md:w-3/4">
+    <!-- Rout -->
+    <article class="flex justify-center text-sm md:text-base w-full h-12 md:h-16 mt-8 md:mt-4 md:mb-6">
+        <div class="w-11/12 border border-slate-300 rounded-xl shadow-xl bg-slate-50">
+            <ul class="flex flex-wrap h-full items-center pr-4 font-bold text-gray-500">
+                <li class="relative top-1">
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                    <a href="Index.html" class="text-base md:text-lg lg:text-xl hover:text-indigo-700 transition-colors duration-300"><i class="fi fi-rr-home"></i></a>
+                </li>
+                <li class="text-[12px] sm:text-sm md:text-base">
+                    <a href="UserPanel.html" class="inline-block relative bottom-[px] hover:text-indigo-700 transition-colors duration-300">پنل کاربری</a>
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3 relative top-1">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                </li>
+                <li class="text-indigo-700 text-[12px] sm:text-sm md:text-base">
+                    <p>@ViewData["Title"]</p>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <!-- End Rout -->
+    <!-- Transacrions -->
+    <article class="flex justify-center text-sm sm:text-base lg:text-sm xl:text-base w-full mt-8 md:mt-4 mb-6">
+        <div class="w-11/12 px-5 sm:px-8 border border-slate-300 rounded-xl drop-shadow-xl shadow-lg bg-slate-50 overflow-hidden">
+            <!-- Header Charge Account -->
+            <div class="sm:flex justify-between mt-6">
+                <p class="text-base md:text-lg font-semibold">@ViewData["Title"] :</p>
+                <p class="text-sm mt-2 sm:mt-0">موجودی شما : <span class="text-green-500">@Model.Stock.ToToman()</span></p>
+            </div>
+            <!-- End Header Charge Account -->
+
+            <div class=" p-3 pr-4 my-4 relative border border-dashed border-yellow-600 bg-yellow-200 rounded-md text-yellow-600 font-semibold text-[12px]">
+                <p>
+                    <span class="absolute top-2 -right-2 h-0 bg-yellow-200 text-lg"><i class="fa fa-warning"></i></span>
+                    دقت کنید که مبالغ به تومان هستند و حداقل شارژ حساب 1000 تومان و حداکثر 2,500,000 تومان است.
+                </p>
+            </div>
+
+            <!-- Charge Account -->
+            <div class="flex justify-center my-5">
+                <form asp-controller="Transaction" asp-action="AddTransaction" asp-route-buyCourses="@ViewBag.BuyCourses" id="form" method="post" class="flex-row sm:flex text-sm w-full sm:w-11/12">
+                    <input type="hidden" asp-for="Stock" />
+                    <div id="profile-dashbord" class="form-control text-gray-700 w-full sm:w-3/4 mb-4 sm:mb-0">
+                        <label for="" class="cursor-text relative">
+                            <i class="fi fi-rr-dollar pl-[4px] text-gray-400"></i>
+                            شارژ حساب :
+                            <span class="text-red-500">
+                                (تومان <i class="fa fa-warning"></i>)
+                            </span>
+                            <span asp-validation-for="Amount" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                        </label>
+                        <input asp-for="Amount" type="number" id="amount" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none" placeholder="مبلغ مورد نظر(تومان)">
+                    </div>
+                    <div class="w-1/4 h-full relative mx-2">
+                        <button type="submit" class="bg-green-500 border-[1px] shadow-lg
+                            border-green-600 w-32 sm:w-full h-[38px] text-slate-100 rounded-lg sm:absolute bottom-[2px]
+                            hover:bg-green-600 transition-colors duration-300">
+                            شارژ حساب
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <!-- End Charge Account -->
+            <!-- Table Information For Transaction -->
+            <section class="mb-4">
+                <div class="container">
+                    <div class="flex flex-wrap">
+                        <div class="w-full">
+                            <div id="Table-Scroll" class="max-w-full overflow-x-scroll sm:overflow-auto rounded-lg shadow-lg drop-shadow-md">
+                                <table class="table-auto w-[550px] sm:w-full">
+                                    <thead>
+                                        <tr class="bg-indigo-700 text-slate-100 text-center">
+                                            <th class="py-3">نوع تراکنش</th>
+                                            <th class="py-3 border-indigo-900">مبلغ(تومان)</th>
+                                            <th class="py-3 border-indigo-900">تاریخ</th>
+                                            <th class="py-3 border-indigo-900">توضیحات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="result" class="bg-slate-50">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Table Information For Transaction -->
+        </div>
+    </article>
+    <!-- Transacrions -->
+</section>
+<!-- End Section 2(Main) -->
+@if (ViewBag.SqlException == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1004] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">خطای ناشناخته</h1>
+                <p class="text-sm text-center mt-2">
+                    متاسفانه خطایی سمت سرور رخ داده است.لطفا بعدا امتحان کنید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+
+}
+
+@if (ViewBag.AppOrTimeOutExeption == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1004] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
+                <p class="text-sm text-center mt-2">
+                    متاسفانه درخواست شما انجام نشد.لطفا چند دقیقه ی دیگر امتحان کنید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+
+}
+
+@if (ViewBag.IsNotSuccess == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1004] overflow-hidden z-[1003] flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
+                <p class="text-sm text-center mt-2">
+                    متاسفانه تراکنش شما انجام نشد،لطفا دوباره امتحان کنید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+}
+@section Scripts{
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script asp-append-version="true" src="/UserPanel/transaction.js"></script>
+}

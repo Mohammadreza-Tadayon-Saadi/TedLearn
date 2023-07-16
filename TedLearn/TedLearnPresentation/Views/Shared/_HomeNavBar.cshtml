@@ -1,5 +1,7 @@
 ﻿@using System.Security.Claims;
-@inject Services.Interfaces.IUserServices _userService;
+@using Core.Utilities;
+@using Services.Contracts.Interfaces;
+@inject IUserServices _userService;
 
 <nav class="h-12 z-[1001] flex fixed top-0 right-0 text-xs md:text-base items-center md:justify-between w-full text-slate-100 bg-indigo-700 shadow-2xl rounded-b-3xl sm:h-16">
     <!-- Logo -->
@@ -19,7 +21,7 @@
     <!-- End Links -->
     @if (User.Identity.IsAuthenticated)
     {
-        var userAvatar = User.FindFirstValue("Avatar");
+        var userAvatar = await _userService.GetUserAvatar(User.Identity.GetUserId<int>());
         <!-- Profile -->
         <div id="profile" class="relative mr-3 md:mr-0 h-full pt-1 sm:pt-2 md:pl-1">
             <div class="flex justify-center">
