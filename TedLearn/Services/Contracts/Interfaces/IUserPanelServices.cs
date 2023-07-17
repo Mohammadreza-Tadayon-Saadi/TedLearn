@@ -14,6 +14,7 @@ public interface IUserPanelServices
     Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken, bool configureAwait = false);
     Task RemoveTransactionAsync(Transaction transaction, CancellationToken cancellationToken, bool configureAwait = false);
     Task<TransactionReportsWithPaginationDto> GetTransationsForUser(int userId, CancellationToken cancellationToken, int pageId = 1);
+    Task<int> ExecuteInTransactionAsync(Services.TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false);
     //bool IsExistTransaction(int transactionId);
     //int RemoveTransaction(Transaction transaction);
 }

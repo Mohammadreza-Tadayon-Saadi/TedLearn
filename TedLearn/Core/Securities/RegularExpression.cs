@@ -6,7 +6,7 @@ namespace Core.Securities;
 public static class RegularExpression
 {
     public static PasswordValidationInfo GetPasswordValidationPatternAndMessage()
-        => new PasswordValidationInfo(@"(?=.*\d)(?=.*[a-z])|(?=.*[A-Z])", "رمز عبور وارد شده حداقل باید شامل حرف انگلیسی و عدد باشد");
+        => new PasswordValidationInfo(@"(?=.*\d)(?=.*[a-z])|(?=.*[A-Z])", "رمز عبور وارد شده حداقل باید شامل حرف انگلیسی و عدد باشد.");
 
     public static string PhoneRegularExpression()
         => @"^09[0|1|2|3|4|9][0-9]{8}$";

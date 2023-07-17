@@ -5,7 +5,6 @@ using Data.Entities.Persons.Users;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Interfaces;
 using Services.DTOs.UserPanel;
-using TedLearn_Core.ViewModels.UserPanel;
 
 namespace Services.Contracts.Services;
 
@@ -13,8 +12,10 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
 {
     #region ConstructorInjection
 
+    public DbSet<Transaction> _transaction { get; set; }
     public UserPanelServices(TedLearnContext context) : base(context)
     {
+        _transaction = _context.Set<Transaction>();
     }
 
     #endregion
@@ -27,7 +28,7 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
 
     public async Task<decimal> GetStockForUserAsync(int userId, CancellationToken cancellationToken)
     {
-        var userTransactions = await _context.Set<Transaction>().AsNoTracking()
+        var userTransactions = await _transaction.AsNoTracking()
                                         .Where(t => t.UserId == userId).Select(t => new
                                         {
                                             t.Amount,
@@ -75,11 +76,11 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
         CancellationToken cancellationToken, bool withTracking = true)
     {
         if (withTracking)
-            return await _context.Set<Transaction>()
+            return await _transaction
                             .Where(t => t.TransactionId == transactionId)
                             .SingleOrDefaultAsync(cancellationToken);
 
-        return await _context.Set<Transaction>().AsNoTracking()
+        return await _transaction.AsNoTracking()
                         .Where(t => t.TransactionId == transactionId)
                         .SingleOrDefaultAsync(cancellationToken);
     }
@@ -100,7 +101,7 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
     {
         var transactionReports = new TransactionReportsWithPaginationDto();
 
-        IQueryable<Transaction> transactions = _context.Set<Transaction>().AsNoTracking()
+        IQueryable<Transaction> transactions = _transaction.AsNoTracking()
                                                     .Where(t => t.UserId == userId && t.IsPay);
         
         int take = 15;
@@ -115,4 +116,7 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
         
         return transactionReports;
     }
+
+    public async Task<int> ExecuteInTransactionAsync(Services.TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false)
+        => await base.ExecuteInTransactionAsync(transactionalDelegate, cancellationToken, configureAwait);
 }

@@ -1,0 +1,123 @@
+﻿@using Core.CustomResults;
+@model Services.DTOs.AdminPanel.User.EditUserDto
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+}
+
+<div class="w-full px-6 py-6 mx-auto">
+    <div class="flex flex-wrap -mx-3">
+        <div class="flex-none w-full max-w-full px-3">
+            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <h6 class="dark:text-white">@ViewData["Title"]</h6>
+                </div>
+                <div class="flex-auto px-0 pt-0 pb-2">
+                    <div class="btn-add-role">
+                        <a asp-controller="ManageUsers" asp-action="Index" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" target="_blank">مدیریت کاربران</a>
+                        <a asp-controller="ManageUsers" asp-action="DeletedUser" class="mr-4 px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" target="_blank">کاربران حذف شده</a>
+                    </div>
+                    <div class="py-2 px-1 overflow-x-auto ps ps__rtl">
+                        <form action="/Admin/ManageUsers/EditUser" method="post" id="form" class="grid grid-cols-1 gap-6 text-sm w-full sm:w-11/12">
+                            @Html.AntiForgeryToken()
+                            @if (ViewBag.ConCurrency == true)
+                            {
+                                var card = new MessageCardInfo("خطای همزمانی", "متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+                                <partial name="_MessageCardInfo" model="@card" />
+                            }
+                            @if(ViewBag.ProccessFailed == true)
+                            {
+                                var card = new MessageCardInfo("عملیات ناموفق", "متاسفانه درخواست شما انجام نشد.لطفا در صورت تکرار به مدیر سیستم اطلاع دهید.", MessageCardStatus.Error);
+                                <partial name="_MessageCardInfo" model="@card" />
+                            }
+                            <div>
+                                <input type="hidden" asp-for="UserId" />
+                                <input type="hidden" asp-for="Base64Version" />
+                                <input type="hidden" name="prePhoneNumber" value="@Model.PhoneNumber" />
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-phone pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        شماره تلفن :
+                                    </label>
+                                    <input type="text" id="phoneNumber" asp-for="PhoneNumber" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="PhoneNumber" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div class="flex items-center mx-2 my-4">
+                                    <input type="checkbox" asp-for="PhoneNumberConfirmed" class="w-4 h-4 cursor-pointer text-black bg-gray-300 border-none rounded-md focus:ring-transparent" />
+                                    <label class="text-sm mx-2">شماره تلفن مورد نظر تایید شود؟</label>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-lock pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        رمز عبور <span class="text-red-500">
+                                            (با پر کردن این قسمت رمز عبور کاربر تغییر خواهد کرد <i class="fa fa-warning"></i>)
+                                        </span> :
+                                    </label>
+                                    <input type="password" id="password" asp-for="Password" data-min-chars="4" data-max-chars="40" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="Password" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fi fi-rr-dollar pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        شارژ حساب <span class="text-red-500">
+                                            (تومان <i class="fa fa-warning"></i>)
+                                        </span> :
+                                    </label>
+                                    <input type="number" id="amount" asp-for="Amount" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="Amount" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-user pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        نام :
+                                    </label>
+                                    <input type="text" id="firstName" asp-for="FirstName" data-max-chars="50" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="FirstName" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-user pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        نام خانوادگی :
+                                    </label>
+                                    <input type="text" id="lastName" asp-for="LastName" data-max-chars="50" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="LastName" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-envelope pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        ایمیل :
+                                    </label>
+                                    <input type="text" id="email" asp-for="Email" data-max-chars="70" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="Email" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-globe pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        آدرس سایت :
+                                    </label>
+                                    <input type="text" id="websiteAddress" asp-for="WebsiteAddress" data-max-chars="50" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="WebsiteAddress" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2 field-validation-valid"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-comment-alt pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        بیوگرافی :
+                                    </label>
+                                    <textarea asp-for="Biography" id="biography" data-max-chars="1000" class="w-full min-h-[90px] h-[90px] py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none"></textarea>
+                                    <span asp-validation-for="Biography" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2 field-validation-valid" data-valmsg-for="RoleName" data-valmsg-replace="true"></span>
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-2 mb-4 mx-2">
+                                <button type="submit" class="bg-yellow-500 border shadow-lg border-yellow-600 px-4 h-10 text-slate-100 rounded-lg hover:bg-yellow-600 transition-colors duration-300">ویرایش کاربر</button>
+                            </div>
+                        </form>
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div><div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 945px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script asp-append-version="true" src="/AdminStyles/js/ManageUsers/editUser.js"></script>
+}

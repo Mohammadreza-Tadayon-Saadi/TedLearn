@@ -1,8 +1,10 @@
 ﻿using Core.Securities;
+using Core.Utilities;
 using Data.Context;
 using Data.Entities.Persons.Users;
 using Microsoft.EntityFrameworkCore;
 using Services.Contracts.Interfaces;
+using Services.DTOs.AdminPanel.User;
 
 namespace Services.Contracts.Services;
 
@@ -17,6 +19,12 @@ public class UserServices : BaseServices<User>, IUserServices
     }
 
     #endregion
+
+
+    public async Task<bool> IsUserExistAsync(int userId, CancellationToken cancellationToken)
+        => await TableNoTracking
+                    .Where(u => u.UserId == userId)
+                    .AnyAsync(cancellationToken);
 
     public async Task<bool> IsUserExistAsync(string userName, string phoneNumber, CancellationToken cancellationToken)
         => await TableNoTracking
@@ -88,12 +96,22 @@ public class UserServices : BaseServices<User>, IUserServices
                     .Where(u => u.UserName == userName && u.PasswordHash == SecurityHelper.GetSha256Hash(password))
                     .SingleOrDefaultAsync(cancellationToken);
 
-    public async Task<User> GetUserByIdAsync(int userId, CancellationToken cancellationToken, bool withTracking = true)
+    public async Task<User> GetUserByIdAsync(int userId, CancellationToken cancellationToken, bool withTracking = true, bool? getActive = null)
     {
         if (withTracking)
-            return await Table.Where(u => u.UserId == userId).SingleOrDefaultAsync(cancellationToken);
+        {
+            if(getActive.HasValue)
+                return await Table.Where(u => u.UserId == userId && u.IsDelete == !getActive).SingleOrDefaultAsync(cancellationToken);
+            else
+                return await Table.Where(u => u.UserId == userId).SingleOrDefaultAsync(cancellationToken);
+        }
         else
-            return await TableNoTracking.Where(u => u.UserId == userId).SingleOrDefaultAsync(cancellationToken);
+        {
+            if (getActive.HasValue)
+                return await TableNoTracking.Where(u => u.UserId == userId && u.IsDelete == !getActive).SingleOrDefaultAsync(cancellationToken);
+            else
+                return await TableNoTracking.Where(u => u.UserId == userId).SingleOrDefaultAsync(cancellationToken);
+        }
     }
 
     public async Task<string> GetUserAvatar(int userId)
@@ -111,6 +129,44 @@ public class UserServices : BaseServices<User>, IUserServices
                     .Where(u => u.UserId == userId)
                     .Select(u => u.Version)
                     .SingleOrDefaultAsync(cancellationToken);
+
+    public async Task<GetUsersDto> GetAllUsersAsync(CancellationToken cancellationToken, bool deletedUser, string? orderBy, int pageId = 1)
+    {
+        IQueryable<User> result = TableNoTracking
+                                    .Where(u => u.IsDelete == deletedUser)
+                                    .Include(ur => ur.UserRole).ThenInclude(r => r.Role);
+
+        if (orderBy.HasValue())
+            result = result.Where(u => u.UserName.Contains(orderBy) || u.PhoneNumber.Contains(orderBy));
+
+        int take = 20;
+        int skip = (pageId - 1) * take;
+
+        var model = new GetUsersDto();
+        model.CurrentPage = pageId;
+
+        var count = result.Count();
+        model.PageCount = count / take;
+        if (count % take != 0) model.PageCount++;
+
+        model.Users = await UserDto.ProjectTo(result.OrderBy(u => u.RegisterDate).Skip(skip).Take(take)).ToListAsync(cancellationToken);
+
+        return model;
+    }
+
+    public async Task<bool> IsUserNameOrPhoneNumberExist(string userName, string phoneNumber, CancellationToken cancellationToken)
+        => await TableNoTracking.Where(u => u.UserName == userName || u.PhoneNumber == phoneNumber).AnyAsync(cancellationToken);
+
+    public async Task<EditUserDto> GetUserForEditInAdminAsync(int userId, CancellationToken cancellationToken)
+        => await EditUserDto.ProjectTo(TableNoTracking.Where(u => u.UserId == userId)).SingleOrDefaultAsync(cancellationToken);
+
+    public async Task<GetUserInformationDto> GetUserInformationAsync(int userId, CancellationToken cancellationToken)
+        => await GetUserInformationDto.ProjectTo(TableNoTracking.Where(u => u.UserId == userId)).SingleOrDefaultAsync(cancellationToken);
+
+
+
+    public async Task<int> ExecuteInTransactionAsync(Services.TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false)
+        => await base.ExecuteInTransactionAsync(transactionalDelegate, cancellationToken, configureAwait);
 
     public async Task AddUserAsync(User user, CancellationToken cancellationToken, bool configureAwait = false)
     {

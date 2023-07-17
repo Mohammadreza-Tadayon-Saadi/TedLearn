@@ -107,10 +107,8 @@
 <!-- End Section 2(Main) -->
 @if (ViewBag.ConCurrency == true)
 {
-    {
-        var card = new MessageCardInfo("خطای همزمانی", "متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
-        <partial name="_MessageCardInfo" model="@card" />
-    }
+    var card = new MessageCardInfo("خطای همزمانی", "متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+    <partial name="_MessageCardInfo" model="@card" />
 }
 
 @section Scripts{

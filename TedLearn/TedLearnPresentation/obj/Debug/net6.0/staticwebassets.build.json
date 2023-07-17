@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ub7NjjPP6oTYfPpsOnBppzhJ6mvA2bgNrdJ4x4sbiWc=",
+  "Hash": "G5C71Xgow7fQuUBmM7g4QKQ1xJfsbCOLg7pJ5iFJcrk=",
   "Source": "TedLearnPresentation",
   "BasePath": "_content/TedLearnPresentation",
   "Mode": "Default",
@@ -22319,6 +22319,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\training.js"
+    },
+    {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202307.txt",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "SeriLog/ErrorLog202307.txt",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\SeriLog\\ErrorLog202307.txt"
     },
     {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\UserAvatar\\3083135f840146ddb1f6ffe01593c24d.jpg",

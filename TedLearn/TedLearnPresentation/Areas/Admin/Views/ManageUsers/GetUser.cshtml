@@ -1,0 +1,135 @@
+﻿@using Core.Convertors
+@model Services.DTOs.AdminPanel.User.GetUsersDto
+
+@if (Model.Users.Any(r => r.IsDelete))
+{
+    foreach (var item in Model.Users)
+    {
+        <tr>
+            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <div class="flex px-2 py-1">
+                    <div>
+                        <img src="/UserAvatar/@item.UserAvatar" class="inline-flex items-center justify-center text-sm text-white transition-all duration-200 ease-in-out h-12 w-12 rounded-full" alt="UserAvatar">
+                    </div>
+                    <div class="flex flex-col justify-center mr-4">
+                        <h6 class="mb-0 text-sm leading-normal dark:text-white">@item.UserName</h6>
+                        <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.PhoneNumber</p>
+                    </div>
+                </div>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                @if (item.UserRoles.Where(ur => ur.UserId == item.UserId).Any())
+                {
+                    @foreach (var userRole in item.UserRoles.Where(ur => ur.UserId == item.UserId)
+                   .Select(ur => ur.RoleName)
+                   .TakeLast(1))
+                    {
+                        <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@userRole</span>
+                    }
+                }
+                else
+                {
+                    <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">هیچ نقشی ندارد.</span>
+                }
+            </td>
+            <td class="p-2 text-right align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.RegisterDate.MiladiToShamsi()</span>
+            </td>
+            <td class="p-2 py-20px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-info" method="post" asp-controller="ManageUsers" asp-action="RestoreUser" asp-route-userId="@item.UserId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> بازگردانی </button>
+                </form>
+            </td>
+        </tr>
+
+    }
+
+    <tr>
+        <td colspan="4">
+            @*<span pre-pageId="@(Model.PageCount - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+            <div id="paging" class="my-4 flex flex-row-reverse justify-center">
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <span pageId="@i" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-0.5
+                            @((i == Model.CurrentPage)? "bg-indigo-700":"bg-indigo-300")">@i</span>
+                }
+            </div>
+            @*<span pre-pageId="@(Model.PageCount + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+        </td>
+    </tr>
+
+}
+
+else @if (Model.Users.Any(r => !r.IsDelete))
+{
+    foreach (var item in Model.Users)
+    {
+        <tr>
+            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <div class="flex px-2 py-1">
+                    <div>
+                        <img src="/UserAvatar/@item.UserAvatar" class="inline-flex items-center justify-center text-sm text-white transition-all duration-200 ease-in-out h-12 w-12 rounded-full" alt="UserAvatar">
+                    </div>
+                    <div class="flex flex-col justify-center mr-4">
+                        <h6 class="mb-0 text-sm leading-normal dark:text-white">@item.UserName</h6>
+                        <p class="mb-0 text-xs leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.PhoneNumber</p>
+                    </div>
+                </div>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                @if (item.UserRoles.Where(ur => ur.UserId == item.UserId).Any())
+                {
+                    @foreach (var userRole in item.UserRoles.Where(ur => ur.UserId == item.UserId)
+                   .Select(ur => ur.RoleName)
+                   .TakeLast(1))
+                    {
+                        <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@userRole</span>
+                    }
+                }
+                else
+                {
+                    <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">هیچ نقشی ندارد.</span>
+                }
+            </td>
+            <td class="p-2 text-right align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.RegisterDate.MiladiToShamsi()</span>
+            </td>
+            <td class="p-2 py-20px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-info" method="post" asp-controller="ManageUsers" asp-action="GetUserInformation" asp-route-userId="@item.UserId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> جزییات </button>
+                </form>
+                <a asp-controller="ManageUsers" asp-action="EditUser" asp-route-userId="@item.UserId" class="text-xs rounded-lg mx-2 py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> ویرایش </a>
+                <form id="form-info" method="post" asp-controller="ManageUsers" asp-action="DeleteUser" asp-route-userId="@item.UserId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> حذف </button>
+                </form>
+                <a asp-controller="ManageUsers" asp-action="GetRolesForUser" asp-route-userId="@item.UserId" class="text-xs rounded-lg mx-2 py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> نقش های کاربر </a>
+            </td>
+        </tr>
+    }
+
+    <tr>
+        <td colspan="4">
+            @*<span pre-pageId="@(Model.PageCount - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+            <div id="paging" class="my-4 flex flex-row-reverse justify-center">
+                @for (int i = 1; i <= Model.PageCount; i++)
+                {
+                    <span pageId="@i" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px]
+                            @((i == Model.CurrentPage)? "bg-indigo-700":"bg-indigo-300")">@i</span>
+                }
+            </div>
+            @*<span pre-pageId="@(Model.PageCount + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+        </td>
+    </tr>
+}
+
+else
+{
+    <tr>
+        <td class="text-center pt-4 align-middle bg-transparent border-t dark:border-white/40 whitespace-nowrap shadow-transparent" colspan="4">هیچ موردی برای نمایش وجود ندارد.</td>
+    </tr>
+}
+
+<script asp-append-version="true" src="/AdminStyles/js/ManageUsers/GetUserAjax.js"></script>

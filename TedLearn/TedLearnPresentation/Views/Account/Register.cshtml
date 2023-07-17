@@ -20,7 +20,7 @@
                 <span id="burger" class="text-lg md:hidden cursor-pointer relative top-1 ml-4 transition-color duration-300 hover:text-sky-300">
                     <i class="fi fi-rr-menu-burger md:hidden"></i>
                 </span>
-                <partial name="_AccessibilityMenu"/>
+                <partial name="_AccessibilityMenu" />
             </nav>
             <!-- End Links -->
             <!-- Login/Register -->
@@ -35,7 +35,6 @@
             <!-- End Login/Register -->
         </nav>
         <!-- End NavBar -->
-
         <!-- Rout -->
         <section class="flex justify-center text-sm md:text-base w-full h-16 max-h-24 mt-8 md:mt-4 md:mb-6">
             <div class="w-11/12 border border-slate-300 rounded-xl shadow-xl bg-slate-50">
@@ -56,113 +55,109 @@
     </header>
 }
 
-    <main class="md:h-screen-9/10">
-        <section class="flex justify-center text-sm md:text-base">
+<main class="md:h-screen-9/10">
+    <section class="flex justify-center text-sm md:text-base">
 
-            <!-- Around Section -->
-            <div class="w-10/12 sm:w-3/4 md:w-1/2 border my-8 md:my-4 border-slate-300 rounded-3xl shadow-xl">
+        <!-- Around Section -->
+        <div class="w-10/12 sm:w-3/4 md:w-1/2 border my-8 md:my-4 border-slate-300 rounded-3xl shadow-xl">
 
-                <!-- Content -->
-                <div class="flex justify-center py-10 items-center rounded-xl bg-slate-50">
+            <!-- Content -->
+            <div class="flex justify-center py-10 items-center rounded-xl bg-slate-50">
 
-                    <!-- Register Form -->
-                    <form asp-controller="Account" asp-action="Register" method="post" id="form" class="w-full md:w-4/5 scroll-pr-3 px-4 text-base">
-                        <!-- Header Form -->
-                        <h1 class="font-bold-farsi text-2xl mb-6">ساخت حساب کاربری</h1>
-                        <!-- End Header Form -->
-                        <!-- UserName Input -->
-                        <div class="form-control flex flex-wrap items-center w-full relative">
-                            <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
+                <!-- Register Form -->
+                <form asp-controller="Account" asp-action="Register" method="post" id="form" class="w-full md:w-4/5 scroll-pr-3 px-4 text-base">
+                    <!-- Header Form -->
+                    <h1 class="font-bold-farsi text-2xl mb-6">ساخت حساب کاربری</h1>
+                    <!-- End Header Form -->
+                    <!-- UserName Input -->
+                    <div class="form-control flex flex-wrap items-center w-full relative">
+                        <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
                                type="text" asp-for="UserName" id="userName" data-min-chars="3" data-max-chars="30" placeholder="نام کاربری" />
-                            <div class="text-gray-400 absolute left-3 top-[10px]">
-                                <i class="fa fa-user"></i>
-                            </div>
-                            <span asp-validation-for="UserName" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                        <div class="text-gray-400 absolute left-3 top-[10px]">
+                            <i class="fa fa-user"></i>
                         </div>
-                        <!-- End UserName Input -->
-                        <!-- PhoneNumber Input -->
-                        <div class="form-control flex flex-wrap items-center w-full relative">
-                            <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
+                        <span asp-validation-for="UserName" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                    </div>
+                    <!-- End UserName Input -->
+                    <!-- PhoneNumber Input -->
+                    <div class="form-control flex flex-wrap items-center w-full relative">
+                        <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
                                type="text" asp-for="PhoneNumber" id="phoneNumber" placeholder="شماره تلفن" />
-                            <div class="text-gray-400 absolute left-3 top-[10px]">
-                                <i class="fa fa-phone" aria-hidden="true"></i>
-                            </div>
-                            <span asp-validation-for="PhoneNumber" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                        <div class="text-gray-400 absolute left-3 top-[10px]">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
                         </div>
-                        <!-- End PhoneNumber Input -->
-                        <!-- Password Input -->
-                        <div class="form-control flex flex-wrap items-center w-full relative">
-                            <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
+                        <span asp-validation-for="PhoneNumber" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                    </div>
+                    <!-- End PhoneNumber Input -->
+                    <!-- Password Input -->
+                    <div class="form-control flex flex-wrap items-center w-full relative">
+                        <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
                                type="password" asp-for="Password" id="password" data-min-chars="4" data-max-chars="40" placeholder="رمز عبور" />
-                            <div class="toggle-password hover:opacity-50 transition-opacity duration-300 text-gray-400 absolute left-3 top-[10px] cursor-pointer">
-                                <span><i class="fa fa-eye"></i></span>
-                                <span class="hidden"><i class="far fa-eye-slash" aria-hidden="true"></i></span>
-                            </div>
-                            <span asp-validation-for="Password" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                        <div class="toggle-password hover:opacity-50 transition-opacity duration-300 text-gray-400 absolute left-3 top-[10px] cursor-pointer">
+                            <span><i class="fa fa-eye"></i></span>
+                            <span class="hidden"><i class="far fa-eye-slash" aria-hidden="true"></i></span>
                         </div>
-                        <!-- End Password Input -->
-                        <!-- RePassword Input -->
-                        <div class="form-control flex flex-wrap items-center w-full relative">
-                            <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
+                        <span asp-validation-for="Password" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                    </div>
+                    <!-- End Password Input -->
+                    <!-- RePassword Input -->
+                    <div class="form-control flex flex-wrap items-center w-full relative">
+                        <input class="outline-none border-2 py-2 pl-2 pr-3 rounded-2xl mb-4 w-full focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 text-sm placeholder:text-sm"
                                type="password" asp-for="RePassword" id="RePassword" placeholder="تکرار رمز عبور" />
-                            <div class="toggle-repassword hover:opacity-50 transition-opacity duration-300 text-gray-400 absolute left-3 top-[10px] cursor-pointer">
-                                <span><i class="fa fa-eye"></i></span>
-                                <span class="hidden"><i class="far fa-eye-slash" aria-hidden="true"></i></span>
+                        <div class="toggle-repassword hover:opacity-50 transition-opacity duration-300 text-gray-400 absolute left-3 top-[10px] cursor-pointer">
+                            <span><i class="fa fa-eye"></i></span>
+                            <span class="hidden"><i class="far fa-eye-slash" aria-hidden="true"></i></span>
+                        </div>
+                        <span asp-validation-for="RePassword" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
+                    </div>
+                    <!-- End RePassword Input -->
+                    <!-- Submit Form -->
+                    <div class="flex items-center w-full">
+                        <button id="submit-form" type="submit" class="w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-slate-50 font-semibold mb-2 hover:bg-indigo-900 transition-colors duration-300">دریافت کد تایید</button>
+                    </div>
+                    <!-- End Submit Form -->
+                    <!-- Other Option For Login -->
+                    <div class="relative top-6 text-center">
+
+                        <!-- Login -->
+                        <div>
+                            <div class="w-full border relative overflow-hidden border-gray-300">
                             </div>
-                            <span asp-validation-for="RePassword" class="block text-xs sm:font-semibold text-red-600 relative bottom-2 right-4 mb-2"></span>
-                        </div>
-                        <!-- End RePassword Input -->
-                        <!-- Submit Form -->
-                        <div class="flex items-center w-full">
-                            <button id="submit-form" type="submit" class="w-full bg-indigo-600 mt-4 py-2 rounded-2xl text-slate-50 font-semibold mb-2 hover:bg-indigo-900 transition-colors duration-300">دریافت کد تایید</button>
-                        </div>
-                        <!-- End Submit Form -->
-                        <!-- Other Option For Login -->
-                        <div class="relative top-6 text-center">
-
-                            <!-- Login -->
-                            <div>
-                                <div class="w-full border relative overflow-hidden border-gray-300">
-                                </div>
-                                <div class="relative outline-offset-8 bottom-4">
-                                    <a asp-controller="Account" asp-action="Login" class="bg-slate-50 px-4 hover:text-indigo-600 transition-colors duration-300">حساب کاربری دارید؟</a>
-                                </div>
+                            <div class="relative outline-offset-8 bottom-4">
+                                <a asp-controller="Account" asp-action="Login" class="bg-slate-50 px-4 hover:text-indigo-600 transition-colors duration-300">حساب کاربری دارید؟</a>
                             </div>
-                            <!-- End Login -->
-
                         </div>
-                        <!-- End Other Option For Register -->
+                        <!-- End Login -->
 
-                    </form>
-                    <!-- End Login Form -->
+                    </div>
+                    <!-- End Other Option For Register -->
 
-                </div>
-                <!-- End Content -->
+                </form>
+                <!-- End Login Form -->
 
             </div>
-            <!-- End Around Section -->
+            <!-- End Content -->
 
-        </section>
-    </main>
+        </div>
+        <!-- End Around Section -->
+
+    </section>
+</main>
 
 @if (ViewBag.IsUserExist == true)
 {
-    {
-        var card = new MessageCardInfo("عملیات ناموفق", 
-        "شما قبلا ثبت نام کردید.لطفا از طریق این " +
-        "<a class='text-indigo-700 font-semibold' href='/Account/Login'>لینک</a> "+
-        "وارد حساب کاربری خود شوید.", 
-        MessageCardStatus.Warning);
-        <partial name="_MessageCardInfo" model="@card" />
-    }
+    var card = new MessageCardInfo("عملیات ناموفق",
+    "شما قبلا ثبت نام کردید.لطفا از طریق این " +
+    "<a class='text-indigo-700 font-semibold' href='/Account/Login'>لینک</a> " +
+    "وارد حساب کاربری خود شوید.",
+    MessageCardStatus.Warning);
+    <partial name="_MessageCardInfo" model="@card" />
 }
 
 @if (ViewBag.CanNotSignUp == true)
 {
-    {
-        var card = new MessageCardInfo("عملیات ناموفق", "مشخصات وارد شده معتبر نمیباشد.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
-        <partial name="_MessageCardInfo" model="@card" />
-    }
+    var card = new MessageCardInfo("عملیات ناموفق", "مشخصات وارد شده معتبر نمیباشد.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+    <partial name="_MessageCardInfo" model="@card" />
 }
 
 @section Scripts{

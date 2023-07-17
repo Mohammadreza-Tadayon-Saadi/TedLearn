@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Services.Contracts.Services;
 
-public class BaseServices<TEntity> where TEntity : class, IEntity , new()
+
+public delegate Task TransactionalDelegate(DbContext dbContext);
+public class BaseServices<TEntity> where TEntity : class, IEntity, new()
 {
     #region ConstructorInjection
 
@@ -20,6 +22,27 @@ public class BaseServices<TEntity> where TEntity : class, IEntity , new()
 
     #endregion
 
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken , bool configureAwait = false) => await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(configureAwait);
-    public int SaveChanges() => _context.SaveChanges();
+    public virtual async Task<int> SaveChangesAsync(CancellationToken cancellationToken, bool configureAwait = false) => await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(configureAwait);
+    public virtual int SaveChanges() => _context.SaveChanges();
+
+    public virtual async Task<int> ExecuteInTransactionAsync(TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false)
+    {
+        using (var transaction = await _context.Database.BeginTransactionAsync(cancellationToken))
+        {
+            try
+            {
+                await transactionalDelegate(_context);
+
+                await SaveChangesAsync(cancellationToken, configureAwait);
+
+                await transaction.CommitAsync(cancellationToken);
+                
+                return 1;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+    }
 }

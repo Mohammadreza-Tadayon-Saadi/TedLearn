@@ -1,0 +1,80 @@
+﻿@using Core.CustomResults;
+@using Services.DTOs.AdminPanel.User;
+@model AddUserDto
+@{
+    ViewData["Title"] = "افزودن کاربر";
+}
+
+<div class="w-full px-6 py-6 mx-auto">
+    <div class="flex flex-wrap -mx-3">
+        <div class="flex-none w-full max-w-full px-3">
+            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <h6 class="dark:text-white">@ViewData["Title"]</h6>
+                </div>
+                <div class="flex-auto px-0 pt-0 pb-2">
+                    <div class="btn-add-role">
+                        <a href="/Admin/ManageUsers" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px">مدیریت کاربران</a>
+                    </div>
+                    <div class="py-2 px-1 overflow-x-auto ps ps__rtl">
+                        <form action="/Admin/ManageUsers/AddUser" method="post" id="form" class="grid grid-cols-1 gap-6 text-sm w-full sm:w-11/12">
+                            @Html.AntiForgeryToken()
+                            <div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-phone pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        نام کاربری :
+                                    </label>
+                                    <input type="text" id="userName" asp-for="UserName" data-min-chars="3" data-max-chars="80" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="UserName" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-phone pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        شماره تلفن :
+                                    </label>
+                                    <input type="text" id="phoneNumber" asp-for="PhoneNumber" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="PhoneNumber" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div class="flex items-center mx-2 my-4">
+                                    <input type="checkbox" asp-for="PhoneNumberConfirmed" class="w-4 h-4 cursor-pointer text-black bg-gray-300 border-none rounded-md focus:ring-transparent" />
+                                    <label class="text-sm mx-2">شماره تلفن مورد نظر تایید شود؟</label>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-eye pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        رمز عبور :
+                                    </label>
+                                    <input type="password" id="password" asp-for="Password" data-min-chars="4" data-max-chars="40" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="Password" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-eye pl-[6px] text-gray-400" aria-hidden="true"></i>
+                                        تکرار رمز عبور :
+                                    </label>
+                                    <input type="password" id="rePassword" asp-for="RePassword" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="RePassword" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-2 mb-4 mx-2">
+                                <button type="submit" class="bg-green-500 border shadow-lg border-green-600 px-4 h-10 text-slate-100 rounded-lg hover:bg-green-600 transition-colors duration-300">افزودن کاربر</button>
+                            </div>
+                        </form>
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div><div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 945px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.UserExist == true)
+{
+    var card = new MessageCardInfo("عملیات ناموفق", "کاربر با همچین مشخصاتی وجود دارد!", MessageCardStatus.Error);
+    <partial name="_MessageCardInfo" model="@card" />
+}
+
+@section Scripts{
+    <script src="/AdminStyles/js/ManageUsers/addUser.js"></script>
+}

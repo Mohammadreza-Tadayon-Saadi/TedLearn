@@ -43,9 +43,9 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(RegisterDto model , CancellationToken cancellationToken)
     {
-        if (!ModelState.IsValid) return View(model);
-
         #region ValidationInput
+
+        if (!ModelState.IsValid) return View(model);
 
         //User Exist And Confirmed His Phone
         if (await _userServices.IsUserExistAsync(model.UserName.Trim(), model.PhoneNumber , cancellationToken))

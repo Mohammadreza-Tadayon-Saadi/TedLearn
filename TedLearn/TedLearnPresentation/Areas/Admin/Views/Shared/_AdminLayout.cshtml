@@ -1,0 +1,97 @@
+﻿<!--
+
+=========================================================
+* Argon Dashboard 2 Tailwind - v1.0.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-tailwind
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+
+* Coded by www.creative-tim.com
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <partial name="_AdminStyles"/>
+    <title>@ViewData["Title"]</title>
+  </head>
+
+  <body class="m-0 font-farsi text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+    <div class="absolute w-full bg-indigo-700 dark:hidden min-h-75"></div>
+
+    <!-- sidenav  -->
+    <partial name="_AdminAside"/>
+
+    <!-- end sidenav -->
+
+    <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:mr-68 rounded-xl">
+      <!-- Navbar -->
+      <partial name="_Navbar"/>
+      <!-- end Navbar -->
+
+      <!-- cards -->
+      @RenderBody()
+      <!-- end cards -->
+    </main>
+    
+    <div fixed-plugin>
+      <a fixed-plugin-button class="fixed right-auto px-4 py-2 text-xl bg-white shadow-lg cursor-pointer bottom-8 left-8 z-990 rounded-circle text-slate-700">
+        <i class="py-2 pointer-events-none fa fa-cog"> </i>
+      </a>
+      <!-- -right-90 in loc de 0-->
+      <div fixed-plugin-card class="z-sticky dark:bg-slate-850/80 backdrop-blur-2xl backdrop-saturate-200 shadow-3xl w-90 ease -left-90 fixed top-0 right-auto flex h-full min-w-0 flex-col break-words rounded-none border-0 bg-white/80 bg-clip-border px-2.5 duration-200">
+        <div class="px-6 pt-4 pb-0 mb-0 border-b-0 rounded-t-2xl">
+          <div class="float-right">
+            <h5 class="mt-4 mb-0 dark:text-white">تنظیمات پنل</h5>
+          </div>
+          <div class="float-left mt-6">
+            <button fixed-plugin-close-button class="inline-block p-0 mb-4 text-2xl font-bold text-center uppercase align-middle transition-all ease-in bg-transparent border-0 rounded-lg shadow-none cursor-pointer hover:-translate-y-px leading-pro tracking-tight-rem bg-150 bg-x-25 active:opacity-85 text-slate-700">
+              <i class="dark:text-white fa fa-close"></i>
+            </button>
+          </div>
+          <!-- End Toggle Button -->
+        </div>
+        <hr class="h-px mx-0 my-1 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent" />
+        <div class="flex-auto p-6 pt-0 overflow-y-auto sm:pt-4">
+          <!-- Sidebar Backgrounds -->
+          <div>
+            <h6 class="mb-2 dark:text-white">رنگ نوار کناری</h6>
+          </div>
+          <!-- Sidenav Type -->
+          <div class="flex">
+            <button transparent-style-btn class="inline-block  dark:cursor-not-allowed dark:opacity-65 dark:pointer-events-none dark:bg-gradient-to-tl dark:from-blue-500 dark:to-violet-500 dark:text-white dark:border-0 w-full px-4 py-2.5 ml-2 mb-2 font-bold leading-normal text-center text-white capitalize align-middle transition-all bg-blue-500 border border-transparent border-solid rounded-lg cursor-pointer text-sm xl-max:cursor-not-allowed xl-max:opacity-65 xl-max:pointer-events-none xl-max:bg-gradient-to-tl xl-max:from-blue-500 xl-max:to-violet-500 xl-max:text-white xl-max:border-0 hover:-translate-y-px hover:shadow-xs active:opacity-85 ease-in tracking-tight-rem shadow-md bg-150 bg-x-25 bg-gradient-to-tl from-blue-500 to-violet-500 hover:border-blue-500" data-class="bg-transparent" active-style>روشن</button>
+            <button white-style-btn class="inline-block  dark:cursor-not-allowed dark:opacity-65 dark:pointer-events-none dark:bg-gradient-to-tl dark:from-blue-500 dark:to-violet-500 dark:text-white dark:border-0 w-full px-4 py-2.5 mb-2 font-bold leading-normal text-center text-blue-500 capitalize align-middle transition-all bg-transparent border border-blue-500 border-solid rounded-lg cursor-pointer text-sm xl-max:cursor-not-allowed xl-max:opacity-65 xl-max:pointer-events-none xl-max:bg-gradient-to-tl xl-max:from-blue-500 xl-max:to-violet-500 xl-max:text-white xl-max:border-0 hover:-translate-y-px hover:shadow-xs active:opacity-85 ease-in tracking-tight-rem shadow-md bg-150 bg-x-25 bg-none hover:border-blue-500" data-class="bg-white">تاریک</button>
+          </div>
+          <!-- Navbar Fixed -->
+          <!-- <div class="mt-4">
+            <h6 class="mb-0 dark:text-white">Navbar Fixed</h6>
+          </div>
+          <div class="min-h-6 mb-0.5 block pl-0">
+            <input class="rounded-10 duration-250 ease-in-out after:rounded-circle after:shadow-2xl after:duration-250 checked:after:-translate-x-5.3 h-5 relative float-right mt-1 mr-auto w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-right bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:-translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right" type="checkbox" navbarFixed />
+          </div> -->
+          <div class="flex my-4">
+            <h6 class="mb-0 dark:text-white">ثابت شدن نوار</h6>
+            <div class="block pl-0 mr-auto min-h-6">
+              <input navbarFixed class="rounded-10 duration-250 ease-in-out after:rounded-circle after:shadow-2xl after:duration-250 checked:after:-translate-x-5.3 h-5 relative float-right mt-1 mr-auto w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-right bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:-translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right" type="checkbox" />
+            </div>
+          </div>
+          <hr class="h-px my-6 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent " />
+          <div class="flex mt-2 mb-12">
+            <h6 class="mb-0 dark:text-white">روشن / تاریک</h6>
+            <div class="block pl-0 mr-auto min-h-6">
+              <input dark-toggle class="rounded-10 duration-250 ease-in-out after:rounded-circle after:shadow-2xl after:duration-250 checked:after:-translate-x-5.3 h-5 relative float-right mt-1 mr-auto w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-right bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:-translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right" type="checkbox" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <partial name="_AdminScripts"/>
+  @await RenderSectionAsync("Scripts" , required: false)
+</html>
