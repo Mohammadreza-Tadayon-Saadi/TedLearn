@@ -1,5 +1,4 @@
 ﻿using Data.Entities.Persons.Roles;
-using Services.DTOs.Common;
 
 namespace Services.DTOs.AdminPanel.Role;
 

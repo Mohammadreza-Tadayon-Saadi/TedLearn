@@ -3,7 +3,6 @@ using Data.Context;
 using Data.Entities.Persons.Transactions;
 using Data.Entities.Persons.Users;
 using Microsoft.EntityFrameworkCore;
-using Services.Contracts.Interfaces;
 using Services.DTOs.UserPanel;
 
 namespace Services.Contracts.Services;

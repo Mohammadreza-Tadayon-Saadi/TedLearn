@@ -1,6 +1,4 @@
-﻿using Services.DTOs.Common;
-
-namespace Services.DTOs.AdminPanel.User;
+﻿namespace Services.DTOs.AdminPanel.User;
 
 public class EditUserDto : BaseDto<EditUserDto ,Data.Entities.Persons.Users.User>
 {

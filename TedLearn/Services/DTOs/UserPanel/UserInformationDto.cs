@@ -1,6 +1,5 @@
 ﻿using Data.Entities.Persons.Users;
 using Microsoft.AspNetCore.Http;
-using Services.DTOs.Common;
 
 namespace Services.DTOs.UserPanel;
 

@@ -1,22 +1,13 @@
-﻿
-using Data.Entities.Persons.Transactions;
-using Services.DTOs.Common;
+﻿using Data.Entities.Persons.Transactions;
 
 namespace Services.DTOs.UserPanel;
 
 public class TransactionReportDto : BaseDto<TransactionReportDto , Transaction>
 {
-    [Display(Name = "نوع تراکنش")]
     public int TypeId { get; set; }
-
-    [Display(Name = "مبلغ")]
     public decimal Amount { get; set; }
-
-    [Display(Name = "موجودی")]
     public decimal Stock { get; set; }
     public DateTime CreateDate { get; set; }
-
-    [Display(Name = "نوع تراکنش")]
     public string Description { get; set; } = string.Empty;
 
     public override void CustomMappings(IMappingExpression<Transaction, TransactionReportDto> mapping)

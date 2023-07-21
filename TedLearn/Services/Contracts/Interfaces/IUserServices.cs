@@ -14,7 +14,7 @@ public interface IUserServices
     Task<double> LeftTimeActivateCodeAsync(string phoneNumber, double expireTime, CancellationToken cancellationToken);
     Task<User> GetUserByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken, bool withTracking = true);
     Task AddActiveCodForUserAsync(string phoneNumber, string activeCode, CancellationToken cancellationToken , bool withSaveChanges = true, bool configureAwait = false);
-    Task<User> CheckUserForLoginAsync(int userId, string password, CancellationToken cancellationToken, bool withTracking = false);
+    Task<User> CheckUserForLoginAsync(int userId, string password, CancellationToken cancellationToken, bool withTracking = true);
     Task<User> CheckUserForLoginAsync(string userName, string passwordHash, CancellationToken cancellationToken);
     Task<User> GetUserByIdAsync(int userId, CancellationToken cancellationToken, bool withTracking = true , bool? getActive = null);
     Task<string> GetUserAvatarAsync(int userId);

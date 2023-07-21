@@ -3,7 +3,6 @@ using Core.Utilities;
 using Data.Context;
 using Data.Entities.Persons.Users;
 using Microsoft.EntityFrameworkCore;
-using Services.Contracts.Interfaces;
 using Services.DTOs.AdminPanel.User;
 
 namespace Services.Contracts.Services;
@@ -41,12 +40,12 @@ public class UserServices : BaseServices<User>, IUserServices
                     .Where(u => u.PhoneNumber == phoneNumber || u.UserName == userName)
                     .AnyAsync(cancellationToken);
 
-    public async Task SignUpUserAsync(User user , CancellationToken cancellationToken, bool configureAwait = false)
+    public async Task SignUpUserAsync(User user, CancellationToken cancellationToken, bool configureAwait = false)
     {
         await ExecuteInTransactionAsync(async transaction =>
         {
-            await AddUserAsync(user, cancellationToken , withSaveChanges:false , configureAwait);
-            await _permissionServices.AddNewUserRoleAsync(user.UserId, cancellationToken , withSaveChanges:false, configureAwait);
+            await AddUserAsync(user, cancellationToken, withSaveChanges: false, configureAwait);
+            await _permissionServices.AddNewUserRoleAsync(user.UserId, cancellationToken, withSaveChanges: false, configureAwait);
         }, cancellationToken, configureAwait);
     }
 
@@ -77,7 +76,7 @@ public class UserServices : BaseServices<User>, IUserServices
         var user = await GetUserByPhoneNumberAsync(phoneNumber, cancellationToken);
         user.ActiveCode = activeCode;
         user.CreateActiveCode = DateTime.Now;
-        await UpdateUserAsync(user , cancellationToken , withSaveChanges , configureAwait);
+        await UpdateUserAsync(user, cancellationToken, withSaveChanges, configureAwait);
     }
 
     public async Task<User> CheckUserForLoginAsync(int userId, string password, CancellationToken cancellationToken, bool withTracking = false)
@@ -100,19 +99,9 @@ public class UserServices : BaseServices<User>, IUserServices
     public async Task<User> GetUserByIdAsync(int userId, CancellationToken cancellationToken, bool withTracking = true, bool? getActive = null)
     {
         if (withTracking)
-        {
-            if(getActive.HasValue)
-                return await Table.Where(u => u.UserId == userId && u.IsDelete == !getActive).SingleOrDefaultAsync(cancellationToken);
-            else
-                return await Table.Where(u => u.UserId == userId).SingleOrDefaultAsync(cancellationToken);
-        }
+            return await Table.Where(u => u.UserId == userId && ((getActive.HasValue) ? u.IsDelete == !getActive : true)).SingleOrDefaultAsync(cancellationToken);
         else
-        {
-            if (getActive.HasValue)
-                return await TableNoTracking.Where(u => u.UserId == userId && u.IsDelete == !getActive).SingleOrDefaultAsync(cancellationToken);
-            else
-                return await TableNoTracking.Where(u => u.UserId == userId).SingleOrDefaultAsync(cancellationToken);
-        }
+            return await TableNoTracking.Where(u => u.UserId == userId && ((getActive.HasValue) ? u.IsDelete == !getActive : true)).SingleOrDefaultAsync(cancellationToken);
     }
 
     public async Task<string> GetUserAvatarAsync(int userId)
@@ -168,9 +157,9 @@ public class UserServices : BaseServices<User>, IUserServices
 
     public async Task AddUserAsync(User user, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
     {
-        await Entity.AddAsync(user , cancellationToken);
+        await Entity.AddAsync(user, cancellationToken);
 
-        if(withSaveChanges)
+        if (withSaveChanges)
             await SaveChangesAsync(cancellationToken, configureAwait);
     }
 

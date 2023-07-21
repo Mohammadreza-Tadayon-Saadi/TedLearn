@@ -2,7 +2,6 @@
 using Core.Utilities;
 using Data.Entities.Persons.Users;
 using Microsoft.AspNetCore.Authorization;
-using Services.Contracts.Interfaces;
 using Services.DTOs.AdminPanel.User;
 
 namespace TedLearn_Web.Areas.Admin.Controllers;
@@ -94,8 +93,8 @@ public class ManageUsersController : Controller
 
         var newUser = new User()
         {
-            UserName = model.UserName.Trim(),
-            PhoneNumber = model.PhoneNumber.Trim(),
+            UserName = model.UserName,
+            PhoneNumber = model.PhoneNumber,
             PasswordHash = SecurityHelper.GetSha256Hash(model.Password.Trim()),
             UserAvatar = "Default.png",
             RegisterDate = DateTime.Now,
@@ -189,7 +188,7 @@ public class ManageUsersController : Controller
     #endregion
 
 
-    //حذف کاربر مورد نظر//
+    //حذف کاربر مورد نظر
     #region DeleteUser
 
     [Route("/Admin/ManageUsers/DeleteUser/{userId:int}")]

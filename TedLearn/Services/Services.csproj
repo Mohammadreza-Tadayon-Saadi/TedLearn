@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\AdminPanel\Course\" />
     <Folder Include="DTOs\AdminPanel\UserDiscount\" />
   </ItemGroup>
 

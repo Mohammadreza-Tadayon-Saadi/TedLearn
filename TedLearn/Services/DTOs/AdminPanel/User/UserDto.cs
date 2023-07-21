@@ -1,5 +1,4 @@
 ﻿using Services.DTOs.AdminPanel.Role;
-using Services.DTOs.Common;
 
 namespace Services.DTOs.AdminPanel.User;
 

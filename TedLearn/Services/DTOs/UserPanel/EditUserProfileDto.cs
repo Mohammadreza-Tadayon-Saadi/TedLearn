@@ -1,5 +1,4 @@
 ﻿using Data.Entities.Persons.Users;
-using Services.DTOs.Common;
 
 namespace Services.DTOs.UserPanel;
 

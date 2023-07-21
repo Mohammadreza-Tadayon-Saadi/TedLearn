@@ -1,7 +1,6 @@
 ﻿using Data.Context;
 using Data.Entities.Persons.Roles;
 using Microsoft.EntityFrameworkCore;
-using Services.Contracts.Interfaces;
 using Services.DTOs.AdminPanel.Role;
 
 namespace Services.Contracts.Services;
@@ -20,16 +19,6 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
 
 
     #region Role
-
-    public async Task AddNewUserRoleAsync(int userId , CancellationToken cancellationToken, bool withSaveChange = true, bool configureAwait = false)
-    {
-        var userRole = new UserRole()
-        {
-            UserId = userId,
-            RoleId = 11001
-        };
-        await AddRoleToUserAsync(userRole , cancellationToken , withSaveChange, configureAwait);
-    }
 
     public async Task<GetRolesForUserDto> GetRolesForUserAsync(int userId, CancellationToken cancellationToken)
     {
@@ -63,26 +52,13 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
         return model;
     }
 
-    public async Task<UserRole> GetUserRoleAsync(int userId, int roleId, CancellationToken cancellationToken, bool withTracking = true)
-    => withTracking ? await _userRole
-                            .Where(ur => ur.UserId == userId && ur.RoleId == roleId)
-                            .SingleOrDefaultAsync(cancellationToken) 
-                    : await _userRole.AsNoTracking()
-                            .Where(ur => ur.UserId == userId && ur.RoleId == roleId)
-                            .SingleOrDefaultAsync(cancellationToken);
-
-    public async Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken cancellationToken,bool? isDeleted)
-    {
-        if (isDeleted.HasValue)
-            return await RoleDto.ProjectTo(TableNoTracking.Where(r => r.IsDelete == isDeleted)).ToListAsync(cancellationToken);
-        else
-            return await RoleDto.ProjectTo(TableNoTracking).ToListAsync(cancellationToken);
-    }
+    public async Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken cancellationToken,bool? isDeleted = null)
+        => await RoleDto.ProjectTo( TableNoTracking.Where(r => ( (isDeleted.HasValue) ? r.IsDelete == isDeleted : true) ) ).ToListAsync(cancellationToken);
 
     public async Task<bool> IsRoleExistAsync(string roleName, CancellationToken cancellationToken)
         => await TableNoTracking.Where(r => r.RoleName == roleName).AnyAsync();
 
-    public async Task<Role> GetRoleAsync(int roleId, CancellationToken cancellationToken, bool? isDeleted, bool withTracking = true)
+    public async Task<Role> GetRoleAsync(int roleId, CancellationToken cancellationToken, bool? isDeleted = null, bool withTracking = true)
     {
         if (withTracking)
             return await Table.Where(r => r.RoleId == roleId && (isDeleted.HasValue ? r.IsDelete == isDeleted : true)).SingleOrDefaultAsync(cancellationToken);
@@ -107,21 +83,44 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
             await SaveChangesAsync(cancellationToken, configureAwait);
     }
 
-    public async Task AddRoleToUserAsync(UserRole userRole, CancellationToken cancellationToken , bool withSaveChange = true , bool configureAwait = false)
+    #endregion Role
+
+
+    #region UserRole
+
+    public async Task AddNewUserRoleAsync(int userId, CancellationToken cancellationToken, bool withSaveChange = true, bool configureAwait = false)
+    {
+        var userRole = new UserRole()
+        {
+            UserId = userId,
+            RoleId = 11001
+        };
+        await AddRoleToUserAsync(userRole, cancellationToken, withSaveChange, configureAwait);
+    }
+
+    public async Task<UserRole> GetUserRoleAsync(int userId, int roleId, CancellationToken cancellationToken, bool withTracking = true)
+    => withTracking ? await _userRole
+                            .Where(ur => ur.UserId == userId && ur.RoleId == roleId)
+                            .SingleOrDefaultAsync(cancellationToken)
+                    : await _userRole.AsNoTracking()
+                            .Where(ur => ur.UserId == userId && ur.RoleId == roleId)
+                            .SingleOrDefaultAsync(cancellationToken);
+
+    public async Task AddRoleToUserAsync(UserRole userRole, CancellationToken cancellationToken, bool withSaveChange = true, bool configureAwait = false)
     {
         await _userRole.AddAsync(userRole, cancellationToken);
-        
-        if(withSaveChange)
+
+        if (withSaveChange)
             await SaveChangesAsync(cancellationToken, configureAwait);
     }
 
-    public async Task DeleteRoleFromUserAsync(UserRole userRole, CancellationToken cancellationToken , bool withSaveChange = true , bool configureAwait = false)
+    public async Task DeleteRoleFromUserAsync(UserRole userRole, CancellationToken cancellationToken, bool withSaveChange = true, bool configureAwait = false)
     {
         _userRole.Remove(userRole);
 
-        if(withSaveChange)
+        if (withSaveChange)
             await SaveChangesAsync(cancellationToken, configureAwait);
     }
 
-    #endregion
+    #endregion UserRole
 }

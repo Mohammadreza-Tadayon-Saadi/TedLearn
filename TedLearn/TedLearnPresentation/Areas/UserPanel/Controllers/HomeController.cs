@@ -116,7 +116,7 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid) return View(model);
 
-        var user = await _userServices.CheckUserForLoginAsync(User.Identity.GetUserId<int>(), model.Password.Trim(), cancellationToken, true);
+        var user = await _userServices.CheckUserForLoginAsync(User.Identity.GetUserId<int>(), model.Password.Trim(), cancellationToken);
         if (user == null)
         {
             ModelState.AddModelError(nameof(model.Password), "رمز عبور وارد شده نادرست است.");

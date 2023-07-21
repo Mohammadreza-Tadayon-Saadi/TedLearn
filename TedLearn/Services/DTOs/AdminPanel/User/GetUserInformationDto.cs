@@ -1,6 +1,4 @@
-﻿using Services.DTOs.Common;
-
-namespace Services.DTOs.AdminPanel.User;
+﻿namespace Services.DTOs.AdminPanel.User;
 
 public class GetUserInformationDto : BaseDto<GetUserInformationDto , Data.Entities.Persons.Users.User>
 {

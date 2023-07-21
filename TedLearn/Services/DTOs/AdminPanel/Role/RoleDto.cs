@@ -1,6 +1,4 @@
-﻿using Services.DTOs.Common;
-
-namespace Services.DTOs.AdminPanel.Role;
+﻿namespace Services.DTOs.AdminPanel.Role;
 
 public class RoleDto : BaseDto<RoleDto , Data.Entities.Persons.Roles.Role>
 {

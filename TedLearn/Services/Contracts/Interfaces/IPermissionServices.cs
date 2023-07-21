@@ -10,9 +10,9 @@ public interface IPermissionServices
     Task AddNewUserRoleAsync(int userId , CancellationToken cancellationToken , bool withSaveChanges = true , bool configureAwait = false);
     Task<GetRolesForUserDto> GetRolesForUserAsync(int userId, CancellationToken cancellationToken);
     Task<UserRole> GetUserRoleAsync(int userId, int roleId , CancellationToken cancellationToken , bool withTracking = true);
-    Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken cancellationToken, bool? isDeleted);
+    Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken cancellationToken, bool? isDeleted = null);
     Task<bool> IsRoleExistAsync(string roleName , CancellationToken cancellationToken);
-    Task<Role> GetRoleAsync(int roleId , CancellationToken cancellationToken, bool? isDeleted, bool withTracking = true);
+    Task<Role> GetRoleAsync(int roleId , CancellationToken cancellationToken, bool? isDeleted = null, bool withTracking = true);
 
 
     Task AddRoleAsync(Role role , CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);

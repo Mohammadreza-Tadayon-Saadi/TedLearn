@@ -11,5 +11,6 @@ public static class DependencyContainer
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<IPermissionServices, PermissionServices>();
         services.AddScoped<IUserPanelServices, UserPanelServices>();
+        services.AddScoped<ICourseGroupServices, CourseGroupServices>();
     }
 }

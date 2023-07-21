@@ -1,6 +1,5 @@
 ﻿using Data.Entities.Persons.Roles;
 using Microsoft.AspNetCore.Authorization;
-using Services.Contracts.Interfaces;
 using Services.DTOs.AdminPanel.Role;
 
 namespace TedLearnPresentation.Areas.Admin.Controllers;
@@ -33,7 +32,7 @@ public class ManageRolesController : Controller
             var allRoles = await _permissionServices.GetRolesAsync(cancellationToken , isDeleted:false);
             return PartialView("GetRole", allRoles);
         }
-        if (message == "GetDeletedRoles")
+        else if (message == "GetDeletedRoles")
         {
             var deletedRoles = await _permissionServices.GetRolesAsync(cancellationToken, isDeleted: true);
             return PartialView("GetRole", deletedRoles);
@@ -69,7 +68,7 @@ public class ManageRolesController : Controller
 
         var role = new Role
         {
-            RoleName = model.RoleName.Trim(),
+            RoleName = model.RoleName,
             CreateDate = DateTime.Now,
             CanDeleteOrEdit = model.CanDeleteOrEdit,
         };
@@ -133,8 +132,6 @@ public class ManageRolesController : Controller
         #region UpdateRole
 
         model.ToEntity(role);
-        //role.RoleName = model.RoleName.Trim();
-        //role.CanDeleteOrEdit = model.CanDeleteOrEdit;
         await _permissionServices.UpdateRoleAsync(role, cancellationToken);
 
         #endregion

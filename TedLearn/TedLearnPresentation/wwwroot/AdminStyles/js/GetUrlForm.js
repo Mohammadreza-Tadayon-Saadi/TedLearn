@@ -1,7 +1,4 @@
 ﻿$(document).ready(function () {
-    //const form = document.querySelector('.deleted-or-active-group');
-    //const btn_form = form.firstElementChild;
-    //const form_url = form.getAttribute('action');
 
     const form_info = document.querySelectorAll("#form-info");
     form_info.forEach(item => {
@@ -10,23 +7,21 @@
         });
         const url = item.getAttribute("action");
         const button = item.firstElementChild;
-        //TODO ChangeUrl
-        //if (url.startsWith('/Admin/ManageCourseGroups/DeleteGroup/')) {
-        //    form_url.replace('/GetCourseGroups/GetAllDeletedGroups');
-        //    btn_form.innerHTML.replace('گروه های حذف شده');
-        //    console.log(form_url);
-        //    console.log(btn_form);
-        //} else if (url.startsWith('/Admin/ManageCourseGroups/RestoreGroup')) {
-        //    form_url.replace('/GetCourseGroups/GetAllCourseGroups');
-        //    btn_form.innerHTML.replace('مدیریت گروه ها');
-        //}
+        const input = item.querySelector('input[name="__RequestVerificationToken"]');
+        
         button.addEventListener("click", function () {
+            let data = {
+                // Other form data here
+            };
+            if (input) {
+                data['__RequestVerificationToken'] = input.value;
+            }
+
             $.ajax({
                 type: "POST",
                 url: url,
+                data: data,
                 success: function (response) {
-                    //if request if made successfully then the response represent the data
-                    //$("#result").empty().append(response);
                     if (url.startsWith("/GetCourseDetails")) {
                         $("#info").empty().append(response);
                     }else {
@@ -37,5 +32,3 @@
         });
     });
 });
-
-
