@@ -8,7 +8,6 @@
         const url = item.getAttribute("action");
         const button = item.firstElementChild;
         const input = item.querySelector('input[name="__RequestVerificationToken"]');
-        
         button.addEventListener("click", function () {
             let data = {
                 // Other form data here

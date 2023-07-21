@@ -213,6 +213,14 @@
       "PackagePath": "staticwebassets\\AdminStyles\\js\\tooltips.js"
     },
     {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\048568cfb35f4dd3a5c5334149d3869d.mp4",
+      "PackagePath": "staticwebassets\\Courses\\course-demos\\048568cfb35f4dd3a5c5334149d3869d.mp4"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg",
+      "PackagePath": "staticwebassets\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg"
+    },
+    {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\play-pusepng.png",
       "PackagePath": "staticwebassets\\Courses\\course-image\\play-pusepng.png"
     },

@@ -1,0 +1,109 @@
+﻿@using Core.Convertors;
+@using Core.Utilities;
+@using Services.DTOs.AdminPanel.Course;
+@model List<ShowCourseDto>
+
+@if (!Model.Any())
+{
+    <tr>
+        <td class="text-center pt-4 align-middle bg-transparent border-t dark:border-white/40 whitespace-nowrap shadow-transparent" colspan="5">هیچ موردی برای نمایش وجود ندارد.</td>
+    </tr>
+}
+else if (Model.Any(c => !c.IsDelete))
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <div class="flex px-2 py-1">
+                    <div>
+                        <img src="/Courses/course-image/@item.Image" class="course-image inline-flex items-center justify-center" alt="CourseImage">
+                    </div>
+                    <div class="flex flex-col justify-center mr-4">
+                        <h6 class="mb-0 text-sm leading-normal dark:text-white truncate">@item.Title</h6>
+                    </div>
+                </div>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.TeacherName</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                @if (item.Price == 0)
+                {
+                    <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-green-500">
+                        رایگان
+                    </span>
+                }
+                else
+                {
+                    <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                        @item.Price.ToToman()
+                    </span>
+
+                }
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.CreateDate.MiladiToShamsi()</span>
+            </td>
+            <td class="p-2 py-32px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-info" method="post" asp-controller="ManageCourses" asp-action="GetCourseDetails" asp-route-courseId="@item.CourseId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> جزییات </button>
+                </form>
+                <a asp-controller="ManageCourses" asp-action="EditCourse" asp-route-courseId="@item.CourseId" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> ویرایش </a>
+                <form id="form-info" method="post" asp-controller="ManageCourses" asp-action="DeleteCourse" asp-route-courseId="@item.CourseId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> حذف </button>
+                </form>
+                <a asp-controller="ManageCourseSeasons" asp-action="Index" asp-route-courseId="@item.CourseId" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> فصل ها </a>
+            </td>
+        </tr>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td class="p-2 align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <div class="flex px-2 py-1">
+                    <div>
+                        <img src="/Courses/course-image/@item.Image" class="course-image inline-flex items-center justify-center" alt="CourseImage">
+                    </div>
+                    <div class="flex flex-col justify-center mr-4">
+                        <h6 class="mb-0 text-sm leading-normal dark:text-white">@item.Title</h6>
+                    </div>
+                </div>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.TeacherName</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                @if (item.Price == 0)
+                {
+                    <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-green-500">
+                        رایگان
+                    </span>
+                }
+                else
+                {
+                    <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                        @item.Price.ToToman()
+                    </span>
+
+                }
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.CreateDate.MiladiToShamsi()</span>
+            </td>
+            <td class="p-2 py-32px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-info" method="post" asp-controller="ManageCourses" asp-action="RestoreCourse" asp-route-courseId="@item.CourseId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> بازگردانی </button>
+                </form>
+            </td>
+        </tr>
+    }
+}
+
+<script asp-append-version="true" src="/AdminStyles/js/GetUrlForm.js"></script>

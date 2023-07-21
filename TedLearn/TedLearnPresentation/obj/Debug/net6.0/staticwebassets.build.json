@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "G5C71Xgow7fQuUBmM7g4QKQ1xJfsbCOLg7pJ5iFJcrk=",
+  "Hash": "W7d/ShmCx2AI5mZ11EQf370HJIqN4Ya6Zj29TAvQVXc=",
   "Source": "TedLearnPresentation",
   "BasePath": "_content/TedLearnPresentation",
   "Mode": "Default",
@@ -916,6 +916,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\tooltips.js"
+    },
+    {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\048568cfb35f4dd3a5c5334149d3869d.mp4",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "Courses/course-demos/048568cfb35f4dd3a5c5334149d3869d.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Courses\\course-demos\\048568cfb35f4dd3a5c5334149d3869d.mp4"
+    },
+    {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "Courses/course-image/dbb81eed87fe40ba94b6592b4c2b4be8.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg"
     },
     {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\play-pusepng.png",

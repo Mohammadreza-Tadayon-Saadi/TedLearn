@@ -52,6 +52,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlQ291cnNlR3JvdXBzXFNob3dTdWJHcm91cHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageCourses/AddCourse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlQ291cnNlc1xBZGRDb3Vyc2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageCourses/EditCourse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlQ291cnNlc1xFZGl0Q291cnNlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageCourses/GetCourseDetailsAjax.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlQ291cnNlc1xHZXRDb3Vyc2VEZXRhaWxzQWpheC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageCourses/GetCoursesAjax.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlQ291cnNlc1xHZXRDb3Vyc2VzQWpheC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageCourses/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlQ291cnNlc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageRoles/AddRole.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlUm9sZXNcQWRkUm9sZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

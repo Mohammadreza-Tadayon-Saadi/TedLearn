@@ -1,0 +1,33 @@
+﻿@using Core.Convertors;
+@using Core.Utilities;
+@using Services.DTOs.AdminPanel.Course;
+@model ShowDetailsCourseDto
+
+<div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+    <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2 overflow-y-scroll h-9/10 information-scroll">
+        <!-- Header -->
+        <div class="w-full py-2 h-24 flex justify-center items-center">
+            <img src="/Courses/course-image/@Model.Image" alt="CourseImage" style="width: 24rem;height: 12rem;border-radius: 8px;">
+        </div>
+        <!-- End Header -->
+        <div class="w-full h-auto text-sm info">
+            <h1 class="font-semibold text-lg text-center">@Model.Title</h1>
+            <p class="text-center mt-2"><span>گروه :</span> @Model.GroupName</p>
+            <p class="text-center mt-2"><span>زیرگروه :</span> @((!Model.SubGroupName.HasValue()) ? "زیر گروه ندارد" : Model.SubGroupName)</p>
+            <p class="text-center mt-2"><span>استاد :</span> @Model.TeacherName</p>
+            <p class="text-center mt-2"><span>قیمت :</span> @((Model.Price == 0) ? "رایگان" : Model.Price.ToToman())</p>
+            <p class="text-center mt-2"><span>وضعیت :</span> @Model.StatusName</p>
+            <p class="text-center mt-2"><span>سطح :</span> @Model.LevelName</p>
+            <p class="text-center mt-2"><span>تاریخ انتشار :</span> @Model.CreateDate.MiladiToShamsi()</p>
+            <p class="text-center mt-2"><span>تاریخ اخرین بروز رسانی :</span> @Model.LastOfUpdate.MiladiToShamsi()</p>
+            <p class="text-center mt-2"><span>پیش نیاز ها :</span> @((!Model.Requirement.HasValue()) ? "پیش نیاز ندارد" : Model.Requirement)</p>
+            <p class="text-center mt-2 biography"><span>برچسب ها :</span> @((!Model.Tags.HasValue()) ? "برچسب ندارد" : Model.Tags )</p>
+            <p class="text-center mt-2 biography"><span>توضیحات :</span> @Html.Raw(Model.Description)</p>
+        </div>
+        <div class="w-full h-12 flex justify-center items-end">
+            <button id="ok" class="w-16 h-8 bg-indigo-700 text-slate-50 text-sm rounded-md" type="button">بستن</button>
+        </div>
+    </div>
+</div>
+<script src="/AdminStyles/js/GetInformationAjax.js"></script>
+

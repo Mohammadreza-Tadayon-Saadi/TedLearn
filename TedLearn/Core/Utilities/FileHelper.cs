@@ -66,7 +66,7 @@ public static class FileChecker
         var file = new FileInfo(videoFile.FileName.ToLower());
         var extention = file.Extension;
 
-        var extentions = new[] { ".mp4", ".mkv" };
+        var extentions = new[] { ".mp4", ".mkv" , "mov" };
 
         if (extentions.Contains(extention.ToLower()))
         {
@@ -78,15 +78,12 @@ public static class FileChecker
                 var format = mediaInfo.Get(StreamKind.General, 0, "Format");
                 mediaInfo.Close();
 
-                if (!string.IsNullOrEmpty(duration) && !string.IsNullOrEmpty(format))
+                if (duration.HasValue() && format.HasValue())
                 {
-                    // Check if the file format is a known video format and if the duration is greater than zero
-                    var knownVideoFormats = new[] { "avi", "mp4", "mkv", "wmv", "mov" };
-                    var fileExtension = file.Extension.ToLower().Trim('.');
-                    if (knownVideoFormats.Contains(fileExtension) && double.TryParse(duration, out var durationInSeconds) && durationInSeconds > 0)
-                    {
+                    //var knownVideoFormats = new[] { "avi", "mp4", "mkv", "wmv", "mov" };
+                    // Check if the duration is greater than zero
+                    if (double.TryParse(duration, out var durationInSeconds) && durationInSeconds > 0)
                         return true;
-                    }
                 }
             }
             catch

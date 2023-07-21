@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Services.DTOs.AdminPanel.Course.CourseGroup;
 
-namespace Services.DTOsValidator.AdminPanel.Course;
+namespace Services.DTOsValidator.AdminPanel.Course.CourseGroup;
 
 public class AddSubGroupValidator : AbstractValidator<AddSubGroupDto>
 {

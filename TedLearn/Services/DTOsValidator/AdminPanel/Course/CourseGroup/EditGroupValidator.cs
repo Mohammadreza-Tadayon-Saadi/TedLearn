@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Services.DTOs.AdminPanel.Course.CourseGroup;
 
-namespace Services.DTOsValidator.AdminPanel.Course;
+namespace Services.DTOsValidator.AdminPanel.Course.CourseGroup;
 
-public class AddGroupValidator : AbstractValidator<AddGroupDto>
+public class EditGroupValidator : AbstractValidator<EditGroupDto>
 {
-    public AddGroupValidator()
+    public EditGroupValidator()
     {
         RuleFor(cg => cg.Title).Cascade(CascadeMode.Stop)
             .NotEmpty().WithMessage("لطفا عنوان گروه را وارد کنید.")

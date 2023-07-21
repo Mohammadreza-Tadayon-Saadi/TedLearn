@@ -1,4 +1,6 @@
-﻿namespace Core.Utilities;
+﻿using Ganss.Xss;
+
+namespace Core.Utilities;
 
 public static class StringExtensions
 {
@@ -77,4 +79,10 @@ public static class StringExtensions
 
     public static string NullIfEmpty(this string str)
         => str?.Length == 0 ? null : str;
+
+    public static string SanitizeText(this string text)
+    {
+        var sanitizer = new HtmlSanitizer();
+        return sanitizer.Sanitize(text);
+    }
 }

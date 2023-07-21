@@ -14,6 +14,7 @@ public interface ICourseGroupServices
     Task<CourseGroup> GetCourseGroupByGroupIdAsync(int groupId , CancellationToken cancellation, bool withTracking = true);
     Task<IEnumerable<ShowCourseGroupDto>> GetAllSubGroupsForGroupAsync(int groupId, CancellationToken cancellationToken, bool? isDeleted = null);
     Task<IEnumerable<SelectListItem>> GetGroupListAsync(CancellationToken cancellationToken , int? parentId = null);
+    Task<IEnumerable<SelectListItem>> GetSubGroupListForGroup(int groupId, CancellationToken cancellationToken);
 
     Task AddCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
     Task UpdateCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);

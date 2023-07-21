@@ -1,4 +1,5 @@
 ﻿@using Core.Convertors
+@using Core.Utilities;
 @using Services.DTOs.AdminPanel.User;
 @model GetUserInformationDto
 
@@ -12,14 +13,14 @@
         <div class="w-full h-auto text-sm info">
             <h1 class="font-semibold text-lg text-center">@Model.UserName</h1>
             <p class="text-center mt-2"><span>شماره تلفن :</span> @Model.PhoneNumber</p>
-            <p class="text-center mt-2"><span>موجودی کاربر :</span> @Model.Stock.ToString("#,0 تومان")</p>
-            <p class="text-center mt-2"><span>نام :</span> @((Model.FirstName == null) ? "ندارد" : Model.FirstName)</p>
-            <p class="text-center mt-2"><span>نام خانوادگی :</span> @((Model.LastName == null) ? "ندارد" : Model.LastName)</p>
-            <p class="text-center mt-2"><span>ایمیل :</span> @((Model.Email == null) ? "ندارد" : Model.Email)</p>
+            <p class="text-center mt-2"><span>موجودی کاربر :</span> @Model.Stock.ToToman()</p>
+            <p class="text-center mt-2"><span>نام :</span> @((!Model.FirstName.HasValue()) ? "ندارد" : Model.FirstName)</p>
+            <p class="text-center mt-2"><span>نام خانوادگی :</span> @((!Model.LastName.HasValue()) ? "ندارد" : Model.LastName)</p>
+            <p class="text-center mt-2"><span>ایمیل :</span> @((!Model.Email.HasValue()) ? "ندارد" : Model.Email)</p>
             <p class="text-center mt-2"><span>تاریخ عضویت :</span> @Model.RegisterDate.MiladiToShamsi()</p>
             <p class="text-center mt-2"><span>شماره تلفن تایید شده ؟</span> @((Model.PhoneNumberConfirmed) ? "بله" : "خیر")</p>
-            <p class="text-center mt-2"><span>ادرس سایت :</span> @((Model.WebsiteAddress == null) ? "ندارد" : Model.WebsiteAddress)</p>
-            <p class="text-center mt-2 biography"><span>بیوگرافی :</span> @((Model.Biography == null) ? "ندارد" : Model.Biography)</p>
+            <p class="text-center mt-2"><span>ادرس سایت :</span> @((!Model.WebsiteAddress.HasValue()) ? "ندارد" : Model.WebsiteAddress)</p>
+            <p class="text-center mt-2 biography"><span>بیوگرافی :</span> @((!Model.Biography.HasValue()) ? "ندارد" : Model.Biography)</p>
         </div>
         <div class="w-full h-12 flex justify-center items-end">
             <button id="ok" class="w-16 h-8 bg-indigo-700 text-slate-50 text-sm rounded-md" type="button">بستن</button>

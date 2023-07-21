@@ -61,6 +61,14 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
                                 }).ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<SelectListItem>> GetSubGroupListForGroup(int groupId, CancellationToken cancellationToken)
+        => await TableNoTracking.Where(cg => cg.SubGroupId == groupId && !cg.IsDelete)
+                        .Select(cg => new SelectListItem()
+                        {
+                            Text = cg.Title,
+                            Value = cg.GroupId.ToString()
+                        }).ToListAsync(cancellationToken);
+
 
 
     public async Task AddCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
