@@ -79,7 +79,7 @@ public class HomeController : Controller
 
         model.ToEntity(user);
 
-        await _userServices.UpdateUserAsync(user , cancellationToken , false);
+        await _userServices.UpdateUserAsync(user , cancellationToken);
 
         return Redirect("/UserPanel");
     }
@@ -139,7 +139,7 @@ public class HomeController : Controller
         }
 
         user.PasswordHash = newPass;
-        await _userServices.UpdateUserAsync(user , cancellationToken, false);
+        await _userServices.UpdateUserAsync(user , cancellationToken);
 
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -172,7 +172,7 @@ public class HomeController : Controller
             avatar = await FileHelper.CreateFileAsync(avatarFile, directoryOfAvatar);
 
             user.UserAvatar = avatar;
-            await _userServices.UpdateUserAsync(user, cancellationToken, false);
+            await _userServices.UpdateUserAsync(user, cancellationToken);
 
             //Delete Old Image
             if (avatarName != "Default.png")

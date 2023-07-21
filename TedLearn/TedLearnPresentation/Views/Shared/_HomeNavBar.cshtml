@@ -21,7 +21,7 @@
     <!-- End Links -->
     @if (User.Identity.IsAuthenticated)
     {
-        var userAvatar = await _userService.GetUserAvatar(User.Identity.GetUserId<int>());
+        var userAvatar = await _userService.GetUserAvatarAsync(User.Identity.GetUserId<int>());
         <!-- Profile -->
         <div id="profile" class="relative mr-3 md:mr-0 h-full pt-1 sm:pt-2 md:pl-1">
             <div class="flex justify-center">

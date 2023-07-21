@@ -4,7 +4,7 @@
 @inject IUserServices _userService
 @{
     int userId = User.Identity.GetUserId<int>();
-    var userAvatar = await _userService.GetUserAvatar(userId);
+    var userAvatar = await _userService.GetUserAvatarAsync(userId);
 }
 <header>
     <!-- NavBar -->

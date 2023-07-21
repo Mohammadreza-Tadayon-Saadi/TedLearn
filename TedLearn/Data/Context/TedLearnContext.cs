@@ -71,7 +71,15 @@ public class TedLearnContext : DbContext
 
                 if (value.HasValue())
                 {
-                    var newValue = value.Fa2En().FixPersianChars();
+                    var newValue = "";
+                    try
+                    {
+                        newValue = value.Trim().Fa2En().FixPersianChars();
+                    }
+                    catch
+                    {
+                        newValue = value.Fa2En().FixPersianChars();
+                    }
                     if (newValue == value)
                         continue;
 

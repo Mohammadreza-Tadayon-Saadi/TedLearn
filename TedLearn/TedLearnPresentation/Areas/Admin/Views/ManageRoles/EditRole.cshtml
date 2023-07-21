@@ -1,0 +1,68 @@
+﻿@using Core.CustomResults;
+@using Services.DTOs.AdminPanel.Role;
+@model EditRoleDto
+@{
+    ViewData["Title"] = "ویرایش نقش";
+}
+<div class="w-full px-6 py-6 mx-auto">
+    <div class="flex flex-wrap -mx-3">
+        <div class="flex-none w-full max-w-full px-3">
+            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <h6 class="dark:text-white">@ViewData["Title"]</h6>
+                </div>
+                <div class="flex-auto px-0 pt-0 pb-2">
+                    <div class="btn-add-role">
+                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageRoles" asp-action="Index" target="_blank">مدیریت نقش ها</a>
+                        <a class="mr-4 px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageRoles" asp-action="DeletedRole" target="_blank">نقش های حذف شده</a>
+                    </div>
+                    <div class="py-2 px-1 overflow-x-auto ps">
+                        <form action="/Admin/ManageRoles/EditRole" method="post" id="form" class="grid grid-cols-1 gap-6 text-sm w-full sm:w-11/12">
+                            @Html.AntiForgeryToken()
+
+                            @if (ViewBag.ConCurrency == true)
+                            {
+                                var card = new MessageCardInfo("خطای همزمانی", "متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+                                <partial name="_MessageCardInfo" model="@card" />
+                            }
+                            
+                            <input type="hidden" asp-for="RoleId" />
+                            <input type="hidden" asp-for="Base64Version" />
+                            <input type="hidden" name="preRoleName" value="@Model.RoleName">
+                            <div>
+                                <div id="profile-dashbord" class="form-control text-gray-700 my-4 mx-2">
+                                    <label class="cursor-text">
+                                        <i class="fa fa-user pl-[6px] text-gray-400"></i>
+                                        نام نقش :
+                                    </label>
+                                    <input type="text" asp-for="RoleName" id="roleName" data-max-chars="60" class="w-full py-2 px-4 mt-2 bg-slate-100 border focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none">
+                                    <span asp-validation-for="RoleName" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
+                                </div>
+                                <div class="flex items-center mx-2 my-4">
+                                    <input asp-for="CanDeleteOrEdit" type="checkbox" class="w-4 h-4 cursor-pointer text-black bg-gray-300 border-none rounded-md focus:ring-transparent">
+                                    <label asp-for="CanDeleteOrEdit" class="text-sm mx-2"></label>
+                                </div>
+                                <div class="mx-2 mt-8">
+                                    <label class="cursor-text block">
+                                        <i class="fa fa-eye pl-[6px] text-gray-400"></i>
+                                        سطح دسترسی نقش :
+                                    </label><br />
+                                    <ul class="mb-4">
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="grid sm:grid-cols-2 mb-4 mx-2">
+                                <button type="submit" class="bg-yellow-500 border shadow-lg border-yellow-600 px-4 h-10 text-slate-100 rounded-lg hover:bg-yellow-600 transition-colors duration-300">ویرایش نقش</button>
+                            </div>
+                        </form>
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="/AdminStyles/js/ManageRoles/addOrEditRole.js"></script>
+}

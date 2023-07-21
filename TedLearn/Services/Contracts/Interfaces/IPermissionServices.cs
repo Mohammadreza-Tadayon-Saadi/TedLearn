@@ -7,13 +7,18 @@ public interface IPermissionServices
 {
     #region Roles
 
-    Task AddNewUserRoleAsync(int userId , CancellationToken cancellationToken , bool configureAwait = false);
+    Task AddNewUserRoleAsync(int userId , CancellationToken cancellationToken , bool withSaveChanges = true , bool configureAwait = false);
     Task<GetRolesForUserDto> GetRolesForUserAsync(int userId, CancellationToken cancellationToken);
     Task<UserRole> GetUserRoleAsync(int userId, int roleId , CancellationToken cancellationToken , bool withTracking = true);
+    Task<IEnumerable<RoleDto>> GetRolesAsync(CancellationToken cancellationToken, bool? isDeleted);
+    Task<bool> IsRoleExistAsync(string roleName , CancellationToken cancellationToken);
+    Task<Role> GetRoleAsync(int roleId , CancellationToken cancellationToken, bool? isDeleted, bool withTracking = true);
 
 
-    Task AddRoleToUserAsync(UserRole userRole , CancellationToken cancellationToken, bool configureAwait = false);
-    Task DeleteRoleFromUserAsync(UserRole userRole, CancellationToken cancellationToken, bool configureAwait = false);
+    Task AddRoleAsync(Role role , CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
+    Task UpdateRoleAsync(Role role, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
+    Task AddRoleToUserAsync(UserRole userRole , CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
+    Task DeleteRoleFromUserAsync(UserRole userRole, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
 
     #endregion
 }

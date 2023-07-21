@@ -77,7 +77,7 @@ public class AccountController : Controller
             PhoneNumberConfirmed = false,
         };
 
-        await _userServices.SignUpUserAsync(user , cancellationToken , false);
+        await _userServices.SignUpUserAsync(user , cancellationToken);
 
         return Redirect($"/Account/RegisterPhone/{model.PhoneNumber}");
     }
@@ -97,7 +97,7 @@ public class AccountController : Controller
             PhoneNumber = phone,
         };
 
-        var timeExpired = (int)await _userServices.LeftTimeActivateCode(phone, expirationActivateCodeTime , cancellationToken);
+        var timeExpired = (int)await _userServices.LeftTimeActivateCodeAsync(phone, expirationActivateCodeTime , cancellationToken);
         if (timeExpired > 0)
         {
             model.ExpirationTime = DateTime.Now.AddSeconds(timeExpired);
@@ -148,7 +148,7 @@ public class AccountController : Controller
         #endregion Validation Active Code
 
         user.PhoneNumberConfirmed = true;
-        await _userServices.UpdateUserAsync(user , cancellationToken, false);
+        await _userServices.UpdateUserAsync(user , cancellationToken);
 
         #region SignInUser
 
@@ -317,7 +317,7 @@ public class AccountController : Controller
         }
 
         user.PasswordHash = newHashPass;
-        await _userServices.UpdateUserAsync(user, cancellationToken, false);
+        await _userServices.UpdateUserAsync(user, cancellationToken);
 
         #region SignInUser
 

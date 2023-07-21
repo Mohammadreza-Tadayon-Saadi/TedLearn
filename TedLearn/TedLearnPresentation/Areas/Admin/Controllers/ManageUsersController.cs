@@ -86,7 +86,7 @@ public class ManageUsersController : Controller
         if (!ModelState.IsValid) return View(model);
 
         // PhoneNumber Or UserName Exists In DataBase
-        if (await _userServices.IsUserNameOrPhoneNumberExist(model.UserName.Trim(), model.PhoneNumber, cancellationToken))
+        if (await _userServices.IsUserNameOrPhoneNumberExistAsync(model.UserName.Trim(), model.PhoneNumber, cancellationToken))
         {
             ViewBag.UserExist = true;
             return View(model);
@@ -276,7 +276,7 @@ public class ManageUsersController : Controller
     [HttpPost]
     public async Task<IActionResult> AddRoleToUser(int userId, int roleId, CancellationToken cancellationToken)
     {
-        var userRole = await _permissionServices.GetUserRoleAsync(userId, roleId, cancellationToken, false);
+        var userRole = await _permissionServices.GetUserRoleAsync(userId, roleId, cancellationToken, withTracking:false);
         if (userRole != null) return NotFound();
 
         userRole = new Data.Entities.Persons.Roles.UserRole
@@ -285,7 +285,7 @@ public class ManageUsersController : Controller
             RoleId = roleId,
         };
 
-        await _permissionServices.AddRoleToUserAsync(userRole, cancellationToken, false);
+        await _permissionServices.AddRoleToUserAsync(userRole, cancellationToken);
 
         return Redirect($"/GetRolesForUserAjax/{userId}");
     }
@@ -304,7 +304,7 @@ public class ManageUsersController : Controller
         var userRole = await _permissionServices.GetUserRoleAsync(userId, roleId, cancellationToken);
         if (userRole == null) return NotFound();
 
-        await _permissionServices.DeleteRoleFromUserAsync(userRole, cancellationToken, false);
+        await _permissionServices.DeleteRoleFromUserAsync(userRole, cancellationToken);
 
         return Redirect($"/GetRolesForUserAjax/{userId}");
     }
