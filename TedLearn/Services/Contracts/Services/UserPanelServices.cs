@@ -12,9 +12,11 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
     #region ConstructorInjection
 
     public DbSet<Transaction> _transaction { get; set; }
-    public UserPanelServices(TedLearnContext context) : base(context)
+    private readonly ITransactionDbContextServices _transactions;
+    public UserPanelServices(TedLearnContext context, ITransactionDbContextServices transactions) : base(context)
     {
         _transaction = _context.Set<Transaction>();
+        _transactions = transactions;
     }
 
     #endregion
@@ -47,16 +49,21 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
         else return 0;
     }
 
-    public async Task<int> AddTransactionAsync(Transaction transaction , CancellationToken cancellationToken, 
-        bool configureAwait = false)
+    public async Task<int?> AddTransactionAsync(Transaction transaction , CancellationToken cancellationToken
+        , bool withSaveChanges = true, bool configureAwait = false)
     {
         await _context.AddAsync(transaction);
-        await SaveChangesAsync(cancellationToken , configureAwait);
-        return transaction.TransactionId;
+
+        if (withSaveChanges)
+        {
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
+            return transaction.TransactionId;
+        }
+        else return null;
     }
 
-    public async Task<int> ChargeWalletAsync(int userId, decimal amount, string description, 
-        CancellationToken cancellationToken, bool isPay = false, bool configureAwait = false)
+    public async Task<int?> ChargeWalletAsync(int userId, decimal amount, string description, 
+        CancellationToken cancellationToken, bool isPay = false, bool withSaveChanges = true, bool configureAwait = false)
     {
         var transaction = new Transaction
         {
@@ -68,7 +75,7 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
             TransactionDate = DateTime.Now
         };
 
-        return await AddTransactionAsync(transaction , cancellationToken , configureAwait);
+        return await AddTransactionAsync(transaction , cancellationToken , withSaveChanges , configureAwait);
     }
 
     public async Task<Transaction> GetTransactionByTransactionIdAsync(int transactionId, 
@@ -82,18 +89,6 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
         return await _transaction.AsNoTracking()
                         .Where(t => t.TransactionId == transactionId)
                         .SingleOrDefaultAsync(cancellationToken);
-    }
-
-    public async Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken, bool configureAwait = false)
-    {
-        _context.Update(transaction);
-        await SaveChangesAsync(cancellationToken , configureAwait);
-    }
-
-    public async Task RemoveTransactionAsync(Transaction transaction, CancellationToken cancellationToken, bool configureAwait = false)
-    {
-        _context.Remove(transaction);
-        await SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     public async Task<TransactionReportsWithPaginationDto> GetTransationsForUser(int userId , CancellationToken cancellationToken, int pageId = 1)
@@ -115,7 +110,17 @@ public class UserPanelServices : BaseServices<User> , IUserPanelServices
         
         return transactionReports;
     }
+    
+    
+    public async Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
+    {
+        _context.Update(transaction);
+        await _transactions.SaveChangesAsync(cancellationToken , configureAwait);
+    }
 
-    public async Task<int> ExecuteInTransactionAsync(Services.TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false)
-        => await base.ExecuteInTransactionAsync(transactionalDelegate, cancellationToken, configureAwait);
+    public async Task RemoveTransactionAsync(Transaction transaction, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
+    {
+        _context.Remove(transaction);
+        await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
+    }
 }

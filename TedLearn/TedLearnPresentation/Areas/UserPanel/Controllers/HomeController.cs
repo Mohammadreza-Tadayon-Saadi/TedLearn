@@ -3,7 +3,6 @@ using Core.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Services.Contracts.Interfaces;
 using Services.DTOs.UserPanel;
 
 namespace TedLearnPresentation.Areas.UserPanel.Controllers;
@@ -16,10 +15,12 @@ public class HomeController : Controller
 
     private readonly IUserServices _userServices;
     private readonly IUserPanelServices _userPanelServices;
-    public HomeController(IUserServices userServices, IUserPanelServices userPanelServices)
+    private readonly ITransactionDbContextServices _transactions;
+    public HomeController(IUserServices userServices, IUserPanelServices userPanelServices, ITransactionDbContextServices transactions)
     {
         _userServices = userServices;
         _userPanelServices = userPanelServices;
+        _transactions = transactions;
     }
 
 
@@ -79,7 +80,7 @@ public class HomeController : Controller
 
         model.ToEntity(user);
 
-        await _userServices.UpdateUserAsync(user , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/UserPanel");
     }
@@ -139,7 +140,7 @@ public class HomeController : Controller
         }
 
         user.PasswordHash = newPass;
-        await _userServices.UpdateUserAsync(user , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -172,7 +173,7 @@ public class HomeController : Controller
             avatar = await FileHelper.CreateFileAsync(avatarFile, directoryOfAvatar);
 
             user.UserAvatar = avatar;
-            await _userServices.UpdateUserAsync(user, cancellationToken);
+            await _transactions.SaveChangesAsync(cancellationToken);
 
             //Delete Old Image
             if (avatarName != "Default.png")

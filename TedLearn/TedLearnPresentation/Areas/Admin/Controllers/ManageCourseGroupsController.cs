@@ -11,9 +11,11 @@ public class ManageCourseGroupsController : Controller
     #region ConstructorInjection
 
     private readonly ICourseGroupServices _courseGroupServices;
-    public ManageCourseGroupsController(ICourseGroupServices courseGroupServices)
+    private readonly ITransactionDbContextServices _transactions;
+    public ManageCourseGroupsController(ICourseGroupServices courseGroupServices , ITransactionDbContextServices transactions)
     {
         _courseGroupServices = courseGroupServices;
+        _transactions = transactions;
     }
 
     #endregion
@@ -137,7 +139,7 @@ public class ManageCourseGroupsController : Controller
         #endregion
 
         group.Title = model.Title;
-        await _courseGroupServices.UpdateCourseGroupAsync(group , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/Admin/ManageCourseGroups/ShowGroups");
     }
@@ -298,7 +300,7 @@ public class ManageCourseGroupsController : Controller
         #endregion
 
         model.ToEntity(courseGroup);
-        await _courseGroupServices.UpdateCourseGroupAsync(courseGroup , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect($"/Admin/ManageCourseGroups/ShowSubGroups/{model.ParentId}");
     }
@@ -322,7 +324,7 @@ public class ManageCourseGroupsController : Controller
         if (group == null) return NotFound();
 
         group.IsDelete = true;
-        await _courseGroupServices.UpdateCourseGroupAsync(group , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect((parentId == 1) ? "/GetGroups/GetAllGroups" : $"/GetSubGroups/GetAllSubGroupsForGroup/{parentId}");
     }
@@ -343,7 +345,7 @@ public class ManageCourseGroupsController : Controller
         if (group == null) return NotFound();
 
         group.IsDelete = false;
-        await _courseGroupServices.UpdateCourseGroupAsync(group , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect((parentId == 1) ? "/GetGroups/GetAllDeletedGroups" : $"/GetSubGroups/GetAllDeletedSubGroupsForGroup/{parentId}");
     }

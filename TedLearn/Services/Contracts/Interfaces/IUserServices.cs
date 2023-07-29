@@ -24,7 +24,6 @@ public interface IUserServices
     Task<EditUserDto> GetUserForEditInAdminAsync(int userId, CancellationToken cancellationToken);
     Task<GetUserInformationDto> GetUserInformationAsync(int userId, CancellationToken cancellationToken);
 
-    Task<int> ExecuteInTransactionAsync(Services.TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false);
     Task AddUserAsync(User user, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
     Task UpdateUserAsync(User user, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
 }

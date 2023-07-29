@@ -8,6 +8,7 @@ public static class DependencyContainer
 {
     public static void RegisterServices(this IServiceCollection services)
     {
+        services.AddScoped<ITransactionDbContextServices , TransactionDbContextServices>();
         services.AddScoped<IUserServices, UserServices>();
         services.AddScoped<IPermissionServices, PermissionServices>();
         services.AddScoped<IUserPanelServices, UserPanelServices>();

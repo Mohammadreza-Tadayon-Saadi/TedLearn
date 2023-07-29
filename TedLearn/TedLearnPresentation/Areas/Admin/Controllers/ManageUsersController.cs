@@ -15,11 +15,14 @@ public class ManageUsersController : Controller
     private readonly IUserServices _userServices;
     private readonly IUserPanelServices _userPanelServices;
     private readonly IPermissionServices _permissionServices;
-    public ManageUsersController(IUserServices userServices, IPermissionServices permissionServices, IUserPanelServices userPanelServices)
+    private readonly ITransactionDbContextServices _transactions;
+    public ManageUsersController(IUserServices userServices, IPermissionServices permissionServices,
+        IUserPanelServices userPanelServices, ITransactionDbContextServices transactions)
     {
         _userServices = userServices;
         _permissionServices = permissionServices;
         _userPanelServices = userPanelServices;
+        _transactions = transactions;
     }
 
     #endregion
@@ -163,13 +166,15 @@ public class ManageUsersController : Controller
         model.ToEntity(user);
 
         // Both Methods Must Runs Without Error.If An Error Occures,The Transaction Will Be RollBacked. 
-        var result = await _userServices.ExecuteInTransactionAsync(async transaction =>
+        var result = await _transactions.ExecuteInTransactionAsync(async () =>
         {
-            await _userServices.UpdateUserAsync(user, cancellationToken);
+            // We Do Not Need To Update Whole User's Column
+            //await _userServices.UpdateUserAsync(user, cancellationToken , withSaveChanges:false);
 
             //Charge Wallet IF Amount Exists
             if (model.Amount.HasValue)
-                await _userPanelServices.ChargeWalletAsync(model.UserId, (decimal)model.Amount, "شارژ از طرف ادمین", cancellationToken);
+                await _userPanelServices.ChargeWalletAsync(model.UserId, (decimal)model.Amount, "شارژ از طرف ادمین" , cancellationToken 
+                    , isPay: true , withSaveChanges: false);
 
         }, cancellationToken, false);
 
@@ -188,7 +193,6 @@ public class ManageUsersController : Controller
     #endregion
 
 
-    //حذف کاربر مورد نظر
     #region DeleteUser
 
     [Route("/Admin/ManageUsers/DeleteUser/{userId:int}")]
@@ -201,7 +205,7 @@ public class ManageUsersController : Controller
         if (user == null) return NotFound();
 
         user.IsDelete = true;
-        await _userServices.UpdateUserAsync(user, cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/GetUsers/GetAllUsers");
     }
@@ -209,7 +213,6 @@ public class ManageUsersController : Controller
     #endregion
 
 
-    //بازگردانی کاربری که حذف شده
     #region RestoreUser
 
     [Route("/Admin/ManageUsers/RestoreUser/{userId:int}")]
@@ -222,7 +225,7 @@ public class ManageUsersController : Controller
         if (user == null) return NotFound();
 
         user.IsDelete = false;
-        await _userServices.UpdateUserAsync(user, cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/GetUsers/GetDeletedUsers");
     }
@@ -230,7 +233,6 @@ public class ManageUsersController : Controller
     #endregion
 
 
-    //کاربرانی که حذف شده اند
     #region DeletedUsers
 
     [Route("/Admin/ManageUsers/DeletedUsers")]

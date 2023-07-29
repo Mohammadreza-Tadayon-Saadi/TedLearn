@@ -3,7 +3,6 @@ using Data.Entities.Persons.Roles;
 using Data.Entities.Products.Courses;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Services.Contracts.Interfaces;
 using Services.DTOs.AdminPanel.Course;
 
 namespace Services.Contracts.Services;
@@ -12,14 +11,17 @@ public class CourseServices : BaseServices<Course>, ICourseServices
 {
     #region ConstructorInjection
 
-    private DbSet<CourseStatus> _courseStatus;
-    private DbSet<UserRole> _userRole;
-    private ICourseGroupServices _courseGroupServices;
-    public CourseServices(TedLearnContext context , ICourseGroupServices courseGroupServices) : base(context)
+    private readonly DbSet<CourseStatus> _courseStatus;
+    private readonly DbSet<UserRole> _userRole;
+    private readonly ICourseGroupServices _courseGroupServices;
+    private readonly ITransactionDbContextServices _transactions;
+    
+    public CourseServices(TedLearnContext context , ICourseGroupServices courseGroupServices , ITransactionDbContextServices transactions) : base(context)
     {
         _courseStatus = _context.Set<CourseStatus>();
         _userRole = _context.Set<UserRole>();
         _courseGroupServices = courseGroupServices;
+        _transactions = transactions;
     }
 
     #endregion
@@ -101,7 +103,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
         await Entity.AddAsync(course, cancellationToken);
 
         if (withSaveChanges)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     public async Task UpdateCourseAsync(Course course, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
@@ -109,6 +111,6 @@ public class CourseServices : BaseServices<Course>, ICourseServices
         Entity.Update(course);
 
         if (withSaveChanges)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 }

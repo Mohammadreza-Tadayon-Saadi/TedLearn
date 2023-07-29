@@ -11,9 +11,11 @@ public class ManageRolesController : Controller
     #region ConstructorInjection
 
     private readonly IPermissionServices _permissionServices;
-    public ManageRolesController(IPermissionServices permissionServices)
+    private readonly ITransactionDbContextServices _transactions;
+    public ManageRolesController(IPermissionServices permissionServices , ITransactionDbContextServices transactions)
     {
         _permissionServices = permissionServices;
+        _transactions = transactions;
     }
 
     #endregion
@@ -132,7 +134,7 @@ public class ManageRolesController : Controller
         #region UpdateRole
 
         model.ToEntity(role);
-        await _permissionServices.UpdateRoleAsync(role, cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         #endregion
 
@@ -142,7 +144,6 @@ public class ManageRolesController : Controller
     #endregion 
 
 
-    //حذف و یا بازگردانی نقش مورد نظر
     #region Delete And Restore Role
 
     [Route("/Admin/ManageRoles/DeleteRole/{roleId:int}")]
@@ -154,7 +155,7 @@ public class ManageRolesController : Controller
         if (role == null) return NotFound();
 
         role.IsDelete = true;
-        await _permissionServices.UpdateRoleAsync(role , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/GetRoles/GetAllRoles");
     }
@@ -168,7 +169,7 @@ public class ManageRolesController : Controller
         if (role == null) return NotFound();
 
         role.IsDelete = false;
-        await _permissionServices.UpdateRoleAsync(role, cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/GetRoles/GetDeletedRoles");
     }
@@ -176,7 +177,6 @@ public class ManageRolesController : Controller
     #endregion
 
 
-    //نقش هایی که حذف شده اند
     #region DeletedRole
 
     [Route("/Admin/ManageRoles/DeletedRole")]

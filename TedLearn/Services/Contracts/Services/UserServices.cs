@@ -12,9 +12,11 @@ public class UserServices : BaseServices<User>, IUserServices
     #region ConstructorInjection
 
     private readonly IPermissionServices _permissionServices;
-    public UserServices(TedLearnContext context, IPermissionServices permissionServices) : base(context)
+    private readonly ITransactionDbContextServices _transactions;
+    public UserServices(TedLearnContext context, IPermissionServices permissionServices, ITransactionDbContextServices transactions) : base(context)
     {
         _permissionServices = permissionServices;
+        _transactions = transactions;
     }
 
     #endregion
@@ -42,7 +44,7 @@ public class UserServices : BaseServices<User>, IUserServices
 
     public async Task SignUpUserAsync(User user, CancellationToken cancellationToken, bool configureAwait = false)
     {
-        await ExecuteInTransactionAsync(async transaction =>
+        await _transactions.ExecuteInTransactionAsync(async () =>
         {
             await AddUserAsync(user, cancellationToken, withSaveChanges: false, configureAwait);
             await _permissionServices.AddNewUserRoleAsync(user.UserId, cancellationToken, withSaveChanges: false, configureAwait);
@@ -76,7 +78,9 @@ public class UserServices : BaseServices<User>, IUserServices
         var user = await GetUserByPhoneNumberAsync(phoneNumber, cancellationToken);
         user.ActiveCode = activeCode;
         user.CreateActiveCode = DateTime.Now;
-        await UpdateUserAsync(user, cancellationToken, withSaveChanges, configureAwait);
+        
+        if(withSaveChanges)
+            await _transactions.SaveChangesAsync(cancellationToken , configureAwait);
     }
 
     public async Task<User> CheckUserForLoginAsync(int userId, string password, CancellationToken cancellationToken, bool withTracking = false)
@@ -152,15 +156,13 @@ public class UserServices : BaseServices<User>, IUserServices
 
 
 
-    public async Task<int> ExecuteInTransactionAsync(Services.TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false)
-        => await base.ExecuteInTransactionAsync(transactionalDelegate, cancellationToken, configureAwait);
 
     public async Task AddUserAsync(User user, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
     {
         await Entity.AddAsync(user, cancellationToken);
 
         if (withSaveChanges)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     public async Task UpdateUserAsync(User user, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
@@ -168,6 +170,6 @@ public class UserServices : BaseServices<User>, IUserServices
         Entity.Update(user);
 
         if (withSaveChanges)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 }

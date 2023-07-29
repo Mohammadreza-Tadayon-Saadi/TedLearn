@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Services.DTOs.Account;
-using Services.Contracts.Interfaces;
 
 namespace TedLearnPresentation.Controllers;
 
@@ -15,12 +14,15 @@ public class AccountController : Controller
 
     private readonly IUserServices _userServices;
     private readonly IPermissionServices _permissionServices;
+    private readonly ITransactionDbContextServices _transactions;
     private readonly double expirationActivateCodeTime;
-    public AccountController(IUserServices userServices, IConfiguration configuration, IPermissionServices permissionServices)
+    public AccountController(IUserServices userServices, IConfiguration configuration, 
+        IPermissionServices permissionServices, ITransactionDbContextServices transactions)
     {
         _userServices = userServices;
-        expirationActivateCodeTime = Double.Parse(configuration.GetSection("ExpirationActivateCode").Value);
         _permissionServices = permissionServices;
+        _transactions = transactions;
+        expirationActivateCodeTime = Double.Parse(configuration.GetSection("ExpirationActivateCode").Value);
     }
 
     #endregion
@@ -109,7 +111,7 @@ public class AccountController : Controller
 
         //TODO Send SMS(totpCode)
 
-        await _userServices.AddActiveCodForUserAsync(phone, activeCodeForUser, cancellationToken , false);
+        await _userServices.AddActiveCodForUserAsync(phone, activeCodeForUser, cancellationToken);
 
         ViewBag.ForgetPassword = forgetPassword;
         model.ExpirationTime = DateTime.Now.AddSeconds(expirationActivateCodeTime);
@@ -148,7 +150,7 @@ public class AccountController : Controller
         #endregion Validation Active Code
 
         user.PhoneNumberConfirmed = true;
-        await _userServices.UpdateUserAsync(user , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         #region SignInUser
 
@@ -317,7 +319,7 @@ public class AccountController : Controller
         }
 
         user.PasswordHash = newHashPass;
-        await _userServices.UpdateUserAsync(user, cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         #region SignInUser
 

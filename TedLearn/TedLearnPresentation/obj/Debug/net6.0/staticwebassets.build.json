@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "W7d/ShmCx2AI5mZ11EQf370HJIqN4Ya6Zj29TAvQVXc=",
+  "Hash": "hLi/+WnZIQD7fIVXCIItorGN2iwob7UOCldqnduWt+g=",
   "Source": "TedLearnPresentation",
   "BasePath": "_content/TedLearnPresentation",
   "Mode": "Default",
@@ -918,12 +918,12 @@
       "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\tooltips.js"
     },
     {
-      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\048568cfb35f4dd3a5c5334149d3869d.mp4",
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\b6fca44abe724443a9dc2568a215efe1.mp4",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
       "BasePath": "_content/TedLearnPresentation",
-      "RelativePath": "Courses/course-demos/048568cfb35f4dd3a5c5334149d3869d.mp4",
+      "RelativePath": "Courses/course-demos/b6fca44abe724443a9dc2568a215efe1.mp4",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -932,7 +932,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\Courses\\course-demos\\048568cfb35f4dd3a5c5334149d3869d.mp4"
+      "OriginalItemSpec": "wwwroot\\Courses\\course-demos\\b6fca44abe724443a9dc2568a215efe1.mp4"
     },
     {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg",

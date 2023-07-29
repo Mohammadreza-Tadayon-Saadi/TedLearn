@@ -12,10 +12,13 @@ public class ManageCoursesController : Controller
 
     private readonly ICourseGroupServices _courseGroupServices;
     private readonly ICourseServices _courseServices;
-    public ManageCoursesController(ICourseServices courseServices , ICourseGroupServices courseGroupServices)
+    private readonly ITransactionDbContextServices _transactions;
+    public ManageCoursesController(ICourseServices courseServices , ICourseGroupServices courseGroupServices , 
+        ITransactionDbContextServices transactions)
     {
         _courseServices = courseServices;
         _courseGroupServices = courseGroupServices;
+        _transactions = transactions;
     }
 
     #endregion
@@ -228,7 +231,7 @@ public class ManageCoursesController : Controller
         course.CoursePrice = ((model.CoursePrice != null) ? (decimal)model.CoursePrice : 0);
         course.CourseDescription = model.Description.SanitizeText();
 
-        await _courseServices.UpdateCourseAsync(course , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         #endregion
 
@@ -256,7 +259,7 @@ public class ManageCoursesController : Controller
         if (course == null) return NotFound();
 
         course.IsDelete = true;
-        await _courseServices.UpdateCourseAsync(course , cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/GetCourses/GetAllCourses");
     }
@@ -276,7 +279,7 @@ public class ManageCoursesController : Controller
         if (course == null) return NotFound();
 
         course.IsDelete = false;
-        await _courseServices.UpdateCourseAsync(course,cancellationToken);
+        await _transactions.SaveChangesAsync(cancellationToken);
 
         return Redirect("/GetCourses/GetDeletedCourses");
     }

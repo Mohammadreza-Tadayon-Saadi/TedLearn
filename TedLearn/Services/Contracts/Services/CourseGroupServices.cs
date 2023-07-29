@@ -10,8 +10,10 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
 {
     #region ConstructorInjection
 
-    public CourseGroupServices(TedLearnContext context) : base(context)
+    private readonly ITransactionDbContextServices _transactions;
+    public CourseGroupServices(TedLearnContext context, ITransactionDbContextServices transactions) : base(context)
     {
+        _transactions = transactions;
     }
 
     #endregion ConstructorInjection
@@ -76,7 +78,7 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
         await Entity.AddAsync(courseGroup, cancellationToken);
 
         if (withSaveChanges)
-           await SaveChangesAsync(cancellationToken, configureAwait);
+           await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     public async Task UpdateCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
@@ -84,6 +86,6 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
         Entity.Update(courseGroup);
 
         if (withSaveChanges)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 }

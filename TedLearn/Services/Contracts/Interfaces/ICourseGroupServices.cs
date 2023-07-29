@@ -1,7 +1,6 @@
 ﻿using Data.Entities.Products.Courses;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Services.DTOs.AdminPanel.Course.CourseGroup;
-using System.Threading;
 
 namespace Services.Contracts.Interfaces;
 

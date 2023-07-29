@@ -10,9 +10,11 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
     #region ConstructorInjection
 
     private DbSet<UserRole> _userRole;
-    public PermissionServices(TedLearnContext context) : base(context)
+    private readonly ITransactionDbContextServices _transactions;
+    public PermissionServices(TedLearnContext context, ITransactionDbContextServices transactions) : base(context)
     {
         _userRole = _context.Set<UserRole>();
+        _transactions = transactions;
     }
 
     #endregion
@@ -73,14 +75,14 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
         await Entity.AddAsync(role, cancellationToken);
 
         if (withSaveChanges)
-           await SaveChangesAsync(cancellationToken, configureAwait);
+           await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     public async Task UpdateRoleAsync(Role role, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
     {
         Entity.Update(role);
         if (withSaveChanges)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     #endregion Role
@@ -111,7 +113,7 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
         await _userRole.AddAsync(userRole, cancellationToken);
 
         if (withSaveChange)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     public async Task DeleteRoleFromUserAsync(UserRole userRole, CancellationToken cancellationToken, bool withSaveChange = true, bool configureAwait = false)
@@ -119,7 +121,7 @@ public class PermissionServices : BaseServices<Role>, IPermissionServices
         _userRole.Remove(userRole);
 
         if (withSaveChange)
-            await SaveChangesAsync(cancellationToken, configureAwait);
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
     #endregion UserRole
