@@ -1,4 +1,6 @@
-﻿namespace Services.DTOs.AdminPanel.Course.CourseGroup;
+﻿using Core.Utilities;
+
+namespace Services.DTOs.AdminPanel.Course.CourseGroup;
 
 public class EditGroupDto : BaseDto<EditGroupDto , Data.Entities.Products.Courses.CourseGroup>
 {
@@ -9,6 +11,6 @@ public class EditGroupDto : BaseDto<EditGroupDto , Data.Entities.Products.Course
 
     public override void CustomMappings(IMappingExpression<Data.Entities.Products.Courses.CourseGroup, EditGroupDto> mapping)
     {
-        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(cg => Convert.ToBase64String(cg.Version)));
+        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(cg => cg.Version.ToBase64String()));
     }
 }

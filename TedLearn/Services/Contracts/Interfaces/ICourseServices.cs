@@ -6,14 +6,17 @@ namespace Services.Contracts.Interfaces;
 
 public interface ICourseServices
 {
-    Task<IEnumerable<ShowCourseDto>> GetCoursesAsync(CancellationToken cancellationToken , bool? isDeleted = null);
-    Task<ShowDetailsCourseDto> GetCourseDetailsAsync(int courseId, CancellationToken cancellationToken);
-    Task<IEnumerable<SelectListItem>> GetTeacherListAsync(CancellationToken cancellationToken);
-    Task<IEnumerable<SelectListItem>> GetStatusListAsync(CancellationToken cancellationToken); // Get Status For Course
-    Task<EditCourseDto> GetCourseForEditAsync(int courseId , CancellationToken cancellationToken);
-    Task GetSelectListsForCourseAsync(EditCourseDto dto , CancellationToken cancellationToken);
-    Task<Course> GetCourseByIdAsync(int courseId, CancellationToken cancellationToken, bool withTracking = true, bool? getActive = null);
+    Task<IEnumerable<ShowCourseDto>> GetCoursesAsync(CancellationToken cancellationToken = default , bool? isDeleted = null);
+    Task<ShowDetailsCourseDto> GetCourseDetailsAsync(int courseId, CancellationToken cancellationToken = default);
+    Task<IEnumerable<SelectListItem>> GetTeacherListAsync(CancellationToken cancellationToken = default);
+    Task<IEnumerable<SelectListItem>> GetStatusListAsync(CancellationToken cancellationToken = default); // Get Status For Course
+    Task<EditCourseDto> GetCourseForEditAsync(int courseId , CancellationToken cancellationToken = default);
+    Task GetSelectListsForCourseAsync(EditCourseDto dto , CancellationToken cancellationToken = default);
+    Task<Course> GetCourseByIdAsync(int courseId, CancellationToken cancellationToken = default, bool withTracking = true, bool? getActive = null);
+    Task<bool> IsCourseExistAsync(int courseId , CancellationToken cancellationToken = default);
+    Task<IEnumerable<SelectListItem>> GetCourseSelectListAsync(CancellationToken cancellationToken = default);
+    Task<bool> IsCourseFreeAsync(int courseId, CancellationToken cancellationToken = default);
 
-    Task AddCourseAsync(Course course, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
-    Task UpdateCourseAsync(Course course, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
+    Task AddCourseAsync(Course course, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);
+    Task UpdateCourseAsync(Course course, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);
 }

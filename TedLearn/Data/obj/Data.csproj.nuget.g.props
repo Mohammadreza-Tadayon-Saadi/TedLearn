@@ -18,6 +18,5 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Tedi\.nuget\packages\microsoft.entityframeworkcore.tools\6.0.19</PkgMicrosoft_EntityFrameworkCore_Tools>
-    <PkgMediaInfoDotNet Condition=" '$(PkgMediaInfoDotNet)' == '' ">C:\Users\Tedi\.nuget\packages\mediainfodotnet\0.7.79.40925</PkgMediaInfoDotNet>
   </PropertyGroup>
 </Project>

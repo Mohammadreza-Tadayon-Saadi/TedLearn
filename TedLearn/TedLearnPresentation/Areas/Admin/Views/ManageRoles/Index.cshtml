@@ -11,9 +11,11 @@
                     <h6 class="dark:text-white">@ViewData["Title"]</h6>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
-                    <div class="btn-add-role">
-                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageRoles" asp-action="AddRole" target="_blank">افزودن نقش جدید</a>
-                        <a class="mr-4 px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageRoles" asp-action="DeletedRole" target="_blank">نقش های حذف شده</a>
+                    <div class="header-options">
+                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageRoles" asp-action="AddRole">افزودن نقش جدید</a>
+                        <form id="form-role" action="/Admin/ManageRoles/GetRoles/GetDeletedRoles" method="post" class="deleted-or-active-group">
+                            <button type="button" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px"> نقش های حذف شده </button>
+                        </form>
                     </div>
                     <div class="py-2 px-1 overflow-x-auto ps">
 
@@ -38,6 +40,6 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $("#result").load("/GetRoles/GetAllRoles");
+        $("#result").load("/Admin/ManageRoles/GetRoles/GetAllRoles");
     </script>
 }

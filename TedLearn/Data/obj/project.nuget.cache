@@ -1,15 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "83ehpe74rGmOTdvTcevysiIQxcW9J+LWD3LIcq/K7l/zkHneDPvdb0cKO4XCkGGZjZUFMo7K1So3zeoiwfK/jw==",
+  "dgSpecHash": "phgcvUT5LOZDwCOIlOnvj4j4F2/Wjckrnxc/WMcMP9qodRGmQe/X+acTYZFjzzhN7cgUQ7Z1npf2nzPsJhYKJQ==",
   "success": true,
   "projectFilePath": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\Data\\Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tedi\\.nuget\\packages\\advancedstringbuilder\\0.1.0\\advancedstringbuilder.0.1.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\ffmpeg.autogen\\6.0.0.2\\ffmpeg.autogen.6.0.0.2.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\ffmpegcore\\5.1.0\\ffmpegcore.5.1.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\htmlsanitizer\\8.0.645\\htmlsanitizer.8.0.645.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
-    "C:\\Users\\Tedi\\.nuget\\packages\\mediainfodotnet\\0.7.79.40925\\mediainfodotnet.0.7.79.40925.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\instances\\3.0.0\\instances.3.0.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
@@ -53,21 +55,12 @@
     "C:\\Users\\Tedi\\.nuget\\packages\\system.security.permissions\\4.7.0\\system.security.permissions.4.7.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
+    "C:\\Users\\Tedi\\.nuget\\packages\\system.text.json\\7.0.2\\system.text.json.7.0.2.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\webmarkupmin.aspnet.common\\2.14.0\\webmarkupmin.aspnet.common.2.14.0.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\webmarkupmin.aspnetcore6\\2.14.1\\webmarkupmin.aspnetcore6.2.14.1.nupkg.sha512",
     "C:\\Users\\Tedi\\.nuget\\packages\\webmarkupmin.core\\2.14.0\\webmarkupmin.core.2.14.0.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'MediaInfoDotNet 0.7.79.40925' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
-      "libraryId": "MediaInfoDotNet",
-      "targetGraphs": [
-        "net6.0"
-      ]
-    }
-  ]
+  "logs": []
 }

@@ -7,8 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FFmpeg.AutoGen" Version="6.0.0.2" />
+    <PackageReference Include="FFMpegCore" Version="5.1.0" />
     <PackageReference Include="HtmlSanitizer" Version="8.0.645" />
-    <PackageReference Include="MediaInfoDotNet" Version="0.7.79.40925" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.19" />
     <PackageReference Include="SharpCompress" Version="0.33.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />

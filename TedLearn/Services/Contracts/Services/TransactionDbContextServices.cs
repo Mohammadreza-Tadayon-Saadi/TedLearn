@@ -14,10 +14,11 @@ public class TransactionDbContextServices : ITransactionDbContextServices
 
     #endregion
 
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken, bool configureAwait = false) => await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(configureAwait);
+    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default, bool configureAwait = false) 
+        => await _context.SaveChangesAsync(cancellationToken).ConfigureAwait(configureAwait);
     public int SaveChanges() => _context.SaveChanges();
 
-    public async Task<int> ExecuteInTransactionAsync(TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false)
+    public async Task<int> ExecuteInTransactionAsync(TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken = default, bool configureAwait = false)
     {
         using (var transaction = await _context.Database.BeginTransactionAsync(cancellationToken))
         {

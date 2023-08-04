@@ -9,9 +9,9 @@ public class BaseServices<TEntity> where TEntity : class, IEntity, new()
     #region ConstructorInjection
 
     protected readonly TedLearnContext _context;
-    public DbSet<TEntity> Entity { get; }
-    public virtual IQueryable<TEntity> Table => Entity;
-    public virtual IQueryable<TEntity> TableNoTracking => Entity.AsNoTracking();
+    protected DbSet<TEntity> Entity { get; }
+    protected virtual IQueryable<TEntity> Table => Entity;
+    protected virtual IQueryable<TEntity> TableNoTracking => Entity.AsNoTracking();
     public BaseServices(TedLearnContext context)
     {
         _context = context;

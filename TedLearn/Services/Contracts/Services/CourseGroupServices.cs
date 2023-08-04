@@ -18,17 +18,17 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
 
     #endregion ConstructorInjection
 
-    public async Task<IEnumerable<ShowCourseGroupDto>> GetGroupsAsync(CancellationToken cancellationToken, bool? isDeleted = null)
+    public async Task<IEnumerable<ShowCourseGroupDto>> GetGroupsAsync(CancellationToken cancellationToken = default, bool? isDeleted = null)
         => await ShowCourseGroupDto.ProjectTo(TableNoTracking.Where(cg => cg.SubGroupId == 1 && ((isDeleted.HasValue) ? cg.IsDelete == isDeleted : true)))
                      .ToListAsync(cancellationToken);
 
-    public async Task<bool> IsCourseGroupExistAsync(string title, CancellationToken cancellationToken)
+    public async Task<bool> IsCourseGroupExistAsync(string title, CancellationToken cancellationToken = default)
         => await TableNoTracking.Where(cg => cg.Title == title).AnyAsync(cancellationToken);
 
-    public async Task<bool> IsCourseGroupExistAsync(int groupId, CancellationToken cancellationToken)
+    public async Task<bool> IsCourseGroupExistAsync(int groupId, CancellationToken cancellationToken = default)
         => await TableNoTracking.Where(cg => cg.GroupId == groupId).AnyAsync(cancellationToken);
 
-    public async Task<EditGroupDto> GetGroupForEditAsync(int groupId, CancellationToken cancellationToken)
+    public async Task<EditGroupDto> GetGroupForEditAsync(int groupId, CancellationToken cancellationToken = default)
         => await EditGroupDto.ProjectTo(TableNoTracking.Where(cg => cg.GroupId == groupId))
                     .SingleOrDefaultAsync(cancellationToken);
 
@@ -40,11 +40,11 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
             return await TableNoTracking.Where(cg => cg.GroupId == groupId).SingleOrDefaultAsync(cancellation);
     }
 
-    public async Task<IEnumerable<ShowCourseGroupDto>> GetAllSubGroupsForGroupAsync(int groupId, CancellationToken cancellationToken, bool? isDeleted = null)
+    public async Task<IEnumerable<ShowCourseGroupDto>> GetAllSubGroupsForGroupAsync(int groupId, CancellationToken cancellationToken = default, bool? isDeleted = null)
         => await ShowCourseGroupDto.ProjectTo(TableNoTracking.Where(cg => cg.SubGroupId == groupId && ((isDeleted.HasValue) ? cg.IsDelete == isDeleted : true)))
                     .ToListAsync(cancellationToken);
 
-    public async Task<IEnumerable<SelectListItem>> GetGroupListAsync(CancellationToken cancellationToken, int? parentId = null)
+    public async Task<IEnumerable<SelectListItem>> GetGroupListAsync(CancellationToken cancellationToken = default, int? parentId = null)
     {
         if(parentId.HasValue)
             return await TableNoTracking.Where(cg => cg.SubGroupId == 1 && !cg.IsDelete)
@@ -63,7 +63,7 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
                                 }).ToListAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<SelectListItem>> GetSubGroupListForGroup(int groupId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<SelectListItem>> GetSubGroupListForGroup(int groupId, CancellationToken cancellationToken = default)
         => await TableNoTracking.Where(cg => cg.SubGroupId == groupId && !cg.IsDelete)
                         .Select(cg => new SelectListItem()
                         {
@@ -73,7 +73,7 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
 
 
 
-    public async Task AddCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
+    public async Task AddCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false)
     {
         await Entity.AddAsync(courseGroup, cancellationToken);
 
@@ -81,7 +81,7 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
-    public async Task UpdateCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
+    public async Task UpdateCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false)
     {
         Entity.Update(courseGroup);
 

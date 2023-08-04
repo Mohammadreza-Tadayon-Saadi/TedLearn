@@ -11,9 +11,9 @@
                     <h6 class="dark:text-white">@ViewData["Title"]</h6>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
-                    <div class="btn-add-role">
-                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageCourses" asp-action="AddCourse" target="_blank">افزودن دوره جدید</a>
-                        <form id="form-info" class="get-course" method="post" asp-controller="ManageCourses" asp-action="GetCourses" asp-route-message="GetDeletedCourses" class="deleted-or-active-group">
+                    <div class="header-options">
+                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageCourses" asp-action="AddCourse">افزودن دوره جدید</a>
+                        <form id="form-info" class="get-course" method="post" action="/Admin/ManageCourses/GetCourses/GetDeletedCourses" class="deleted-or-active-group">
                             <button type="button" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px"> دوره های حذف شده </button>
                         </form>
                     </div>
@@ -43,19 +43,18 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $("#result").load("/GetCourses/GetAllCourses");
+        $("#result").load("/Admin/ManageCourses/GetCourses/GetAllCourses");
 
         const frm = document.querySelector('.get-course');
         const btn = frm.querySelector('button');
         btn.addEventListener('click' , function(){
             let action = frm.getAttribute('action');
-            if (action === '/GetCourses/GetDeletedCourses')
-            {
-                frm.setAttribute('action', '/GetCourses/GetAllCourses');
+            if (action === '/Admin/ManageCourses/GetCourses/GetDeletedCourses') {
+                frm.setAttribute('action', '/Admin/ManageCourses/GetCourses/GetAllCourses');
                 btn.innerText = 'دوره های فعال';
             }
             else{
-                frm.setAttribute('action', '/GetCourses/GetDeletedCourses');
+                frm.setAttribute('action', '/Admin/ManageCourses/GetCourses/GetDeletedCourses');
                 btn.innerText = 'دوره های حذف شده ';
             }
         });

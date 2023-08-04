@@ -1,10 +1,8 @@
 ﻿using Core.Generators;
-using MediaInfoLib;
 using Microsoft.AspNetCore.Http;
 using SharpCompress.Archives;
 using SharpCompress.Common;
 using System.Drawing;
-using System.IO;
 
 namespace Core.Utilities;
 
@@ -66,25 +64,41 @@ public static class FileChecker
         var file = new FileInfo(videoFile.FileName.ToLower());
         var extention = file.Extension;
 
-        var extentions = new[] { ".mp4", ".mkv" , "mov" };
+        var extentions = new[] { ".mp4", ".mkv", "avi" };
 
         if (extentions.Contains(extention.ToLower()))
         {
+            // List of known video MIME types
+            var videoMimeTypes = new[] { "video/mp4", "video/avi", "video/mkv" };//, "video/quicktime" };
+
+            // Check if the file MIME type is a known video MIME type
+            if (!videoMimeTypes.Contains(videoFile.ContentType))
+                // The file is not a video file
+                return false;
+
             try
             {
-                var mediaInfo = new MediaInfo();
-                mediaInfo.Open(file.FullName);
-                var duration = mediaInfo.Get(StreamKind.Video, 0, "Duration");
-                var format = mediaInfo.Get(StreamKind.General, 0, "Format");
-                mediaInfo.Close();
-
-                if (duration.HasValue() && format.HasValue())
+                // Read the first few bytes of the file
+                var signatureBytes = new byte[4];
+                using (var stream = videoFile.OpenReadStream())
                 {
-                    //var knownVideoFormats = new[] { "avi", "mp4", "mkv", "wmv", "mov" };
-                    // Check if the duration is greater than zero
-                    if (double.TryParse(duration, out var durationInSeconds) && durationInSeconds > 0)
-                        return true;
+                    stream.Read(signatureBytes, 0, signatureBytes.Length);
                 }
+
+                // List of known video file signatures
+                var videoSignatures = new[] { 
+                    new byte[] { 0x00, 0x00, 0x00, 0x18 }, // MP4
+                    new byte[] { 0x52, 0x49, 0x46, 0x46 }, // AVI
+                    new byte[] { 0x1a, 0x45, 0xdf, 0xa3 }, // Matroska (MKV)
+                };
+                //new byte[] { 0x00, 0x00, 0x00, 0x14 }, }; // QuickTime
+
+                // Check if the file signature matches a known video file signature
+                if (!videoSignatures.Any(s => s.SequenceEqual(signatureBytes)))
+                    // The file is not a video file
+                    return false;
+
+                return true;
             }
             catch
             {
@@ -95,18 +109,28 @@ public static class FileChecker
         return false;
     }
 
-    public static bool IsRarFile(IFormFile iFile)
+    public static bool IsRarFile(IFormFile rarFile)
     {
-        var file = new FileInfo(iFile.FileName.ToLower());
+        var file = new FileInfo(rarFile.FileName.ToLower());
         var extention = file.Extension;
 
-        if (extention == ".rar")
+        var extentions = new[] { ".rar" };
+
+        if (extentions.Contains(extention.ToLower()))
         {
+            var tempFilePath = Path.GetTempFileName();
+            using (var stream = new FileStream(tempFilePath, FileMode.Create))
+            {
+                rarFile.CopyTo(stream);
+            }
+
             try
             {
-                using (var archive = ArchiveFactory.Open(file.FullName))
+                using (var archive = ArchiveFactory.Open(tempFilePath))
                 {
-                    return archive.Type == ArchiveType.Rar;
+                    var isRarFile = archive.Type == ArchiveType.Rar;
+
+                    return isRarFile;
                 }
             }
             catch
@@ -114,8 +138,14 @@ public static class FileChecker
                 // If an exception is thrown, the file is not a valid archive
                 return false;
             }
+            finally
+            {
+                if (File.Exists(tempFilePath))
+                    File.Delete(tempFilePath);
+            }
         }
 
         return false;
     }
+
 }

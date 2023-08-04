@@ -24,10 +24,10 @@ public class AddCourseValidator : AbstractValidator<AddCourseDto>
         RuleFor(c => c.LevelId)
             .NotEmpty().WithMessage("لطفا سطح دوره را انتخاب کنید.");
 
-        //RuleFor(c => c.DemoFile).Cascade(CascadeMode.Stop)
-        //    .NotEmpty().WithMessage("لطفا پیش نمایش دوره را وارد کنید.")
-        //    .Must(c => FileChecker.IsVideo(c)).WithMessage("لطفا فقط ویدیو بارگذاری کنید.");
-        
+        RuleFor(c => c.DemoFile).Cascade(CascadeMode.Stop)
+            .NotEmpty().WithMessage("لطفا پیش نمایش دوره را وارد کنید.")
+            .Must(c => FileChecker.IsVideo(c)).WithMessage("لطفا فقط ویدیو بارگذاری کنید.");
+
         RuleFor(c => c.ImageFile).Cascade(CascadeMode.Stop)
             .NotEmpty().WithMessage("لطفا عکس دوره را وارد کنید.")
             .Must(c => FileChecker.IsImage(c)).WithMessage("لطفا فقط عکس بارگذاری کنید.");

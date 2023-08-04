@@ -13,9 +13,9 @@
                     <h6 class="dark:text-white">@ViewData["Title"]</h6>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
-                    <div class="btn-add-role">
-                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageCourseGroups" asp-action="ShowGroups" target="_blank">مدیریت گروه ها</a>
-                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageCourseGroups" asp-action="ShowSubGroups" asp-route-ParentId="@Model.ParentId" target="_blank">مدیریت زیرگروه ها</a>
+                    <div class="header-options">
+                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageCourseGroups" asp-action="ShowGroups">مدیریت گروه ها</a>
+                        <button id="back-page" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px">مدیریت زیرگروه ها</button>
                     </div>
                     <div class="py-2 px-1 overflow-x-auto ps">
                         <form asp-controller="ManageCourseGroups" asp-action="AddSubGroup" method="post" id="form" class="grid grid-cols-1 gap-6 text-sm w-full sm:w-11/12">
@@ -52,5 +52,5 @@
 </div>
 
 @section Scripts{
-    <script src="/AdminStyles/js/ManageCourseGroups/addOrEditCourseGroups.js"></script>
+    <script asp-append-version="true" src="/AdminStyles/js/ManageCourseGroups/addOrEditCourseGroups.js"></script>
 }

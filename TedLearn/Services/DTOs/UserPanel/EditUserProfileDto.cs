@@ -1,4 +1,5 @@
-﻿using Data.Entities.Persons.Users;
+﻿using Core.Utilities;
+using Data.Entities.Persons.Users;
 
 namespace Services.DTOs.UserPanel;
 
@@ -14,6 +15,6 @@ public class EditUserProfileDto : BaseDto<EditUserProfileDto, User>
 
     public override void CustomMappings(IMappingExpression<User, EditUserProfileDto> mapping)
     {
-        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(u => Convert.ToBase64String(u.Version)));
+        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(u => u.Version.ToBase64String()));
     }
 }

@@ -8,7 +8,7 @@
     </tr>
 }
 
-else @if (Model.Users.Any(r => r.IsDelete))
+else if (Model.Users.Any(r => r.IsDelete))
 {
     foreach (var item in Model.Users)
     {
@@ -43,7 +43,7 @@ else @if (Model.Users.Any(r => r.IsDelete))
                 <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.RegisterDate.MiladiToShamsi()</span>
             </td>
             <td class="p-2 py-20px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                <form id="form-info" method="post" asp-controller="ManageUsers" asp-action="RestoreUser" asp-route-userId="@item.UserId">
+                <form id="form-info" method="post" action="/Admin/ManageUsers/RestoreUser/@item.UserId">
                     @Html.AntiForgeryToken()
                     <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> بازگردانی </button>
                 </form>
@@ -103,12 +103,12 @@ else
                 <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.RegisterDate.MiladiToShamsi()</span>
             </td>
             <td class="p-2 py-20px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                <form id="form-info" method="post" asp-controller="ManageUsers" asp-action="GetUserInformation" asp-route-userId="@item.UserId">
+                <form id="form-info" method="post" action="/Admin/ManageUsers/GetUserInformation/@item.UserId">
                     @Html.AntiForgeryToken()
                     <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> جزییات </button>
                 </form>
                 <a asp-controller="ManageUsers" asp-action="EditUser" asp-route-userId="@item.UserId" class="text-xs rounded-lg mx-2 py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> ویرایش </a>
-                <form id="form-info" method="post" asp-controller="ManageUsers" asp-action="DeleteUser" asp-route-userId="@item.UserId">
+                <form id="form-info" method="post" action="/Admin/ManageUsers/DeleteUser/@item.UserId">
                     @Html.AntiForgeryToken()
                     <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> حذف </button>
                 </form>

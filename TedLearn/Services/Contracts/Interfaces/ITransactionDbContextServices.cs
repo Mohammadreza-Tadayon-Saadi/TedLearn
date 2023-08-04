@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Services.Contracts.Interfaces;
+﻿namespace Services.Contracts.Interfaces;
 public interface ITransactionDbContextServices
 {
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken, bool configureAwait = false);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default, bool configureAwait = false);
     int SaveChanges();
-    Task<int> ExecuteInTransactionAsync(TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken, bool configureAwait = false);
+    Task<int> ExecuteInTransactionAsync(TransactionalDelegate transactionalDelegate, CancellationToken cancellationToken = default, bool configureAwait = false);
 }
 
 public delegate Task TransactionalDelegate();

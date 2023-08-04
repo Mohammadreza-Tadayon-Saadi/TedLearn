@@ -11,9 +11,11 @@
                     <h6 class="dark:text-white">@ViewData["Title"]</h6>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
-                    <div class="btn-add-role">
+                    <div class="header-options">
                         <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageUsers" asp-action="AddUser">افزودن کاربر جدید</a>
-                        <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageUsers" asp-action="DeletedUsers">کاربران حذف شده</a>
+                        <form id="form-info" action="/Admin/ManageUsers/GetUsers/GetDeletedUsers" method="post" class="deleted-or-active-group">
+                            <button type="button" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px"> کاربران های حذف شده </button>
+                        </form>
                         <div id="form-orderby">
                             <input onchange="OrderByUsers()" type="text" class="focus:shadow-primary-outline relative block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 dark:bg-slate-850 dark:text-white bg-white bg-clip-padding text-gray-700 transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:transition-shadow" placeholder="جستجو کاربر ....">
                         </div>
@@ -46,5 +48,5 @@
 
 @section Scripts{
     <script src="/js/jquery-3.6.0.min.js"></script>
-    <script src="/AdminStyles/js/ManageUsers/Index.js"></script>
+    <script asp-append-version="true" src="/AdminStyles/js/ManageUsers/Index.js"></script>
 }

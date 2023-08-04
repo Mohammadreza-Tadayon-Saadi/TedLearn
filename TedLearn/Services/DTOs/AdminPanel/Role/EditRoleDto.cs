@@ -1,4 +1,6 @@
-﻿namespace Services.DTOs.AdminPanel.Role;
+﻿using Core.Utilities;
+
+namespace Services.DTOs.AdminPanel.Role;
 
 public class EditRoleDto : BaseDto<EditRoleDto, Data.Entities.Persons.Roles.Role>
 {
@@ -9,6 +11,6 @@ public class EditRoleDto : BaseDto<EditRoleDto, Data.Entities.Persons.Roles.Role
 
     public override void CustomMappings(IMappingExpression<Data.Entities.Persons.Roles.Role, EditRoleDto> mapping)
     {
-        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(r => Convert.ToBase64String(r.Version)));
+        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(r => r.Version.ToBase64String()));
     }
 }

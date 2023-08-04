@@ -51,7 +51,7 @@ else if (Model.Any(c => !c.IsDelete))
                     <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> جزییات </button>
                 </form>
                 <a asp-controller="ManageCourses" asp-action="EditCourse" asp-route-courseId="@item.CourseId" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> ویرایش </a>
-                <form id="form-info" method="post" asp-controller="ManageCourses" asp-action="DeleteCourse" asp-route-courseId="@item.CourseId">
+                <form id="form-info" method="post" action="/Admin/ManageCourses/DeleteCourse/@item.CourseId">
                     @Html.AntiForgeryToken()
                     <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> حذف </button>
                 </form>
@@ -97,7 +97,7 @@ else
                 <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.CreateDate.MiladiToShamsi()</span>
             </td>
             <td class="p-2 py-32px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                <form id="form-info" method="post" asp-controller="ManageCourses" asp-action="RestoreCourse" asp-route-courseId="@item.CourseId">
+                <form id="form-info" method="post" action="/Admin/ManageCourses/RestoreCourse/@item.CourseId">
                     @Html.AntiForgeryToken()
                     <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> بازگردانی </button>
                 </form>

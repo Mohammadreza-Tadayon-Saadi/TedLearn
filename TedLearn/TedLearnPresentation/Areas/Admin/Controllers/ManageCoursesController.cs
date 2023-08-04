@@ -2,10 +2,13 @@
 using Services.DTOs.AdminPanel.Course;
 using Data.Entities.Products.Courses;
 using Core.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TedLearnPresentation.Areas.Admin.Controllers;
 
 [Area("Admin")]
+[Authorize]
+[Route("/Admin/ManageCourses")]
 public class ManageCoursesController : Controller
 {
     #region ConstructorInjection
@@ -24,7 +27,6 @@ public class ManageCoursesController : Controller
     #endregion
 
     [Route("/Admin/ManageCourses")]
-    [Route("/ManageCourses")]
     public IActionResult Index()
     {
         return View();
@@ -32,29 +34,27 @@ public class ManageCoursesController : Controller
 
     #region Ajax/View
 
-    [Route("/GetCourses/{message}")]
-    public async Task<IActionResult> GetCourses(string message , CancellationToken cancellationToken)
+    [Route("GetCourses/GetAllCourses")]
+    [Route("GetCourses/GetDeletedCourses")]
+    public async Task<IActionResult> GetCourses(CancellationToken cancellationToken)
     {
-        if (message == "GetAllCourses")
-        {
-            var courses = await _courseServices.GetCoursesAsync(cancellationToken , isDeleted:false);
-            return PartialView("GetCoursesAjax", courses);
-        }
-        if (message == "GetDeletedCourses")
-        {
-            var deletedCourses = await _courseServices.GetCoursesAsync(cancellationToken , isDeleted:true);
-            return PartialView("GetCoursesAjax", deletedCourses);
-        }
+        IEnumerable<ShowCourseDto> courses;
+        var routePattern = HttpContext.Request.Path.Value;
+
+        if (routePattern.Contains("GetAllCourses"))
+            courses = await _courseServices.GetCoursesAsync(cancellationToken , isDeleted:false);
         else
-            return NotFound();
+            courses = await _courseServices.GetCoursesAsync(cancellationToken , isDeleted:true);
+         
+        return PartialView("GetCoursesAjax", courses);
     }
 
-    [Route("/GetCourseDetails/{courseId:int}")]
+    [Route("GetCourseDetails/{courseId:int}")]
     public async Task<IActionResult> GetCourseDetails(int courseId , CancellationToken cancellationToken)
     {
         var course = await _courseServices.GetCourseDetailsAsync(courseId , cancellationToken);
 
-        if (course == null) return NotFound();
+        if (course == null) return PartialView("_Error404");
 
         return PartialView("GetCourseDetailsAjax", course);
     }
@@ -64,8 +64,7 @@ public class ManageCoursesController : Controller
 
     #region AddCourse
 
-    [Route("/Admin/ManageCourses/AddCourse")]
-    [Route("/ManageCourses/AddCourse")]
+    [Route("AddCourse")]
     public async Task<IActionResult> AddCourse(CancellationToken cancellationToken)
     {
         var model = new AddCourseDto()
@@ -77,8 +76,7 @@ public class ManageCoursesController : Controller
         return View(model);
     }
 
-    [Route("/Admin/ManageCourses/AddCourse")]
-    [Route("/ManageCourses/AddCourse")]
+    [Route("AddCourse")]
     [RequestSizeLimit(2147483647)]
     [ValidateAntiForgeryToken]
     [HttpPost]
@@ -138,7 +136,7 @@ public class ManageCoursesController : Controller
 
     #region GetSubGroup
 
-    [Route("/Admin/ManageCourses/GetSubGroupForGroup/{groupId:int}")]
+    [Route("GetSubGroupForGroup/{groupId:int}")]
     [Route("/ManageCourses/GetSubGroupForGroup/{groupId:int}")]
     public async Task<IActionResult> GetSubGroupForGroup(int groupId , CancellationToken cancellationToken)
     {
@@ -162,8 +160,7 @@ public class ManageCoursesController : Controller
 
     #region EditCourse
 
-    [Route("/Admin/ManageCourses/EditCourse/{courseId:int}")]
-    [Route("/ManageCourses/EditCourse/{courseId:int}")]
+    [Route("EditCourse/{courseId:int}")]
     public async Task<IActionResult> EditCourse(int courseId , CancellationToken cancellationToken)
     {
         var course = await _courseServices.GetCourseForEditAsync(courseId , cancellationToken);
@@ -178,8 +175,7 @@ public class ManageCoursesController : Controller
         return View(course);
     }
 
-    [Route("/Admin/ManageCourses/EditCourse")]
-    [Route("/ManageCourses/EditCourse")]
+    [Route("EditCourse")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     [RequestSizeLimit(2147483647)]
@@ -249,19 +245,18 @@ public class ManageCoursesController : Controller
 
     #region DeleteCourse
 
-    [Route("/Admin/ManageCourses/DeleteCourse/{courseId:int}")]
-    [Route("/ManageCourses/DeleteCourse/{courseId:int}")]
+    [Route("DeleteCourse/{courseId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> DeleteCourse(int courseId , CancellationToken cancellationToken)
     {
         var course = await _courseServices.GetCourseByIdAsync(courseId , cancellationToken);
-        if (course == null) return NotFound();
+        if (course == null) return PartialView("_Error404");
 
         course.IsDelete = true;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect("/GetCourses/GetAllCourses");
+        return Redirect("/Admin/ManageCourses/GetCourses/GetAllCourses");
     }
 
     #endregion
@@ -269,19 +264,18 @@ public class ManageCoursesController : Controller
 
     #region RestoreCourse
 
-    [Route("/Admin/ManageCourses/RestoreCourse/{courseId:int}")]
-    [Route("/ManageCourses/RestoreCourse/{courseId:int}")]
+    [Route("RestoreCourse/{courseId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> RestoreCourse(int courseId, CancellationToken cancellationToken)
     {
         var course = await _courseServices.GetCourseByIdAsync(courseId, cancellationToken);
-        if (course == null) return NotFound();
+        if (course == null) return PartialView("_Error404");
 
         course.IsDelete = false;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect("/GetCourses/GetDeletedCourses");
+        return Redirect("/Admin/ManageCourses/GetCourses/GetDeletedCourses");
     }
 
     #endregion

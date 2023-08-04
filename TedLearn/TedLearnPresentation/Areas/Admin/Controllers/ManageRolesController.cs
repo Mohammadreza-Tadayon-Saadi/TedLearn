@@ -6,13 +6,14 @@ namespace TedLearnPresentation.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize]
+[Route("/Admin/ManageRoles")]
 public class ManageRolesController : Controller
 {
     #region ConstructorInjection
 
     private readonly IPermissionServices _permissionServices;
     private readonly ITransactionDbContextServices _transactions;
-    public ManageRolesController(IPermissionServices permissionServices , ITransactionDbContextServices transactions)
+    public ManageRolesController(IPermissionServices permissionServices, ITransactionDbContextServices transactions)
     {
         _permissionServices = permissionServices;
         _transactions = transactions;
@@ -26,41 +27,38 @@ public class ManageRolesController : Controller
         return View();
     }
 
-    [Route("/GetRoles/{message}")]
-    public async Task<IActionResult> GetRoles(string message , CancellationToken cancellationToken)
+    [Route("GetRoles/GetAllRoles")]
+    [Route("GetRoles/GetDeletedRoles")]
+    public async Task<IActionResult> GetRoles(CancellationToken cancellationToken)
     {
-        if (message == "GetAllRoles")
-        {
-            var allRoles = await _permissionServices.GetRolesAsync(cancellationToken , isDeleted:false);
-            return PartialView("GetRole", allRoles);
-        }
-        else if (message == "GetDeletedRoles")
-        {
-            var deletedRoles = await _permissionServices.GetRolesAsync(cancellationToken, isDeleted: true);
-            return PartialView("GetRole", deletedRoles);
-        }
-        return NotFound();
+        IEnumerable<RoleDto> roles;
+        var routePattern = HttpContext.Request.Path.Value;
+
+        if (routePattern.Contains("GetAllRoles"))
+            roles = await _permissionServices.GetRolesAsync(cancellationToken, isDeleted: false);
+        else
+            roles = await _permissionServices.GetRolesAsync(cancellationToken, isDeleted: true);
+
+        return PartialView("GetRole", roles);
     }
 
 
     #region AddRole
 
-    [Route("/Admin/ManageRoles/AddRole")]
-    [Route("/Admin/AddRole")]
+    [Route("AddRole")]
     public IActionResult AddRole()
     {
         return View();
     }
 
-    [Route("/Admin/ManageRoles/AddRole")]
-    [Route("/Admin/AddRole")]
+    [Route("AddRole")]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<IActionResult> AddRole(AddRoleDto model , CancellationToken cancellationToken)
+    public async Task<IActionResult> AddRole(AddRoleDto model, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return View(model);
 
-        if (await _permissionServices.IsRoleExistAsync(model.RoleName.Trim() , cancellationToken))
+        if (await _permissionServices.IsRoleExistAsync(model.RoleName.Trim(), cancellationToken))
         {
             ModelState.AddModelError(nameof(model.RoleName), "نام نقش مورد نظر قبلا ثبت شده است.لطفا نام دیگری انتخاب کنید.");
             return View(model);
@@ -75,12 +73,12 @@ public class ManageRolesController : Controller
             CanDeleteOrEdit = model.CanDeleteOrEdit,
         };
 
-        await _permissionServices.AddRoleAsync(role , cancellationToken);
+        await _permissionServices.AddRoleAsync(role, cancellationToken);
 
         #endregion
 
         // TODO AddPermissionsToRole
-        
+
         return RedirectToAction("Index");
     }
 
@@ -89,11 +87,10 @@ public class ManageRolesController : Controller
 
     #region EditRole
 
-    [Route("/Admin/ManageRoles/EditRole/{roleId:int}")]
-    [Route("/Admin/EditRole/{roleId:int}")]
+    [Route("EditRole/{roleId:int}")]
     public async Task<IActionResult> EditRole(int roleId, CancellationToken cancellationToken)
     {
-        var role = await _permissionServices.GetRoleAsync(roleId, cancellationToken, isDeleted: false , withTracking: false);
+        var role = await _permissionServices.GetRoleAsync(roleId, cancellationToken, isDeleted: false, withTracking: false);
         if (role == null) return NotFound();
 
         if (TempData.ContainsKey("ConcurrencyInEditRole"))
@@ -107,21 +104,20 @@ public class ManageRolesController : Controller
         return View(model);
     }
 
-    [Route("/Admin/ManageRoles/EditRole")]
-    [Route("/Admin/EditRole")]
+    [Route("EditRole")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> EditRole(EditRoleDto model, string preRoleName, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid) return View(model);
 
-        if (model.RoleName.Trim() != preRoleName && await _permissionServices.IsRoleExistAsync(model.RoleName.Trim() ,cancellationToken))
+        if (model.RoleName.Trim() != preRoleName && await _permissionServices.IsRoleExistAsync(model.RoleName.Trim(), cancellationToken))
         {
             ModelState.AddModelError(nameof(model.RoleName), "نام نقش مورد نظر قبلا ثبت شده است.لطفا نام دیگری انتخاب کنید.");
             return View(model);
         }
 
-        var role = await _permissionServices.GetRoleAsync(model.RoleId , cancellationToken , isDeleted:false);
+        var role = await _permissionServices.GetRoleAsync(model.RoleId, cancellationToken, isDeleted: false);
         if (role == null) return NotFound();
 
         // ConCurrency Check
@@ -146,44 +142,30 @@ public class ManageRolesController : Controller
 
     #region Delete And Restore Role
 
-    [Route("/Admin/ManageRoles/DeleteRole/{roleId:int}")]
-    [Route("/Admin/DeleteRole/{roleId:int}")]
+    [Route("DeleteRole/{roleId:int}")]
     [HttpPost]
     public async Task<IActionResult> DeleteRole(int roleId, CancellationToken cancellationToken)
     {
-        var role = await _permissionServices.GetRoleAsync(roleId  , cancellationToken , isDeleted:false); //نقش مورد نظر نباید در حذف شده ها باشد.اگر در حذف شده ها نباشد پر است و اگر در حذف شده ها باشد چیزی بر نمیگرداند.
-        if (role == null) return NotFound();
+        var role = await _permissionServices.GetRoleAsync(roleId, cancellationToken, isDeleted: false); //نقش مورد نظر نباید در حذف شده ها باشد.اگر در حذف شده ها نباشد پر است و اگر در حذف شده ها باشد چیزی بر نمیگرداند.
+        if (role == null) return PartialView("_Error404");
 
         role.IsDelete = true;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect("/GetRoles/GetAllRoles");
+        return Redirect("/Admin/ManageRoles/GetRoles/GetAllRoles");
     }
 
-    [Route("/Admin/ManageRoles/RestoreRole/{roleId:int}")]
-    [Route("/Admin/RestoreRole/{roleId:int}")]
+    [Route("RestoreRole/{roleId:int}")]
     [HttpPost]
     public async Task<IActionResult> RestoreRole(int roleId, CancellationToken cancellationToken)
     {
-        var role = await _permissionServices.GetRoleAsync(roleId , cancellationToken, isDeleted: true); //نقش مورد نظر باید در حذف شده ها باشد تا بازگردانی شود.اگر حذف شده نباشد چیزی بر نمیگرداند
-        if (role == null) return NotFound();
+        var role = await _permissionServices.GetRoleAsync(roleId, cancellationToken, isDeleted: true); //نقش مورد نظر باید در حذف شده ها باشد تا بازگردانی شود.اگر حذف شده نباشد چیزی بر نمیگرداند
+        if (role == null) return PartialView("_Error404");
 
         role.IsDelete = false;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect("/GetRoles/GetDeletedRoles");
-    }
-
-    #endregion
-
-
-    #region DeletedRole
-
-    [Route("/Admin/ManageRoles/DeletedRole")]
-    [Route("/Admin/DeletedRole")]
-    public IActionResult DeletedRole()
-    {
-        return View();
+        return Redirect("/Admin/ManageRoles/GetRoles/GetDeletedRoles");
     }
 
     #endregion

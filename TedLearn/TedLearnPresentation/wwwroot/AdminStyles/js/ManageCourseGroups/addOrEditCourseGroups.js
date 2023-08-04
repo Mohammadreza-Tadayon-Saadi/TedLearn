@@ -1,5 +1,8 @@
 const form = document.getElementById("form"); 
 const title = document.getElementById("title");
+$("#back-page").on('click', function () {
+    window.history.back();
+});
 title.addEventListener("keyup" , function(){
     checkTitle();
 });

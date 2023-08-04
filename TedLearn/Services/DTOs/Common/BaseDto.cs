@@ -1,11 +1,12 @@
 ﻿using AutoMapper.QueryableExtensions;
+using Data.Entities.BaseEntity;
 using Services.CustomMappings.Configurations;
 
 namespace Services.DTOs.Common;
 
 public abstract class BaseDto<TDto, TEntity> : IHaveCustomMapping
     where TDto : class , new() 
-    where TEntity : class, new()
+    where TEntity : class, IEntity, new()
 {
     public TEntity ToEntity() =>
         AutoMapperConfiguration.Mapper.Map<TEntity>(CastToDerivedClass(this));

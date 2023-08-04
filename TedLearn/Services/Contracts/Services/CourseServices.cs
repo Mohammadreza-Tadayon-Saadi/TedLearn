@@ -26,7 +26,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
 
     #endregion
 
-    public async Task<IEnumerable<SelectListItem>> GetStatusListAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<SelectListItem>> GetStatusListAsync(CancellationToken cancellationToken = default)
         => await _courseStatus
                         .Select(cs => new SelectListItem()
                         {
@@ -34,7 +34,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
                             Value = cs.StatusId.ToString()
                         }).ToListAsync(cancellationToken);
 
-    public async Task<IEnumerable<SelectListItem>> GetTeacherListAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<SelectListItem>> GetTeacherListAsync(CancellationToken cancellationToken = default)
         => await _userRole
                         .Where(ur => ur.RoleId == 11003)
                         .Include(u => u.User)
@@ -45,11 +45,11 @@ public class CourseServices : BaseServices<Course>, ICourseServices
                             Value = u.User.UserId.ToString()
                         }).ToListAsync(cancellationToken);
 
-    public async Task<IEnumerable<ShowCourseDto>> GetCoursesAsync(CancellationToken cancellationToken, bool? isDeleted = null)
+    public async Task<IEnumerable<ShowCourseDto>> GetCoursesAsync(CancellationToken cancellationToken = default, bool? isDeleted = null)
         => await ShowCourseDto.ProjectTo(TableNoTracking.Include(c => c.User).Where(c => (isDeleted.HasValue) ? c.IsDelete == isDeleted : true))
                         .ToListAsync(cancellationToken);
 
-    public async Task<ShowDetailsCourseDto> GetCourseDetailsAsync(int courseId, CancellationToken cancellationToken)
+    public async Task<ShowDetailsCourseDto> GetCourseDetailsAsync(int courseId, CancellationToken cancellationToken = default)
         => await ShowDetailsCourseDto.ProjectTo(TableNoTracking.Where(c => c.CourseId == courseId && !c.IsDelete)
                                                 .Include(c => c.CourseToGroup)
                                                 .Include(c => c.CourseToSubGroup)
@@ -59,7 +59,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
 
     
 
-    public async Task<EditCourseDto> GetCourseForEditAsync(int courseId, CancellationToken cancellationToken)
+    public async Task<EditCourseDto> GetCourseForEditAsync(int courseId, CancellationToken cancellationToken = default)
     {
         var dto = await EditCourseDto.ProjectTo(TableNoTracking.Where(c => c.CourseId == courseId))
                             .SingleOrDefaultAsync(cancellationToken);
@@ -71,7 +71,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
         return dto;
     }
 
-    public async Task GetSelectListsForCourseAsync(EditCourseDto dto, CancellationToken cancellationToken)
+    public async Task GetSelectListsForCourseAsync(EditCourseDto dto, CancellationToken cancellationToken = default)
     {
         dto.GroupList = await _courseGroupServices.GetGroupListAsync(cancellationToken);
         dto.SubGroupList = await _courseGroupServices.GetSubGroupListForGroup(dto.GroupId, cancellationToken);
@@ -86,7 +86,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
         };
     }
 
-    public async Task<Course> GetCourseByIdAsync(int courseId, CancellationToken cancellationToken, bool withTracking = true, bool? getActive = null)
+    public async Task<Course> GetCourseByIdAsync(int courseId, CancellationToken cancellationToken = default, bool withTracking = true, bool? getActive = null)
     {
         if(withTracking)
             return await Table.Where(c => c.CourseId == courseId && (getActive.HasValue ? c.IsDelete == !getActive : true))
@@ -96,9 +96,26 @@ public class CourseServices : BaseServices<Course>, ICourseServices
                 .SingleOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<bool> IsCourseExistAsync(int courseId, CancellationToken cancellationToken = default)
+        => await TableNoTracking.Where(c => c.CourseId == courseId).AnyAsync(cancellationToken);
+
+    public async Task<IEnumerable<SelectListItem>> GetCourseSelectListAsync(CancellationToken cancellationToken = default)
+        =>  await TableNoTracking.Where(c => !c.IsDelete)
+                                .Select(c => new SelectListItem()
+                                {
+                                    Text = c.CourseTitle,
+                                    Value = c.CourseId.ToString()
+                                }).ToListAsync(cancellationToken);
+
+    public async Task<bool> IsCourseFreeAsync(int courseId, CancellationToken cancellationToken = default)
+    {
+        var price = await TableNoTracking.Where(c => c.CourseId == courseId).Select(c => c.CoursePrice).SingleOrDefaultAsync(cancellationToken);
+        return price == 0 ? true : false;
+    }
 
 
-    public async Task AddCourseAsync(Course course, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
+
+    public async Task AddCourseAsync(Course course, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false)
     {
         await Entity.AddAsync(course, cancellationToken);
 
@@ -106,7 +123,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
             await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
     }
 
-    public async Task UpdateCourseAsync(Course course, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false)
+    public async Task UpdateCourseAsync(Course course, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false)
     {
         Entity.Update(course);
 

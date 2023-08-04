@@ -2,12 +2,14 @@
 using Core.Utilities;
 using Data.Entities.Persons.Users;
 using Microsoft.AspNetCore.Authorization;
+using Services.DTOs.AdminPanel.Role;
 using Services.DTOs.AdminPanel.User;
 
 namespace TedLearn_Web.Areas.Admin.Controllers;
 
 [Authorize]
 [Area("Admin")]
+[Route("/Admin/ManageUsers")]
 public class ManageUsersController : Controller
 {
     #region ConstructorInjection
@@ -29,7 +31,6 @@ public class ManageUsersController : Controller
 
 
     [Route("/Admin/ManageUsers")]
-    [Route("/ManageUsers")]
     public IActionResult Index()
     {
         return View();
@@ -38,31 +39,29 @@ public class ManageUsersController : Controller
 
     #region Ajax/View
 
-    [Route("/GetUsers/{message}")]
-    [HttpGet]
-    public async Task<IActionResult> GetUsers(string message, CancellationToken cancellationToken, string? orderBy, int pageId = 1)
+    [Route("GetUsers/GetAllUsers")]
+    [Route("GetUsers/GetDeletedUsers")]
+    public async Task<IActionResult> GetUsers(CancellationToken cancellationToken, string? orderBy, int pageId = 1)
     {
-        if (message == "GetAllUsers")
-        {
-            var allUsers = await _userServices.GetAllUsersAsync(cancellationToken, false, orderBy, pageId);
-            return PartialView("GetUser", allUsers);
-        }
-        if (message == "GetDeletedUsers")
-        {
-            var deletedUsers = await _userServices.GetAllUsersAsync(cancellationToken, true, orderBy, pageId);
-            return PartialView("GetUser", deletedUsers);
-        }
-        return NotFound();
+        GetUsersDto users;
+        var routePattern = HttpContext.Request.Path.Value;
+
+        if (routePattern.Contains("GetAllUsers"))
+            users = await _userServices.GetAllUsersAsync(deletedUser: false, cancellationToken, orderBy, pageId);
+        else
+            users = await _userServices.GetAllUsersAsync(deletedUser: true, cancellationToken, orderBy, pageId);
+        
+        return PartialView("GetUser", users);
     }
 
-    [Route("/GetUserInformation/{userId:int}")]
+    [Route("GetUserInformation/{userId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> GetUserInformation(int userId, CancellationToken cancellationToken)
     {
         var user = await _userServices.GetUserInformationAsync(userId, cancellationToken);
 
-        if (user == null) return NotFound();
+        if (user == null) return PartialView("_Error404");
 
         return PartialView("GetUserInformation", user);
     }
@@ -72,15 +71,13 @@ public class ManageUsersController : Controller
 
     #region AddUser
 
-    [Route("/Admin/ManageUsers/AddUser")]
-    [Route("/ManageUsers/AddUser")]
+    [Route("AddUser")]
     public IActionResult AddUser()
     {
         return View();
     }
 
-    [Route("/Admin/ManageUsers/AddUser")]
-    [Route("/ManageUsers/AddUser")]
+    [Route("AddUser")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> AddUser(AddUserDto model, CancellationToken cancellationToken)
@@ -114,8 +111,7 @@ public class ManageUsersController : Controller
 
     #region EditUser
 
-    [Route("/Admin/ManageUsers/EditUser/{userId:int}")]
-    [Route("/ManageUsers/EditUser/{userId:int}")]
+    [Route("EditUser/{userId:int}")]
     public async Task<IActionResult> EditUser(int userId, CancellationToken cancellationToken)
     {
         var user = await _userServices.GetUserForEditInAdminAsync(userId, cancellationToken);
@@ -130,8 +126,7 @@ public class ManageUsersController : Controller
         return View(user);
     }
 
-    [Route("/Admin/ManageUsers/EditUser")]
-    [Route("/ManageUsers/EditUser")]
+    [Route("EditUser")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> EditUser(EditUserDto model, string prePhoneNumber, CancellationToken cancellationToken)
@@ -173,8 +168,8 @@ public class ManageUsersController : Controller
 
             //Charge Wallet IF Amount Exists
             if (model.Amount.HasValue)
-                await _userPanelServices.ChargeWalletAsync(model.UserId, (decimal)model.Amount, "شارژ از طرف ادمین" , cancellationToken 
-                    , isPay: true , withSaveChanges: false);
+                await _userPanelServices.ChargeWalletAsync(model.UserId, (decimal)model.Amount, "شارژ از طرف ادمین", cancellationToken
+                    , isPay: true, withSaveChanges: false);
 
         }, cancellationToken, false);
 
@@ -195,19 +190,18 @@ public class ManageUsersController : Controller
 
     #region DeleteUser
 
-    [Route("/Admin/ManageUsers/DeleteUser/{userId:int}")]
-    [Route("/ManageUsers/DeleteUser/{userId:int}")]
+    [Route("DeleteUser/{userId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> DeleteUser(int userId, CancellationToken cancellationToken)
     {
         var user = await _userServices.GetUserByIdAsync(userId, cancellationToken, getActive: true); // کاربر نباید حذف شده باشد
-        if (user == null) return NotFound();
+        if (user == null) return PartialView("_Error404");
 
         user.IsDelete = true;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect("/GetUsers/GetAllUsers");
+        return Redirect("/Admin/ManageUsers/GetUsers/GetAllUsers");
     }
 
     #endregion
@@ -215,31 +209,17 @@ public class ManageUsersController : Controller
 
     #region RestoreUser
 
-    [Route("/Admin/ManageUsers/RestoreUser/{userId:int}")]
-    [Route("/ManageUsers/RestoreUser/{userId:int}")]
+    [Route("RestoreUser/{userId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> RestoreUser(int userId, CancellationToken cancellationToken)
     {
         var user = await _userServices.GetUserByIdAsync(userId, cancellationToken, getActive: false); // کاربر نباید حذف شده باشد
-        if (user == null) return NotFound();
-
+        if (user == null) return PartialView("_Error404");
         user.IsDelete = false;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect("/GetUsers/GetDeletedUsers");
-    }
-
-    #endregion
-
-
-    #region DeletedUsers
-
-    [Route("/Admin/ManageUsers/DeletedUsers")]
-    [Route("/ManageUsers/DeletedUsers")]
-    public IActionResult DeletedUsers()
-    {
-        return View();
+        return Redirect("/Admin/ManageUsers/GetUsers/GetDeletedUsers");
     }
 
     #endregion
@@ -247,19 +227,20 @@ public class ManageUsersController : Controller
 
     #region UserRoles
 
-    [Route("/Admin/ManageUsers/UserRoles/{userId:int}")]
-    [Route("/ManageUsers/UserRoles/{userId:int}")]
+    [Route("UserRoles/{userId:int}")]
     public async Task<IActionResult> GetRolesForUser(int userId, CancellationToken cancellationToken)
     {
         if (!await _userServices.IsUserExistAsync(userId, cancellationToken)) return NotFound();
 
+        ViewBag.UserId = userId;
+
         return View();
     }
 
-    [Route("/GetRolesForUserAjax/{userId:int}")]
+    [Route("GetRolesForUserAjax/{userId:int}")]
     public async Task<IActionResult> GetRolesForUserAjax(int userId, CancellationToken cancellationToken)
     {
-        if (!await _userServices.IsUserExistAsync(userId, cancellationToken)) return NotFound();
+        if (!await _userServices.IsUserExistAsync(userId, cancellationToken)) return PartialView("_Error404");
 
         var userRoles = await _permissionServices.GetRolesForUserAsync(userId, cancellationToken);
 
@@ -271,14 +252,13 @@ public class ManageUsersController : Controller
 
     #region AddRoleToUser
 
-    [Route("/Admin/ManageUsers/AddRoleToUser/{userId:int}/{roleId:int}")]
-    [Route("ManageUsers/AddRoleToUser/{userId:int}/{roleId:int}")]
+    [Route("AddRoleToUser/{userId:int}/{roleId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> AddRoleToUser(int userId, int roleId, CancellationToken cancellationToken)
     {
-        var userRole = await _permissionServices.GetUserRoleAsync(userId, roleId, cancellationToken, withTracking:false);
-        if (userRole != null) return NotFound();
+        var userRole = await _permissionServices.GetUserRoleAsync(userId, roleId, cancellationToken, withTracking: false);
+        if (userRole != null) return PartialView("_Error404");
 
         userRole = new Data.Entities.Persons.Roles.UserRole
         {
@@ -288,7 +268,7 @@ public class ManageUsersController : Controller
 
         await _permissionServices.AddRoleToUserAsync(userRole, cancellationToken);
 
-        return Redirect($"/GetRolesForUserAjax/{userId}");
+        return Redirect($"/Admin/ManageUsers/GetRolesForUserAjax/{userId}");
     }
 
     #endregion
@@ -296,18 +276,17 @@ public class ManageUsersController : Controller
 
     #region DeleteRoleFromUser
 
-    [Route("/Admin/ManageUsers/DeleteRoleFromUser/{userId:int}/{roleId:int}")]
-    [Route("ManageUsers/DeleteRoleFromUser/{userId:int}/{roleId:int}")]
+    [Route("DeleteRoleFromUser/{userId:int}/{roleId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> DeleteRoleFromUser(int userId, int roleId, CancellationToken cancellationToken)
     {
         var userRole = await _permissionServices.GetUserRoleAsync(userId, roleId, cancellationToken);
-        if (userRole == null) return NotFound();
+        if (userRole == null) return PartialView("_Error404");
 
         await _permissionServices.DeleteRoleFromUserAsync(userRole, cancellationToken);
 
-        return Redirect($"/GetRolesForUserAjax/{userId}");
+        return Redirect($"/Admin/ManageUsers/GetRolesForUserAjax/{userId}");
     }
 
     #endregion

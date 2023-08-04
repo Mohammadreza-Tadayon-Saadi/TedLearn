@@ -6,15 +6,15 @@ namespace Services.Contracts.Interfaces;
 
 public interface ICourseGroupServices
 {
-    Task<IEnumerable<ShowCourseGroupDto>> GetGroupsAsync(CancellationToken cancellationToken, bool? isDeleted = null);
-    Task<bool> IsCourseGroupExistAsync(string title , CancellationToken cancellationToken);
-    Task<bool> IsCourseGroupExistAsync(int groupId, CancellationToken cancellationToken);
-    Task<EditGroupDto> GetGroupForEditAsync(int groupId, CancellationToken cancellationToken);
+    Task<IEnumerable<ShowCourseGroupDto>> GetGroupsAsync(CancellationToken cancellationToken = default, bool? isDeleted = null);
+    Task<bool> IsCourseGroupExistAsync(string title , CancellationToken cancellationToken = default);
+    Task<bool> IsCourseGroupExistAsync(int groupId, CancellationToken cancellationToken = default);
+    Task<EditGroupDto> GetGroupForEditAsync(int groupId, CancellationToken cancellationToken = default);
     Task<CourseGroup> GetCourseGroupByGroupIdAsync(int groupId , CancellationToken cancellation, bool withTracking = true);
-    Task<IEnumerable<ShowCourseGroupDto>> GetAllSubGroupsForGroupAsync(int groupId, CancellationToken cancellationToken, bool? isDeleted = null);
-    Task<IEnumerable<SelectListItem>> GetGroupListAsync(CancellationToken cancellationToken , int? parentId = null);
-    Task<IEnumerable<SelectListItem>> GetSubGroupListForGroup(int groupId, CancellationToken cancellationToken);
+    Task<IEnumerable<ShowCourseGroupDto>> GetAllSubGroupsForGroupAsync(int groupId, CancellationToken cancellationToken = default, bool? isDeleted = null);
+    Task<IEnumerable<SelectListItem>> GetGroupListAsync(CancellationToken cancellationToken = default , int? parentId = null);
+    Task<IEnumerable<SelectListItem>> GetSubGroupListForGroup(int groupId, CancellationToken cancellationToken = default);
 
-    Task AddCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
-    Task UpdateCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken, bool withSaveChanges = true, bool configureAwait = false);
+    Task AddCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);
+    Task UpdateCourseGroupAsync(CourseGroup courseGroup, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);
 }

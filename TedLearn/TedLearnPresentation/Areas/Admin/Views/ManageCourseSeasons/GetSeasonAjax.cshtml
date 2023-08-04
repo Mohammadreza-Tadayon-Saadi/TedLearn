@@ -1,0 +1,54 @@
+﻿@using Core.Convertors;
+@using Services.DTOs.AdminPanel.Course.CourseSeason;
+@model IEnumerable<ShowSeasonsForCourseDto>
+
+
+@if (!Model.Any())
+{
+    <tr>
+        <td class="text-center pt-4 align-middle bg-transparent border-t dark:border-white/40 whitespace-nowrap shadow-transparent" colspan="3">هیچ موردی برای نمایش وجود ندارد.</td>
+    </tr>
+}
+else @if (Model.Any(cs => !cs.IsDelete))
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.Title</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.CreateDate.MiladiToShamsi()</span>
+            </td>
+            <td class="p-2 py-32px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <a asp-controller="ManageCourseSeasons" asp-action="EditSeasons" asp-route-seasonId="@item.SeasonId" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> ویرایش </a>
+                <form id="form-info" method="post" asp-controller="ManageCourseSeasons" asp-action="DeleteSeasons" asp-route-seasonId="@item.SeasonId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> حذف </button>
+                </form>
+                <a asp-controller="ManageCourseEpisodes" asp-action="Index" asp-route-seasonId="@item.SeasonId" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> مدیریت قسمت ها </a>
+            </td>
+        </tr>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.Title</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.CreateDate.MiladiToShamsi()</span>
+            </td>
+            <td class="p-2 py-32px align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-info" method="post" asp-controller="ManageCourseSeasons" asp-action="RestoreSeasons" asp-route-seasonId="@item.SeasonId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> بازگردانی </button>
+                </form>
+            </td>
+        </tr>
+    }
+}
+<script asp-append-version="true" src="/AdminStyles/js/GetUrlForm.js"></script>

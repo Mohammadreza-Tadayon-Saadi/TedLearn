@@ -213,8 +213,24 @@
       "PackagePath": "staticwebassets\\AdminStyles\\js\\tooltips.js"
     },
     {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\77ab949c86464e73abe4ee1d3bcfd82b.mp4",
+      "PackagePath": "staticwebassets\\Courses\\course-demos\\77ab949c86464e73abe4ee1d3bcfd82b.mp4"
+    },
+    {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\b6fca44abe724443a9dc2568a215efe1.mp4",
       "PackagePath": "staticwebassets\\Courses\\course-demos\\b6fca44abe724443a9dc2568a215efe1.mp4"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-file\\78_ReactJs_Ghorbani.rar",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-file\\78_ReactJs_Ghorbani.rar"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-file\\Rec 0004.rar",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-file\\Rec 0004.rar"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg",
+      "PackagePath": "staticwebassets\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg",
@@ -227,6 +243,10 @@
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202307.txt",
       "PackagePath": "staticwebassets\\SeriLog\\ErrorLog202307.txt"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202308.txt",
+      "PackagePath": "staticwebassets\\SeriLog\\ErrorLog202308.txt"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\UserAvatar\\3083135f840146ddb1f6ffe01593c24d.jpg",

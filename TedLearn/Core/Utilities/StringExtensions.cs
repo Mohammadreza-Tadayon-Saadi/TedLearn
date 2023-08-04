@@ -85,4 +85,7 @@ public static class StringExtensions
         var sanitizer = new HtmlSanitizer();
         return sanitizer.Sanitize(text);
     }
+
+    public static string ToBase64String(this byte[] bytes)
+        => Convert.ToBase64String(bytes);
 }

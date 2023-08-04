@@ -16,7 +16,6 @@ C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\F
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\HtmlSanitizer.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Humanizer.dll
-C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\MediaInfoDotNet.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Microsoft.CodeAnalysis.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Microsoft.CodeAnalysis.CSharp.dll
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Microsoft.CodeAnalysis.VisualBasic.dll
@@ -112,3 +111,9 @@ C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\r
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\TedLearnPresentation.pdb
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\TedLearnPresentation.genruntimeconfig.cache
 C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\obj\Debug\net6.0\ref\TedLearnPresentation.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\FFmpeg.AutoGen.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\FFMpegCore.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\Instances.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\System.Text.Json.dll
+C:\Tedi\GitHubProjects\TedLearn\TedLearn\TedLearnPresentation\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll

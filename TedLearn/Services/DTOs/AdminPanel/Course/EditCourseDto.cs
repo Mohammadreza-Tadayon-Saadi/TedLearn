@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Core.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Services.DTOs.AdminPanel.Course;
@@ -36,7 +37,7 @@ public class EditCourseDto : BaseDto<EditCourseDto , Data.Entities.Products.Cour
         mapping.ForMember(dto => dto.Description, opt => opt.MapFrom(c => c.CourseDescription));
         mapping.ForMember(dto => dto.Requirment, opt => opt.MapFrom(c => c.CourseRequirement));
         mapping.ForMember(dto => dto.Tags, opt => opt.MapFrom(c => c.CourseTags));
-        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(c => Convert.ToBase64String(c.Version)));
+        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(c => c.Version.ToBase64String()));
         mapping.ForMember(dto => dto.PreDemo, opt => opt.MapFrom(c => c.CourseDemoFile));
         mapping.ForMember(dto => dto.PreImage, opt => opt.MapFrom(c => c.CourseImage));
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Core.Utilities;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Services.DTOs.AdminPanel.Course.CourseGroup;
 
@@ -15,7 +16,7 @@ public class EditSubGroupDto : BaseDto<EditSubGroupDto , Data.Entities.Products.
 
     public override void CustomMappings(IMappingExpression<Data.Entities.Products.Courses.CourseGroup, EditSubGroupDto> mapping)
     {
-        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(cg => Convert.ToBase64String(cg.Version)));
+        mapping.ForMember(dto => dto.Base64Version, opt => opt.MapFrom(cg => cg.Version.ToBase64String()));
         mapping.ForMember(dto => dto.ParentId, opt => opt.MapFrom(cg => cg.SubGroupId));
     }
 }

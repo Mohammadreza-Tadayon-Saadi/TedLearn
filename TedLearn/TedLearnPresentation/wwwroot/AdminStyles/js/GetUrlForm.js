@@ -6,22 +6,23 @@
             e.preventDefault();
         });
         const url = item.getAttribute("action");
-        const button = item.firstElementChild;
+        const button = item.querySelector('button');
         const input = item.querySelector('input[name="__RequestVerificationToken"]');
-        button.addEventListener("click", function () {
-            let data = {
-                // Other form data here
-            };
-            if (input) {
-                data['__RequestVerificationToken'] = input.value;
-            }
 
+        let data = {
+            // Other form data here
+        };
+        if (input) {
+            data['__RequestVerificationToken'] = input.value;
+        }
+        button.addEventListener("click", function () {
+            console.log("yuyyyyyyyyyyyyyyyyyyyyyyyy")
             $.ajax({
                 type: "POST",
                 url: url,
                 data: data,
                 success: function (response) {
-                    if (url.startsWith("/GetCourseDetails")) {
+                    if (url.startsWith("/Admin/ManageCourses/GetCourseDetails")) {
                         $("#info").empty().append(response);
                     }else {
                         $("#result").empty().append(response);

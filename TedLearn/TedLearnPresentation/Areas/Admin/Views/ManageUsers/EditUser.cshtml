@@ -12,9 +12,9 @@
                     <h6 class="dark:text-white">@ViewData["Title"]</h6>
                 </div>
                 <div class="flex-auto px-0 pt-0 pb-2">
-                    <div class="btn-add-role">
-                        <a asp-controller="ManageUsers" asp-action="Index" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" target="_blank">مدیریت کاربران</a>
-                        <a asp-controller="ManageUsers" asp-action="DeletedUser" class="mr-4 px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" target="_blank">کاربران حذف شده</a>
+                    <div class="header-options">
+                        <a asp-controller="ManageUsers" asp-action="Index" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px">مدیریت کاربران</a>
+                        <a asp-controller="ManageUsers" asp-action="DeletedUser" class="mr-4 px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px">کاربران حذف شده</a>
                     </div>
                     <div class="py-2 px-1 overflow-x-auto ps ps__rtl">
                         <form action="/Admin/ManageUsers/EditUser" method="post" id="form" class="grid grid-cols-1 gap-6 text-sm w-full sm:w-11/12">

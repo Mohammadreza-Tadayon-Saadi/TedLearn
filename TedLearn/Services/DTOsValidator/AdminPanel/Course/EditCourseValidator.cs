@@ -24,10 +24,10 @@ public class EditCourseValidator : AbstractValidator<EditCourseDto>
         RuleFor(c => c.CourseLevel)
             .NotEmpty().WithMessage("لطفا سطح دوره را انتخاب کنید.");
 
-        //When(c => c.DemoFile != null, () =>
-        //{
-        //    RuleFor(c => c.DemoFile).Must(c => FileChecker.IsVideo(c)).WithMessage("لطفا فقط ویدیو بارگذاری کنید.");
-        //});
+        When(c => c.DemoFile != null, () =>
+        {
+            RuleFor(c => c.DemoFile).Must(c => FileChecker.IsVideo(c)).WithMessage("لطفا فقط ویدیو بارگذاری کنید.");
+        });
 
         When(c => c.ImageFile != null, () =>
         {
