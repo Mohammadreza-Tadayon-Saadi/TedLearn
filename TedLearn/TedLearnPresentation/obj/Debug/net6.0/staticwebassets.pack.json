@@ -221,8 +221,20 @@
       "PackagePath": "staticwebassets\\Courses\\course-demos\\b6fca44abe724443a9dc2568a215efe1.mp4"
     },
     {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-demos\\d5cfdd162ea644f68f21e2b356a80ee9.mp4",
+      "PackagePath": "staticwebassets\\Courses\\course-demos\\d5cfdd162ea644f68f21e2b356a80ee9.mp4"
+    },
+    {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-file\\78_ReactJs_Ghorbani.rar",
       "PackagePath": "staticwebassets\\Courses\\course-episodes-file\\78_ReactJs_Ghorbani.rar"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-file\\Rec 0001.rar",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-file\\Rec 0001.rar"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-file\\Rec 0002.rar",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-file\\Rec 0002.rar"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-file\\Rec 0004.rar",
@@ -231,6 +243,10 @@
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg",
       "PackagePath": "staticwebassets\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\9fc09494016e4d2987981c89d54dacd9.jpg",
+      "PackagePath": "staticwebassets\\Courses\\course-image\\9fc09494016e4d2987981c89d54dacd9.jpg"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\dbb81eed87fe40ba94b6592b4c2b4be8.jpg",

@@ -4,6 +4,8 @@ using Data.Entities.Products.Courses;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs.AdminPanel.Course;
+using Services.DTOs.Home.Course;
+using System.Linq.Expressions;
 
 namespace Services.Contracts.Services;
 
@@ -111,6 +113,76 @@ public class CourseServices : BaseServices<Course>, ICourseServices
     {
         var price = await TableNoTracking.Where(c => c.CourseId == courseId).Select(c => c.CoursePrice).SingleOrDefaultAsync(cancellationToken);
         return price == 0 ? true : false;
+    }
+
+    public async Task<IEnumerable<ShowCourseCardDto>> GetCourseCardInfoAsync(Expression<Func<Course, object>> orderByExpression, int take = 6, CancellationToken cancellationToken = default)
+        => await ShowCourseCardDto.ProjectTo(TableNoTracking
+                                            .Where(c => !c.IsDelete)
+                                            .Include(c => c.User)
+                                            .Include(c => c.UserCourses)
+                                            .Include(c => c.CourseToGroup)
+                                            .OrderByDescending(orderByExpression)
+                                            .Take(take))
+                    .ToListAsync(cancellationToken);
+
+    public async Task<FilteredCoursesDto> GetFilteredCoursesAsync(string category = "all", string filterByCourseTitle = "",
+        string priceType = "", string orderByType = "", int take = 36 , int pageId = 1, CancellationToken cancellationToken = default)
+    {
+        var model = new FilteredCoursesDto();
+        int skip = (pageId - 1) * take;
+
+        IQueryable<Course> result = TableNoTracking
+                                        .Where(c => !c.IsDelete)
+                                        .Include(c => c.CourseToGroup)
+                                        .Include(c => c.UserCourses);
+
+
+        #region Filtering
+
+        if (category != "all")
+        {
+            result = result.Include(c => c.CourseToSubGroup)
+                        .Where(c => c.CourseToGroup.Title == category || c.CourseToSubGroup.Title == category);
+        }
+
+        if (!String.IsNullOrEmpty(filterByCourseTitle))
+            result = result.Where(c => c.CourseTitle.Contains(filterByCourseTitle) || c.CourseTags.Contains(filterByCourseTitle));
+
+        result = priceType switch
+        {
+            "All" => result,
+            "Purchasable" => result.Where(c => c.CoursePrice != 0),
+            "Free" => result.Where(c => c.CoursePrice == 0),
+            _ => result
+        };
+
+        result = orderByType switch
+        {
+            "CreateAndUpdateDate" => result.OrderByDescending(c => c.LastUpdateDate).ThenByDescending(c => c.CreateDate),
+            "Title" => result.OrderBy(c => c.CourseTitle),
+            "Price" => result.OrderBy(c => c.CoursePrice),
+            _ => result.OrderByDescending(c => c.LastUpdateDate).ThenByDescending(c => c.CreateDate)
+        };
+
+        #endregion Filtering
+
+
+        var countOfCourse = result.Count();
+
+        var pageCount = countOfCourse / take;
+        if (countOfCourse % take != 0) pageCount++;
+
+        model.CourseCards = await ShowCourseCardDto.ProjectTo(result.Skip(skip).Take(take)).ToListAsync(cancellationToken);
+        model.CourseGroups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken, isDeleted: false , justGroup: false);
+        model.Paginantion = new PaginantionDto
+        {
+            ItemsCount = countOfCourse,
+            PageCount = pageCount,
+            Currentpage = pageId,
+            ItemsPerPage = take
+        };
+
+        return model;
     }
 
 

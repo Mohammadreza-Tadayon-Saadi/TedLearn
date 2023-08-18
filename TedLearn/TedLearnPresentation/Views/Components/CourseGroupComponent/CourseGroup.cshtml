@@ -1,0 +1,41 @@
+﻿@using Services.DTOs.AdminPanel.Course.CourseGroup;
+@model List<ShowCourseGroupDto>
+
+@if (Model.Any())
+{
+    <div class="hidden md:flex justify-center w-full h-[1px] bg-gray-100">
+        <div class="w-96% h-[2px] bg-slate-200">
+        </div>
+    </div>
+    <nav class="w-full hidden md:flex justify-start h-20 items-center px-6 bg-gradient-to-b from-white to-slate-50">
+        <ul class="flex relative text-base font-semibold z-20">
+            @foreach (var item in Model.Where(cg => cg.SubGroupId == null))
+            {
+                @foreach (var group in Model.Where(cg => cg.SubGroupId == item.GroupId))
+                {
+                    <li id="nav-link" class="ml-6">
+                        <span class="inline-block transition-transform duration-300 relative top-1 text-xs text-slate-400">
+                            <i class="fi fi-rr-angle-down"></i>
+                        </span>
+                        <a class="mr-2 hover:text-indigo-800 transition-colors duration-300" href="/Home/Courses?categories=@(group.Title)">
+                            @group.Title
+                        </a>
+                        @if (Model.Any(cg => cg.SubGroupId == group.GroupId))
+                        {
+                            <ul class="absolute nav-item text-sm font-semibold list-disc mt-2 z-30 marker:text-indigo-700 bg-slate-50 border border-slate-300 pr-8 pl-6 py-2 rounded-md leading-7">
+                                @foreach (var subGroup in Model.Where(cg => cg.SubGroupId == group.GroupId))
+                                {
+                                    <li><a href="/Home/Courses?categories=@(subGroup.Title)" class="hover:text-indigo-600 transition-colors duration-300">@subGroup.Title</a></li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+    <div class="hidden md:flex justify-center w-full h-[1px] bg-slate-200">
+        <div class="w-96% h-[2px] bg-slate-200 relative bottom-[1px]">
+        </div>
+    </div>
+}

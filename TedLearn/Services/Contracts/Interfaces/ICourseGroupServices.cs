@@ -6,7 +6,12 @@ namespace Services.Contracts.Interfaces;
 
 public interface ICourseGroupServices
 {
-    Task<IEnumerable<ShowCourseGroupDto>> GetGroupsAsync(CancellationToken cancellationToken = default, bool? isDeleted = null);
+    /// <summary>
+    ///     true => means just groups, 
+    ///     false => means all courseGroups
+    /// </summary>
+    /// <param name="justGroup"></param>
+    Task<IEnumerable<ShowCourseGroupDto>> GetCourseGroupsAsync(CancellationToken cancellationToken = default, bool? isDeleted = null, bool justGroup = true);
     Task<bool> IsCourseGroupExistAsync(string title , CancellationToken cancellationToken = default);
     Task<bool> IsCourseGroupExistAsync(int groupId, CancellationToken cancellationToken = default);
     Task<EditGroupDto> GetGroupForEditAsync(int groupId, CancellationToken cancellationToken = default);

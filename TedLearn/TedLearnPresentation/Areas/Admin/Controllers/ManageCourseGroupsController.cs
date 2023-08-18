@@ -39,13 +39,13 @@ public class ManageCourseGroupsController : Controller
         if (message == "GetAllGroups")
         {
             ViewBag.Groups = true;
-            var groups = await _courseGroupServices.GetGroupsAsync(cancellationToken , isDeleted: false);
+            var groups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken , isDeleted: false);
             return PartialView("GetGroupsAjax", groups);
         }
         else if (message == "GetAllDeletedGroups")
         {
             ViewBag.DeletedGroups = true;
-            var deletedGroups = await _courseGroupServices.GetGroupsAsync(cancellationToken, isDeleted: true);
+            var deletedGroups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken, isDeleted: true);
             return PartialView("GetGroupsAjax", deletedGroups);
         }
         return NotFound();

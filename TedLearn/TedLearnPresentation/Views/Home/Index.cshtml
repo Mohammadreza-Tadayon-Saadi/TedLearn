@@ -1,4 +1,6 @@
 ﻿@using Core.CustomResults;
+@using TedLearnPresentation.ViewComponents.CourseComponents;
+@using TedLearnPresentation.ViewComponents.CourseGroupComponents;
 @{
     ViewData["Title"] = "صفحه اصلی";
 }
@@ -45,7 +47,7 @@
 
 <main class="w-full mb-10">
     <!-- Header -->
-    @*@await Component.InvokeAsync("CourseGroupComponent")*@
+    @await Component.InvokeAsync(typeof(CourseGroupViewComponent))
     <!-- End Header -->
     <!-- Course List -->
     <section class="">
@@ -61,9 +63,7 @@
 
         <div class="flex justify-center">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6">
-
-                @*@await Component.InvokeAsync("CourseComponent")*@
-
+                @await Component.InvokeAsync(typeof(CourseViewComponent) , new CourseViewComponentOptions())
             </div>
         </div>
     </section>

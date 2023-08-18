@@ -1,0 +1,36 @@
+﻿@using Services.DTOs.AdminPanel.Course.CourseGroup;
+@model List<ShowCourseGroupDto>
+
+@if (Model.Any())
+{
+    <nav class="leading-7 list-disc marker:text-gray-400">
+        <ul>
+            @foreach (var item in Model.Where(cg => cg.SubGroupId == null))
+            {
+                @foreach (var group in Model.Where(cg => cg.SubGroupId == item.GroupId))
+                {
+                    <li class="nav-menu">
+                        <span id="icon" class="transition-transform duration-300 relative top-1 text-xs text-slate-300">
+                            <i class="fi fi-rr-caret-left"></i>
+                        </span>
+                        <p class="inline-block cursor-pointer mr-2 hover:text-sky-400 transition-colors duration-300">
+                            @group.Title
+                        </p>
+                        @if (Model.Any(cg => cg.SubGroupId == group.GroupId))
+                        {
+                            <ul class="nav-subMenu accordion-menu mr-8">
+                                @foreach (var subGroup in Model.Where(cg => cg.SubGroupId == group.GroupId))
+                                {
+                                    <li>
+                                        <a href="/Home/Courses?categories=@(subGroup.Title)" class="hover:text-sky-400 transition-colors duration-300">@subGroup.Title</a>
+                                        <i class="relative top-1 fi fi-rr-angle-small-left text-gray-400"></i>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+}

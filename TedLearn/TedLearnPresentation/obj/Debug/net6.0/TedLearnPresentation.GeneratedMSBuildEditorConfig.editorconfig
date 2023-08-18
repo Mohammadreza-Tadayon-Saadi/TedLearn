@@ -248,6 +248,34 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Components/CourseComponent/CourseCard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcG9uZW50c1xDb3Vyc2VDb21wb25lbnRcQ291cnNlQ2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Components/CourseGroupComponent/CourseGroup.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcG9uZW50c1xDb3Vyc2VHcm91cENvbXBvbmVudFxDb3Vyc2VHcm91cC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Components/CourseGroupComponent/CourseGroupInMobile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcG9uZW50c1xDb3Vyc2VHcm91cENvbXBvbmVudFxDb3Vyc2VHcm91cEluTW9iaWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Course/Basket.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXEJhc2tldC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Course/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Course/ShowComment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXFNob3dDb21tZW50LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Course/ShowCourse.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXFNob3dDb3Vyc2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Views/Error/Error404.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXJyb3JcRXJyb3I0MDQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

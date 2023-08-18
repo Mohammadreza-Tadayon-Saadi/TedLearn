@@ -1,0 +1,76 @@
+﻿@using Core.Utilities;
+@using Services.DTOs.Home.Course;
+@model List<ShowCourseCardDto>
+@inject ICourseEpisodeServices _courseEpisodeServices;
+
+<!-- Course -->
+@foreach (var item in Model)
+{
+    <div id="course" class="h-[22.2rem] bg-slate-50 rounded-md drop-shadow-2xl overflow-hidden shadow-2xl border border-slate-300">
+        <!-- Discount -->
+        @if (item.Discount != 0)
+        {
+            <div id="discount" class="w-28 h-6 text-sm text-slate-100 absolute top-2 left-0 md:-left-[45px] text-end pl-1 pt-[1px] bg-red-600 bg-discount md:transition-all md:duration-300">
+                <span>@item.Discount</span>
+            </div>
+        }
+        <!-- End Discount -->
+        <!-- Course Image (Header Card) -->
+        <div class="flex justify-center w-full h-[11rem]">
+            <a href="/Home/ShowCourse/@item.CourseTitle" class="w-full">
+                <img class="w-full h-full" src="/Courses/course-image/@item.CourseImage" alt="@item.CourseTitle Image">
+            </a>
+        </div>
+        <!-- End Course Image (Header Card) -->
+        <!-- Teacher & Title Course (Main Card) -->
+        <div class="pt-4 px-2 font-semibold w-full h-32">
+            <a href="/Home/ShowCourse/@item.CourseTitle" class="truncate transition-colors duration-300 block hover:text-sky-400">@item.CourseTitle</a>
+            <div class="flex justify-between">
+                <a href="#" class="my-4 text-sm text-gray-600">
+                    <span class="mt-4 relative text-gray-400 ml-1">
+                        <i class="far fa-id-badge"></i>
+                    </span>
+                    @item.TeacherName
+                </a>
+
+                @if (item.CoursePrice != 0)
+                {
+                    if (item.CountOfUser != 0)
+                    {
+                        <p class="text-xs mx-2 mt-2 flex items-center bg-indigo-300 px-2 rounded-full text-indigo-700 transition-colors duration-300">
+                            <span class="relative text-base top-[2px] ml-1">
+                                <i class="fi fi-rr-graduation-cap"></i>
+                            </span>
+                            @item.CountOfUser نفر
+                        </p>
+                    }
+                }
+            </div>
+            <a href="/Home/ShowCourse/@item.CourseTitle" class="text-sm text-indigo-700">
+                مشاهده دوره
+                <span class="relative top-1"><i class="fi fi-rr-arrow-alt-left"></i></span>
+            </a>
+        </div>
+        <!-- End Teacher & Title Course (Main Card) -->
+        <!-- Line For Separate -->
+        <div class="flex justify-center">
+            <div class="w-11/12 h-[1px] sm:h-[2px] bg-gray-300">
+            </div>
+        </div>
+        <!-- End Line For Separate -->
+        <!-- Time & Cost (Footer Card) -->
+        @{
+            var totalTimes = await _courseEpisodeServices.GetTotalTimeForCourseAsync(item.CourseId);
+        }
+        <div class="flex justify-between mx-4 font-semibold items-center h-12">
+            <div class="text-indigo-700">
+                <span class="relative top-[1px]"><i class="far fa-clock"></i></span>
+                <h1 class="inline-block text-sm">@totalTimes</h1>
+            </div>
+            <div class="text-green-600">@((item.CoursePrice != 0) ? item.CoursePrice.ToToman() : "رایـگانـــــــــــ")</div>
+        </div>
+        <!-- End Time & Cost (Footer Card) -->
+
+    </div>
+}
+<!-- End Course -->

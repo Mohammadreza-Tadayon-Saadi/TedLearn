@@ -1,0 +1,627 @@
+﻿@*@model TedLearn_Core.ViewModels.Courses.ShowCourseDetailsViewModel
+@inject TedLearn_Core.Services.Interfaces.ICourseServices _courseServices;
+@inject TedLearn_Core.Services.Interfaces.IUserServices _userServices;
+@using TedLearn_Core.Convertors
+
+@{
+    ViewData["Title"] = "آموزش " + Model.CourseTitle;
+    TimeSpan totalTime = _courseServices.GetTotalTimeForCourse(Model.CourseId);
+    var seasonList = Model.CourseSeasons.Where(cs => !cs.IsDelete).ToArray();
+
+    var userIsAuthenticated = User.Identity.IsAuthenticated;
+    string userName = "";
+    bool UserInCourse = false;
+    if (userIsAuthenticated)
+    {
+        userName = User.Identity.Name;
+        UserInCourse = _courseServices.IsUserInCourse(userName, Model.CourseId);
+    }
+}
+
+@section Header{
+    <header>
+        <!-- NavBar -->
+        <partial name="_HomeNavBar" />
+        <!-- End NavBar -->
+
+        <div class="h-12 flex text-xs md:text-base items-center md:justify-between w-full text-slate-100 bg-indigo-700 shadow-2xl rounded-b-3xl sm:h-16">
+        </div>
+
+        <!-- Rout -->
+        <section class="flex justify-center text-sm md:text-base w-full h-20 sm:h-16 mt-8 md:mt-4 md:mb-6">
+            <div class="w-11/12 border border-slate-300 rounded-xl shadow-xl bg-slate-50">
+                <ul class="flex flex-wrap h-full items-center pr-4 font-bold text-gray-500">
+                    <li class="relative top-1">
+                        <span class="text-base md:text-lg mx-2 md:mx-3">
+                            <i class="fi fi-rr-angle-small-left"></i>
+                        </span>
+                        <a href="/Home" class="text-lg md:text-xl hover:text-indigo-700"><i class="fi fi-rr-home"></i></a>
+                    </li>
+                    <li class="text-[12px] sm:text-sm md:text-base">
+                        <a href="/Home/Courses" class="inline-block relative bottom-[px] hover:text-indigo-700 transition-colors duration-300">دوره های آموزشی</a>
+                        <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3 relative top-1">
+                            <i class="fi fi-rr-angle-small-left"></i>
+                        </span>
+                    </li>
+                    <li class="text-[12px] sm:text-sm md:text-base">
+                        <a href="/Home/Courses?categories=@Model.GroupName" class="inline-block relative bottom-[px] hover:text-indigo-700 transition-colors duration-300">@Model.GroupName</a>
+                        <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3 relative top-1">
+                            <i class="fi fi-rr-angle-small-left"></i>
+                        </span>
+                    </li>
+                    <li class="text-indigo-700 text-[12px] sm:text-sm md:text-base">
+                        <p>@Model.CourseTitle</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <!-- End Rout -->
+        <!-- Navbar Course -->
+        @await Component.InvokeAsync("CourseGroupComponent")
+        <!-- End Navbar Course -->
+    </header>
+}
+@if(ViewBag.SqlException == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">خطای ناشناخته</h1>
+                <p class="text-sm text-center mt-2">
+                    متاسفانه خطایی سمت سرور رخ داده است.لطفا دوباره امتحان کنید و در صورت رخ دادن دوباره این خطا به مدیر سیستم اطلاع دهید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+}
+@if (ViewBag.AppOrTimeOutExeption == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
+                <p class="text-sm text-center mt-2">
+                    متاسفانه درخواست شما انجام نشد.لطفا چند دقیقه ی دیگر دوباره امتحان کنید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+}
+@if (ViewBag.ConCurrency == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">خطای همزمانی</h1>
+                <p class="text-sm text-center mt-2">
+                    متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+}
+@if (ViewBag.IsUserInCourse == true)
+{
+    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
+        <div id="notice" class="scale-up-center w-64 bg-slate-100 rounded-md p-2">
+            <!-- Header -->
+            <div class="w-full h-24 flex justify-center items-center">
+                <span><i class="fa fa-warning text-6xl text-yellow-500"></i></span>
+            </div>
+            <!-- End Header -->
+            <div class="w-full h-auto">
+                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
+                <p class="text-sm text-center mt-2">
+                    شما قبلا در این دوره ثبت نام کردید.
+                </p>
+            </div>
+            <div class="w-full h-12 flex justify-center items-end">
+                <button id="ok" class="w-16 h-8 bg-yellow-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/notice.js"></script>
+}
+
+<main class="w-full flex justify-center mb-10 mt-6">
+    <div class="w-11/12 md:w-[98%] h-full flex flex-wrap justify-between">
+        <!-- Course Information -->
+        <section class="w-full md:w-[30%] h-full">
+            <!-- Teacher Information In MD Resolution -->
+            <article class="hidden md:block w-full p-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400 mb-4">
+                <div class="h-1/2 flex justify-center items-center">
+                    <img class="w-1/2 h-full rounded-full shadow-md shadow-slate-400 drop-shadow-lg" src="/UserAvatar/@Model.TeacherProfile" alt="Teacher-Image" srcset="">
+                </div>
+                <div class="h-1/2 flex justify-center relative text-sm font-semibold text-center">
+                    <p class="absolute top-6 bg-slate-50 px-4">
+                        @((String.IsNullOrEmpty(Model.TeacherLastName)) ? Model.TeacherUserName : Model.TeacherLastName)
+                    </p>
+                    <div class="w-full mt-4">
+                        <div class="w-full my-5 h-[1px] bg-slate-300">
+                        </div>
+
+                        @if (!String.IsNullOrEmpty(Model.TeacherBio))
+                        {
+                            <p class="break-words">
+                                @Model.TeacherBio
+                            </p>
+                        }
+                        @if (!String.IsNullOrEmpty(Model.TeacherWebsite))
+                        {
+                            <p>
+                                رزومه کامل من رو میتونید از این <a href="https://@Model.TeacherWebsite" class="text-indigo-700">لینک</a> مشاهده کنید.
+                            </p>
+                        }
+                    </div>
+                </div>
+            </article>
+            <!-- End Teacher Information In MD Resolution -->
+            <!-- Information -->
+            <article class="w-full h-full py-2 px-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                <!-- Price -->
+                <div class="mt-2">
+                    <span class="text-green-500 ml-1 sm:ml-0 relative top-1 sm:top-0"><i class="fa fa-dollar" aria-hidden="true"></i></span>
+                    <span class=" text-xs sm:text-sm break-words">
+                        قیمت این دوره :
+                        @if (Model.CoursePrice != 0)
+                        {
+                            <!-- <span class="text-red-700 line-through text-base sm:text-lg font-semibold">@Model.CoursePrice.ToString("#,0")</span> -->
+                            <span class=" text-base sm:text-lg text-green-400 font-semibold mr-1">
+                                @Model.CoursePrice.ToString("#,0")
+                                <span class="text-sm">تومان</span>
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="text-base text-green-400 font-semibold">رایگانـــــــــــــــ</span>
+                        }
+                    </span>
+                    <!-- <p class="mt-2 text-xs sm:text-sm relative">
+                        مهلت استفاده از این تخفیف :
+                        <span class="text-red-600 font-semibold">12:25:30</span>
+                    </p> -->
+                </div>
+                <!-- End Price -->
+                <!-- Line For Seperate -->
+                <div class="w-full my-2 sm:my-4 h-[1px] bg-slate-300">
+                </div>
+                <!-- End Line For Seperate -->
+                <!-- Further Information -->
+                <ul class="text-xs sm:text-[13px] leading-8">
+                    <!-- Teacher In Less Than MD Resolution -->
+                    <li class="md:hidden">
+                        <span class="text-gray-500"><i class="fi fi-rr-user"></i></span>
+                        مدرس این دوره :
+                        <span class="font-semibold">
+                            @((String.IsNullOrEmpty(Model.TeacherLastName)) ? Model.TeacherUserName : Model.TeacherLastName)
+                            <a href="@Model.TeacherWebsite" class="text-sky-500">(رزومه)</a>
+                        </span>
+                    </li>
+                    <!-- Teacher In Less Than MD Resolution -->
+                    <!-- EpisodeCount -->
+                    <li>
+                        <span class="text-gray-500"><i class="fi fi-rr-video-camera" aria-hidden="true"></i></span>
+                        تعداد قسمت ها :
+                        <span class="font-semibold">
+                            @{
+                                var totalEpisodes = 0;
+                                foreach (var seasonCount in Model.CourseSeasons.Where(ce => !ce.IsDelete))
+                                {
+                                    foreach (var episodeCount in seasonCount.CourseEpisodes.Where(ce => !ce.IsDelete))
+                                    {
+                                        totalEpisodes++;
+                                    }
+                                }
+                            }
+                            @totalEpisodes
+                            قسمت
+                        </span>
+                    </li>
+                    <!-- End EpisodeCount -->
+                    <!-- Course Time -->
+                    <li>
+                        <span class="text-gray-500"><i class="far fa-clock" aria-hidden="true"></i></span>
+                        مدت زمان دوره :
+                        <span class="font-semibold"> @totalTime </span>
+                    </li>
+                    <!-- End Course Time -->
+                    <!-- Course Level -->
+                    <li>
+                        <span class="text-gray-500"><i class="fa fa-level-up" aria-hidden="true"></i></span>
+                        سطح دوره :
+                        <span class="font-semibold text-sky-500">@Model.CourseLevel</span>
+                    </li>
+                    <!-- End Course Level -->
+                    <!-- Course Status -->
+                    <li>
+                        <span class="text-gray-500"><i class="fi fi-rr-info"></i></span>
+                        وضعیت دوره :
+                        <span id="status" cstatus="@Model.StatusTitle" class="font-semibold text-sky-500">@Model.StatusTitle</span>
+                    </li>
+                    <!-- End Course Status -->
+                    <!-- Update Date -->
+                    <li>
+                        <span class="text-gray-500"><i class="far fa-calendar-times" aria-hidden="true"></i></span>
+                        تاریخ آخرین بروزرسانی :
+                        <span class="font-semibold">@Model.LastUpdateDate.ToShamsi()</span>
+                    </li>
+                    <!-- End Update Date -->
+
+                </ul>
+                <!-- End Further Information -->
+
+            </article>
+            <!-- End Information -->
+            <!-- Buy Course -->
+            @if (Model.CoursePrice != 0 && !UserInCourse)
+            {
+                <a href="/Home/Courses/BuyCourse/@Model.CourseTitle" class="flex justify-center items-center text-sm sm:text-base mt-4 bg-green-500 border-[1px] shadow-lg border-green-600 w-full h-12 text-slate-100 rounded-lg hover:bg-green-600 transition-colors duration-300">
+                    ثبتــــــــ نام در این دوره
+                </a>
+            }
+            <!-- End Buy Course -->
+            <!-- You Have This Course -->
+            @if (UserInCourse)
+            {
+                <div class="flex justify-center items-center text-sm mt-4 font-semibold bg-slate-50 border-[1px] shadow-lg border-green-600 w-full h-12 text-green-600 rounded-lg">
+                    شما قبلا در این دوره ثبت نام کردید.
+                    <span><i class="fi fi-rr-check relative top-[2px]"></i></span>
+                </div>
+            }
+            <!-- End You Have This Course -->
+            <!-- Tags -->
+            @if (!String.IsNullOrEmpty(Model.CourseTags))
+            {
+                <div class="w-full h-full text-xs sm:text-sm mt-4 py-2 px-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                    <!-- Header -->
+                    <div>
+                        <span class="ml-1 relative top-1 text-gray-400"><i class="fi fi-rr-tags"></i></span>
+                        <span>برچسب ها :</span>
+                    </div>
+
+                    <!-- Line For Separate -->
+                    <div class="w-full mt-2 mb-6 h-[1px] bg-slate-300">
+                    </div>
+                    <!-- EndLine For Separate -->
+                    <!-- End Header -->
+                    <!-- Main Tags -->
+                    <div class="my-4 flex flex-wrap gap-y-2">
+                        @foreach (var item in Model.CourseTags.Split("-"))
+                        {
+                            <a href="/Home/Courses?filterByCourseTitle=@item" class="px-2 py-1 ml-2 bg-slate-100 border border-slate-300 rounded-md">@item.Trim()</a>
+                        }
+                    </div>
+                    <!-- End Main Tags -->
+                </div>
+            }
+
+            <!-- End Tags -->
+            <!-- AnswerQuestions -->
+            <a href="/Home/ShowCourse/@((!String.IsNullOrEmpty(Model.SubGroupName)) ? Model.SubGroupName : Model.GroupName)/@Model.CourseTitle/Question" class="flex justify-center items-center text-sm sm:text-base mt-4 bg-indigo-700 border-[1px] shadow-lg border-indigo-700 w-full h-12 text-slate-100 rounded-lg hover:bg-indigo-500 transition-colors duration-300">
+                پرسش سوال درباره ی این دوره
+            </a>
+            <!-- End AnswerQuestions -->
+        </section>
+        <!-- End Course Information -->
+        <!-- Course Content -->
+        <section class="flex flex-wrap w-full md:w-[69%] h-full mt-4 md:mt-0">
+            <!-- Course Videos & Other Option -->
+            <article class="w-full h-full sm:py-2 sm:px-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                <div id="episodeResult" class="w-full h-11/12">
+                    <video controls class="w-full h-full rounded-t-lg sm:rounded-lg" poster="/Courses/course-image/@Model.CourseImage">
+                        <source src="/Courses/course-demos/@Model.CourseDemoFile" type="video/mp4">
+                    </video>
+                </div>
+                <div class="w-full h-1/12 mt-4 mb-2">
+                    <ul id="course-option-item" class="w-full h-full flex flex-wrap justify-around text-xs sm:text-sm md:text-base font-semibold list-none no-underline">
+                        <li id="head-season" class="cursor-pointer text-click text-click-underline-opening active">سرفصل های دوره</li>
+                        <li id="comment" class="cursor-pointer text-click text-click-underline-opening">نظرات</li>
+                        <li id="description" class="cursor-pointer text-click text-click-underline-opening">توضیحات</li>
+                        <li id="requirement" class="cursor-pointer text-click text-click-underline-opening">پیش نیازها</li>
+                    </ul>
+                </div>
+            </article>
+            <!-- End Course Videos & Other Option -->
+            <!-- Course Option -->
+            <section id="course-option" class="w-full">
+
+                <!-- Season -->
+                <article id="head-season-section" class="w-full h-full p-2 sm:p-4 mt-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                    <!-- Header -->
+                    <div class="flex justify-between items-center mt-2 text-base sm:text-lg font-semibold">
+                        <div class="flex">
+                            <img class="w-7 h-7 ml-1 relative bottom-1 sm:bottom-0" src="/images/play-pusepng.png" alt="Play-Icon">
+                            <h1>
+                                سر فصل های دوره :
+                            </h1>
+                        </div>
+                        <!-- Count Of Season -->
+                        @{
+                            int countOfSeasons = Model.CourseSeasons.Count();
+                        }
+                        <span class="sm:hidden text-xs bg-indigo-700 p-2 rounded-md text-slate-50">@countOfSeasons</span>
+                        <span class="hidden sm:inline-block text-xs bg-indigo-700 p-2 px-4 rounded-full text-slate-50">@countOfSeasons فصل</span>
+                        <!-- End Count Of Season -->
+                    </div>
+
+                    <div class="w-full my-4 h-[1px] bg-slate-300">
+                    </div>
+                    <!-- End Header -->
+                    <!-- Season -->
+                    <div class="p-3 pr-4 mb-4 relative border border-dashed border-indigo-600 bg-indigo-200 rounded-md text-indigo-600 font-semibold text-[12px]">
+                        <p>
+                            <span class="absolute top-[10px] -right-2 w-[19px] h-[19px] rounded-full bg-indigo-200 text-lg"><i class="fi fi-rr-info"></i></span>
+                            لطفا در صورت اقدام به دانلود تا انتها فرایند دانلود ، این صفحه را باز نگاه دارید.
+                        </p>
+                    </div>
+
+                    @if (Model.CoursePrice != 0 && !UserInCourse)
+                    {
+                        <div class="p-3 pr-4 mb-4 relative border border-dashed border-indigo-600 bg-indigo-200 rounded-md text-indigo-600 font-semibold text-[12px]">
+                            <p>
+                                <span class="absolute top-[10px] -right-2 w-[19px] h-[19px] rounded-full bg-indigo-200 text-lg"><i class="fi fi-rr-info"></i></span>
+                                بعد از ثبت نام در دوره ، لینک های دانلود و نمایش انلاین دوره برای شما فعال خواهد شد.
+                            </p>
+                        </div>
+                    }
+
+                    @if (Model.CourseSeasons.Any())
+                    {
+                        <div class="flex flex-wrap justify-center w-full mt-6 relative">
+                            @for (int i = 0; i < seasonList.Count(); i++)
+                            {
+                                <!-- Main Seasons -->
+                                <div class="season bg-white z-[1000] @((i >= 1) ? "mt-4":"") cursor-pointer shadow-lg drop-shadow-md border-[1px] border-slate-200 w-full h-full py-4 rounded-md">
+                                    <!-- Header Of Season -->
+                                    <div class="flex justify-between items-center px-3">
+                                        <p class="text-indigo-700 font-semibold w-full">
+                                            <span class="text-xl sm:text-2xl relative top-0.5 sm:top-1"><i class="fa fa-folder"></i></span>
+                                            فصل @(i + 1) : <span class="text-[13px] sm:text-sm md:text-base text-black">@seasonList[i].SeasonTitle</span>
+                                        </p>
+                                        <span class="text-gray-500 text-sm sm:text-base relative top-1 mr-1 sm:mr-0"><i class="fi fi-rr-angle-down"></i></span>
+                                    </div>
+                                    <!-- End Header Of Season -->
+                                </div>
+                                <!-- Main Seasons -->
+                                <!-- Episode -->
+                                @if (seasonList[i].CourseEpisodes.Where(ce => !ce.IsDelete).Any())
+                                {
+                                    <div id="episode" class="accordion-menu bg-white -mt-10 shadow-lg drop-shadow-md border-[1px] border-slate-200 w-full py-4 rounded-md text-[13px] sm:text-sm">
+                                        <div class="mt-8"></div>
+                                        @{
+                                            var episodeList = seasonList[i].CourseEpisodes.Where(ce => !ce.IsDelete).ToArray();
+                                        }
+                                        @for (int j = 0; j < episodeList.Count(); j++)
+                                        {
+                                            double episodeTimeSeconds = episodeList[j].EpisodeTime.TotalSeconds;
+
+                                            <div id="episode-item" class="w-full flex flex-wrap justify-center z-[999] px-2">
+                                                <div class="w-[99%] flex flex-wrap justify-between items-center bg-slate-50 p-4 pr-4 sm:pr-6 border-2 border-dotted border-slate-300 rounded-lg mt-4">
+                                                    <div class="flex flex-wrap relative mb-2 sm:mb-0">
+                                                        <span class="flex justify-center items-center z-[1000] absolute -top-1 -right-7 sm:-right-9 text-xs font-semibold bg-indigo-700 w-6 h-6 sm:w-7 sm:h-7 rounded-full text-slate-50">@(j + 1)</span>
+                                                        <p>@episodeList[j].EpisodeTitle</p>
+                                                        <span class="mx-2 w-[1px] h-7 bg-gray-400"></span>
+                                                        <p class="flex justify-center items-center text-base sm:text-lg text-indigo-700 rounded-full">
+                                                            @if (episodeList[j].IsFree || UserInCourse)
+                                                            {
+                                                                <i class="relative top-[2px] fi fi-rr-unlock"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="relative top-[2px] fi fi-rr-lock"></i>
+                                                            }
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex justify-center items-center">
+                                                        @if (episodeTimeSeconds > 0)
+                                                        {
+                                                            <p class="text-xs sm:text-sm">@episodeList[j].EpisodeTime</p>
+                                                        }
+                                                        @if (episodeList[j].IsFree || UserInCourse)
+                                                        {
+                                                            @if (episodeTimeSeconds > 0)
+                                                            {
+                                                                <span class="mx-2 w-[1px] h-7 bg-gray-400"></span>
+                                                                <button csecure="@Model.CourseTitle" esecure="@episodeList[j].EpisodeTitle" class="flex justify-center items-center w-7 h-7 sm:w-10 sm:h-10">
+                                                                    <img id="play-episode-img" class="bg-indigo-700 rounded-full" src="/images/play-pusepng.png" alt="Play-Icon">
+                                                                </button>
+                                                            }
+                                                            <a href="/DownloadEpisode/@episodeList[j].EpisodeTitle/@seasonList[i].SeasonId" class="flex justify-center items-center text-sm sm:text-base bg-indigo-900 w-7 h-7 sm:w-10 sm:h-10 rounded-full text-slate-50 mr-2"><i class="relative top-[2px] fi fi-rr-download"></i></a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div id="episode" class="accordion-menu bg-white -mt-10 shadow-lg drop-shadow-md border-[1px] border-slate-200 w-full py-4 rounded-md text-[13px] sm:text-sm">
+                                        <div class="mt-10"></div>
+                                        <div id="episode-item" class="w-full flex flex-wrap justify-center z-[999] px-2">
+                                            <div class="p-3 pr-4 w-full relative border border-dashed border-yellow-600 bg-yellow-200 rounded-md text-yellow-600 font-semibold text-[12px]">
+                                                <p>
+                                                    <span class="absolute top-2 -right-2 h-0 bg-yellow-200 text-lg"><i class="fa fa-warning"></i></span>
+                                                    هنوز جلسه ای برای این فصل منتشر نشده است.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <!-- End Episode -->
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="p-3 pr-4 relative border border-dashed border-yellow-600 bg-yellow-200 rounded-md text-yellow-600 font-semibold text-[12px]">
+                            <p>
+                                <span class="absolute top-2 -right-2 h-0 bg-yellow-200 text-lg"><i class="fa fa-warning"></i></span>
+                                هنوز فصلی از این دوره منتشر نشده است.
+                            </p>
+                        </div>
+                    }
+
+                    <!-- End Season -->
+                </article>
+                <!-- End Season -->
+                <!-- Comment -->
+                <article id="comment-section" class="hidden w-full h-full p-4 mt-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                    <!-- Header -->
+                    <div class="mt-2 text-lg font-semibold">
+                        <h1>
+                            <span class="text-gray-400 ml-1"><i class="fa fa-comment"></i></span>
+                            نظرات کاربران :
+                        </h1>
+                    </div>
+
+                    <div class="w-full my-4 h-[1px] bg-slate-300">
+                    </div>
+                    <!-- End Header -->
+                    <!-- Register Your Comment -->
+                    <div class="p-3 pr-4 mb-4 relative border border-dashed border-yellow-600 bg-yellow-200 rounded-md text-yellow-600 font-semibold text-[12px]">
+                        <p>
+                            <span class="absolute top-2 -right-2 h-0 bg-yellow-200 text-lg"><i class="fa fa-warning"></i></span>
+                            لطفا سوالات خود را در قسمت <a class="text-yellow-700" href="">پرسش و پاسخ</a> مطرح کنید.سوالات پرسیده شده در قسمت نظرات حذف خواهد شد.
+                        </p>
+                    </div>
+
+                    @if (userIsAuthenticated)
+                    {
+                        if (Model.StatusTitle == "پایان یافته")
+                        {
+                            <form id="form" current-page="1" class="mb-6 text-xs sm:text-sm">
+                                <label id="comment-header" class="cursor-text">
+                                    نظر خود را وارد کنید!
+                                </label>
+                                <span class="text-xs">
+                                    (حداکثر تعداد کارکتر<span class="count-chars"></span>)
+                                </span>
+                                <div class="mb-2"></div>
+                                <textarea class="w-full min-h-[90px] h-[90px] py-2 px-4 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition duration-300 rounded-lg outline-none"
+                                  name="comment" id="comment-users" data-max-chars="500" placeholder="نظر خود را وارد کنید ..."></textarea>
+                                <input type="hidden" id="replyId" name="replyId" />
+                                <div class="w-full flex justify-end mt-2">
+                                    <button id="form-submit" class="bg-yellow-400 border-[1px] shadow-lg border-yellow-500 w-full sm:w-1/2 md:w-1/4 h-10 text-slate-100 rounded-lg hover:bg-yellow-500 transition-colors duration-300">ثبت دیدگاه</button>
+                                </div>
+                            </form>
+                            <!-- End Register Your Comment -->
+                        }
+                        else
+                        {
+                            <div class="p-3 pr-4 mb-4 relative border border-dashed border-yellow-600 bg-yellow-200 rounded-md text-yellow-600 font-semibold text-[12px]">
+                                <p>
+                                    <span class="absolute top-2 -right-2 h-0 bg-yellow-200 text-lg"><i class="fa fa-warning"></i></span>
+                                    قبل از اتمام دوره امکان درج نظر وجود ندارد!
+                                </p>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="p-3 pr-4 mb-4 relative border border-dashed border-indigo-600 bg-indigo-200 rounded-md text-indigo-600 font-semibold text-[12px]">
+                            <p>
+                                <span class="absolute top-[10px] -right-2 w-[19px] h-[19px] rounded-full bg-indigo-200 text-lg"><i class="fi fi-rr-info"></i></span>
+                                برای درج نظر باید در سایت عضو شوید.
+                            </p>
+                        </div>
+                    }
+                    <!-- User Comment -->
+                    <div id="result-comment" csecure="@Model.CourseId" class="w-full"></div>
+                    <!-- End User Comment -->
+                </article>
+                <!-- End Comment -->
+                <!-- Description -->
+                <article id="description-section" class="hidden w-full h-full p-4 mt-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                    <!-- Header -->
+                    <div class="mt-2 text-lg font-semibold">
+                        <h1>
+                            <span class="text-gray-400 ml-1 relative top-1"><i class="fi fi-rr-info"></i></span>
+                            توضیحات دوره :
+                        </h1>
+                    </div>
+
+                    <div class="w-full my-4 h-[1px] bg-slate-300">
+                    </div>
+                    <!-- End Header -->
+
+                    <div class="text-sm font-semibold text-justify">
+                        @Html.Raw(Model.CourseDescription)
+                    </div>
+                </article>
+                <!-- End Description -->
+                <!-- Requirement -->
+                <article id="requirement-section" class="hidden w-full h-full p-4 mt-4 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
+                    <!-- Header -->
+                    <div class="mt-2 text-lg font-semibold">
+                        <h1>
+                            <span class="text-gray-400 ml-1 relative top-1"><i class="fi fi-rr-layers"></i></span>
+                            پیش نیاز های دوره :
+                        </h1>
+                    </div>
+
+                    <div class="w-full my-4 h-[1px] bg-slate-300">
+                    </div>
+                    <!-- End Header -->
+
+                    <div class="font-semibold px-4">
+                        @if (!String.IsNullOrEmpty(Model.CourseRequirement))
+                        {
+                            <ul class="leading-8 list-decimal marker:text-black text-sky-500">
+                                @foreach (var item in Model.CourseRequirement.Split("-"))
+                                {
+                                    <li>@item.Trim()</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p class="text-sky-500">پیش نیاز ندارد.</p>
+                        }
+                    </div>
+                </article>
+                <!-- End Requirement -->
+            </section>
+            <!-- End Course Option -->
+        </section>
+        <!-- End Course Content -->
+    </div>
+</main>
+
+@section Scripts{
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/ckeditor/ckeditor.js"></script>
+    <script asp-append-version="true" src="/js/training.js"></script>
+}
+*@

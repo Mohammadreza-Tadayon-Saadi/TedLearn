@@ -11,7 +11,7 @@ public interface ICourseEpisodeServices
     Task<bool> IsEpisodeFileExistAsync(string fileName, CancellationToken cancellationToken = default);
     Task<EditEpisodeDto> GetEpisodeForEditAsync(int episodeId, CancellationToken cancellationToken = default);
     Task<CourseEpisode> GetEpisodeByIdAsync(int episodeId, CancellationToken cancellationToken = default, bool withTracking = true, bool? getActive = null);
-
+    Task<TimeSpan> GetTotalTimeForCourseAsync(int courseId, CancellationToken cancellationToken = default);
 
     Task AddEpisodeAsync(CourseEpisode courseEpisode, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);
     Task UpdateCourseEpisodeAsync(CourseEpisode courseEpisode, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);

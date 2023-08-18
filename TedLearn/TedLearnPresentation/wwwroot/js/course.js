@@ -1,8 +1,11 @@
+const orderbyType = document.getElementById("orderByType");
+const take = document.getElementById("take");
+const filterByCourseTitle = document.getElementById("filterByCourseTitle");
 const orderbyPriceInput = document.querySelectorAll("#orderby-price-input");
 const orderbyPriceLabel = document.querySelectorAll("#orderby-price-label");
 const orderbyPrice = document.querySelectorAll(".orderby-price");
-const categories = document.querySelectorAll("#categories");
-const paging = document.querySelectorAll("#paging > span");
+const categories = document.querySelectorAll("#category");
+const paging = document.querySelectorAll("#paging > a");
 var form = document.getElementById("formFilter");
 
 orderbyPriceInput.forEach(item => {
@@ -18,34 +21,30 @@ orderbyPriceInput.forEach(item => {
         })
         item.parentElement.classList.add('active');
         item.checked = true;
-        const label = document.querySelector(".active > label");
-        label.className = "flex justify-center items-center w-full h-full bg-indigo-700 text-slate-50";
+        form.submit();
     });
 });
 
 categories.forEach(item => {
-    item.addEventListener("click", function () {
+    const label = item.parentElement.querySelector('label');
+    label.addEventListener("click", function () {
         categories.forEach(radio => {
             radio.checked = false;
         })
         item.checked = true;
+        form.submit();
     });
 });
 
+orderbyType.addEventListener('change', function () {
+    form.submit();
+
+});
+
 paging.forEach(item => {
+    const priceType = document.querySelector("#orderby-price-input[name='priceType']:checked");
+    const category = document.querySelector("#category[name='category']:checked");
     var pageId = item.getAttribute("pageId");
-
-    item.addEventListener("click", function () {
-        paging.forEach(dis => {
-            dis.classList.remove("bg-indigo-700");
-            dis.classList.add("bg-indigo-300");
-        })
-        if (item.classList.contains("bg-indigo-300"))
-            item.classList.remove("bg-indigo-300");
-
-        item.classList.add("bg-indigo-700");
-
-        $("input#pageId").val(pageId);
-        form.submit();
-    });
+    const url = `/Home/Courses?category=${category.value}&filterByCourseTitle=${filterByCourseTitle.value}&priceType=${priceType.value}&orderByType=${orderbyType.value}&take=${take.value}&pageId=${pageId}`;
+    item.setAttribute("href", url);
 });

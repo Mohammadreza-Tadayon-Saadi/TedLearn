@@ -3,6 +3,7 @@ using Data.Entities.Products.Courses;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs.AdminPanel.Course.CourseGroup;
+using System.Threading;
 
 namespace Services.Contracts.Services;
 
@@ -18,8 +19,8 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
 
     #endregion ConstructorInjection
 
-    public async Task<IEnumerable<ShowCourseGroupDto>> GetGroupsAsync(CancellationToken cancellationToken = default, bool? isDeleted = null)
-        => await ShowCourseGroupDto.ProjectTo(TableNoTracking.Where(cg => cg.SubGroupId == 1 && ((isDeleted.HasValue) ? cg.IsDelete == isDeleted : true)))
+    public async Task<IEnumerable<ShowCourseGroupDto>> GetCourseGroupsAsync(CancellationToken cancellationToken = default, bool? isDeleted = null, bool justGroup = true)
+        => await ShowCourseGroupDto.ProjectTo(TableNoTracking.Where(cg => (justGroup ? cg.SubGroupId == 1 : true) && ((isDeleted.HasValue) ? cg.IsDelete == isDeleted : true)))
                      .ToListAsync(cancellationToken);
 
     public async Task<bool> IsCourseGroupExistAsync(string title, CancellationToken cancellationToken = default)

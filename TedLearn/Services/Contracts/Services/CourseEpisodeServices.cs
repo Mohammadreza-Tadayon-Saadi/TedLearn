@@ -44,6 +44,17 @@ public class CourseEpisodeServices : BaseServices<CourseEpisode> , ICourseEpisod
             return await TableNoTracking.Where(u => u.EpisodeId == episodeId && ((getActive.HasValue) ? u.IsDelete == !getActive : true)).SingleOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<TimeSpan> GetTotalTimeForCourseAsync(int courseId, CancellationToken cancellationToken = default)
+    {
+        var times = await TableNoTracking.Include(ce => ce.CourseSeason)
+                                .Where(ce => ce.CourseSeason.CourseId == courseId && !ce.IsDelete)
+                                .Select(ce => ce.EpisodeTime)
+                                .ToListAsync(cancellationToken);
+
+        var totalTime = times.Sum(t => t.Ticks);
+        return new TimeSpan(totalTime);
+    }
+
 
     public async Task AddEpisodeAsync(CourseEpisode courseEpisode, CancellationToken cancellationToken = default, 
         bool withSaveChanges = true, bool configureAwait = false)
