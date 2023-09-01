@@ -1,7 +1,7 @@
 ﻿using Core.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Services.Contracts.Interfaces;
-using Services.DTOs.UserPanel;
+using Services.DTOs.UserPanel.Transaction;
 
 namespace TedLearnPresentation.Areas.UserPanel.Controllers;
 
@@ -105,7 +105,10 @@ public class TransactionController : Controller
                 ViewBag.IsSuccess = true;
 
                 if (buyCourses)
-                    return Redirect("/UserPanel/MyOrders?buyCourse=true");
+                {
+                    TempData["BuyCourse"] = true;
+                    return Redirect("/UserPanel/MyOrders");
+                }
             }
             else
             {

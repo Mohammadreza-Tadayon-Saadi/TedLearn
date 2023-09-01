@@ -1,7 +1,6 @@
 ﻿using Core.Utilities;
 using Data.Entities.Products.Courses;
 using Microsoft.AspNetCore.Authorization;
-using Services.Dto.AdminPanel.Course.CourseEpisode;
 using Services.DTOs.AdminPanel.Course.CourseEpisode;
 
 namespace TedLearnPresentation.Areas.Admin.Controllers;
@@ -240,7 +239,7 @@ public class ManageCourseEpisodesController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteEpisodes(int episodeId , CancellationToken cancellationToken)
     {
-        var episode = await _courseEpisodeServices.GetEpisodeByIdAsync(episodeId);
+        var episode = await _courseEpisodeServices.GetEpisodeByIdAsync(episodeId, cancellationToken, getActive:true);
         if (episode == null) return PartialView("_Error404");
 
         episode.IsDelete = true;
@@ -259,7 +258,7 @@ public class ManageCourseEpisodesController : Controller
     [HttpPost]
     public async Task<IActionResult> RestoreEpisodes(int episodeId, CancellationToken cancellationToken)
     {
-        var episode = await _courseEpisodeServices.GetEpisodeByIdAsync(episodeId);
+        var episode = await _courseEpisodeServices.GetEpisodeByIdAsync(episodeId, cancellationToken, getActive: false);
         if (episode == null) return PartialView("_Error404");
 
         episode.IsDelete = false;

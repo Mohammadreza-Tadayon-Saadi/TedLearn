@@ -1,4 +1,5 @@
 ﻿using Data.Entities.BaseEntity;
+using Data.Entities.Persons.Discounts;
 using Data.Entities.Persons.Users;
 
 namespace Data.Entities.Sales;
@@ -20,6 +21,7 @@ public class Order : IEntity
     [ForeignKey(nameof(UserId))]
     public User User { get; set; }
     public ICollection<OrderDetail> OrderDetails { get; set; }
+    public UserDiscount UserDiscount { get; set; }
 
     #endregion Relations
 }

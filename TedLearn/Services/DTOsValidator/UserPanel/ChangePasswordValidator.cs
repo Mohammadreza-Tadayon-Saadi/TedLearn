@@ -1,6 +1,6 @@
 ﻿using Core.Securities;
 using FluentValidation;
-using Services.DTOs.UserPanel;
+using Services.DTOs.UserPanel.Home;
 
 namespace Services.DTOsValidator.UserPanel;
 

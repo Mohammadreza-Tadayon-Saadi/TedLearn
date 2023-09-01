@@ -3,7 +3,8 @@ using Data.Context;
 using Data.Entities.Persons.Transactions;
 using Data.Entities.Persons.Users;
 using Microsoft.EntityFrameworkCore;
-using Services.DTOs.UserPanel;
+using Services.DTOs.UserPanel.Home;
+using Services.DTOs.UserPanel.Transaction;
 
 namespace Services.Contracts.Services;
 

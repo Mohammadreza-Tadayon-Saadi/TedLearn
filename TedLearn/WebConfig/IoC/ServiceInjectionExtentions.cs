@@ -18,6 +18,7 @@ public static class ServiceInjectionExtentions
             options.UseSqlServer(configuration.GetConnectionString("TedLearnConnection"), sqlOptions =>
             {
                 //sqlOptions.CommandTimeout(120);
+                sqlOptions.CommandTimeout(10);
             });
         });
     }

@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Services.DTOs.UserPanel;
+using Services.DTOs.UserPanel.Transaction;
 
 namespace Services.DTOsValidator.UserPanel;
 

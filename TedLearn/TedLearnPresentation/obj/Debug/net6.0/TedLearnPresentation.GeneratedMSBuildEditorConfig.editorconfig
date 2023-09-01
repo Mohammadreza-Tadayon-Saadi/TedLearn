@@ -124,6 +124,22 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlUm9sZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageUserDiscounts/AddDiscount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlVXNlckRpc2NvdW50c1xBZGREaXNjb3VudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageUserDiscounts/EditDiscount.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlVXNlckRpc2NvdW50c1xFZGl0RGlzY291bnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageUserDiscounts/GetUserDiscountAjax.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlVXNlckRpc2NvdW50c1xHZXRVc2VyRGlzY291bnRBamF4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageUserDiscounts/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlVXNlckRpc2NvdW50c1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/Admin/Views/ManageUsers/AddUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcTWFuYWdlVXNlcnNcQWRkVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -194,6 +210,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/UserPanel/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcVXNlclBhbmVsXFZpZXdzXEhvbWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/UserPanel/Views/Order/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcVXNlclBhbmVsXFZpZXdzXE9yZGVyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/UserPanel/Views/Order/MyCourses.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcVXNlclBhbmVsXFZpZXdzXE9yZGVyXE15Q291cnNlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Tedi/GitHubProjects/TedLearn/TedLearn/TedLearnPresentation/Areas/UserPanel/Views/Shared/_AsidePanel.cshtml]

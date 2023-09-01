@@ -1,0 +1,116 @@
+﻿@using Services.DTOs.AdminPanel.UserDiscount;
+@model FilteredUserDiscountDto
+
+@if (!Model.UserDiscounts.Any())
+{
+    <tr>
+        <td class="text-center pt-4 align-middle bg-transparent border-t dark:border-white/40 whitespace-nowrap shadow-transparent" colspan="6">هیچ موردی برای نمایش وجود ندارد.</td>
+    </tr>
+}
+else if (Model.UserDiscounts.Any(c => !c.IsDelete))
+{
+    foreach (var item in Model.UserDiscounts)
+    {
+        <tr>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.DiscountCode</span>
+            </td>
+            <td class="p-2 text-center truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.Percent</span>
+            </td>
+            <td class="p-2 text-center truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.UsableCount</span>
+            </td>
+            <td class="p-2 text-center truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.StartDateShamsi</span>
+            </td>
+            <td class="p-2 text-center truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.EndDateShamsi</span>
+            </td>
+            <td class="p-2 align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <a asp-controller="ManageUserDiscounts" asp-action="EditDiscount" asp-route-discountId="@item.DiscountId" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> ویرایش </a>
+                <form id="form-info" method="post" asp-controller="ManageUserDiscounts" asp-action="DeleteDiscount" asp-route-discountId="@item.DiscountId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> حذف </button>
+                </form>
+            </td>
+        </tr>
+    }
+
+    @if (Model.Paginantion.PageCount > 1)
+    {
+        <tr>
+            <td colspan="6">
+                @*<span pre-pageId="@(Model.PageCount - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+                <div id="paging" class="my-4 flex flex-row-reverse justify-center">
+                    @for (int i = 1; i <= Model.Paginantion.PageCount; i++)
+                    {
+                        <span pageId="@i" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px]
+                                @((i == Model.Paginantion.Currentpage)? "bg-indigo-700":"bg-indigo-300")">@i</span>
+                    }
+                </div>
+                @*<span pre-pageId="@(Model.PageCount + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+            </td>
+        </tr>
+    }
+}
+else
+{
+    foreach (var item in Model.UserDiscounts)
+    {
+        <tr>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.DiscountCode</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.Percent</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.UsableCount</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.StartDateShamsi</span>
+            </td>
+            <td class="p-2 text-right truncate align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.EndDateShamsi</span>
+            </td>
+            <td class="p-2 align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-info" method="post" asp-controller="ManageUserDiscounts" asp-action="RestoreDiscount" asp-route-discountId="@item.DiscountId">
+                    @Html.AntiForgeryToken()
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 bg-slate-100 font-semibold leading-tight dark:text-white mx-2 dark:opacity-80 text-slate-400"> بازگردانی </button>
+                </form>
+            </td>
+        </tr>
+    }
+
+    @if (Model.Paginantion.PageCount > 1)
+    {
+        <tr>
+            <td colspan="6">
+                @*<span pre-pageId="@(Model.PageCount - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+                <div id="paging" class="my-4 flex flex-row-reverse justify-center">
+                    @for (int i = 1; i <= Model.Paginantion.PageCount; i++)
+                    {
+                        <span pageId="@i" class="deleted w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px]
+                            @((i == Model.Paginantion.Currentpage)? "bg-indigo-700":"bg-indigo-300")">@i</span>
+                    }
+                </div>
+                @*<span pre-pageId="@(Model.PageCount + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
+            </td>
+        </tr>
+    }
+}
+<script src="/AdminStyles/js/GetUrlForm.js"></script>
+<script type="text/javascript">
+    $("#paging > span").each(function (x, element) {
+        var pageId = element.getAttribute("pageid");
+        element.addEventListener("click", function () {
+            if (element.classList.contains("deleted")) {
+                $("#result").load("/GetUserDiscounts/GetDeletedUserDiscounts?pageId=" + pageId);
+            }
+            else { 
+                $("#result").load("/GetUserDiscounts/GetActiveUserDiscounts?pageId=" + pageId);
+            }
+        });
+    });    
+</script>

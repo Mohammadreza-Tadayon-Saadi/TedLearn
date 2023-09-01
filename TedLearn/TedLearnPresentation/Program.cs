@@ -29,8 +29,8 @@ builder.Services.RegisterServices();
 
 var app = builder.Build();
 
-app.UseNotFoundHandler();
 app.UsePurchacableCoursesHandler();
+app.UseNotFoundHandler();
 
 if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();

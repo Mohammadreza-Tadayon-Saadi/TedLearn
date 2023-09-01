@@ -1,6 +1,6 @@
 ﻿@using Core.Utilities;
-@using Services.DTOs.UserPanel;
-@using Core.Convertors
+@using Core.Convertors;
+@using Services.DTOs.UserPanel.Transaction;
 @model TransactionDto
 @{
     ViewData["Title"] = "کیف پول";
@@ -62,7 +62,7 @@
                             </span>
                             <span asp-validation-for="Amount" class="block text-xs sm:font-semibold text-red-600 relative right-1 mt-2"></span>
                         </label>
-                        <input asp-for="Amount" type="number" id="amount" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none" placeholder="مبلغ مورد نظر(تومان)">
+                        <input asp-for="Amount" value="" type="number" id="amount" class="w-full py-2 px-4 mt-2 bg-slate-10 border-[2px] focus:bg-sky-50 focus:border-gray-400 focus:shadow-md transition-all duration-300 rounded-lg outline-none" placeholder="مبلغ مورد نظر(تومان)">
                     </div>
                     <div class="w-1/4 h-full relative mx-2">
                         <button type="submit" class="bg-green-500 border-[1px] shadow-lg

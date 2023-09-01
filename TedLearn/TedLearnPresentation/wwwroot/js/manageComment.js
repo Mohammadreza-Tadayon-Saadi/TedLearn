@@ -24,7 +24,7 @@ document.querySelectorAll("#delete-comment").forEach(item => {
     item.addEventListener("click", function () {
         $.ajax({
             type: "POST",
-            url: "/Courses/DeleteComment/" + commentId + "/" + courseId + "/" + currentPage,
+            url: `/Home/Courses/DeleteComment/${commentId}/${courseId}/${currentPage}`,
             success: function (response) {
                 $("#result-comment").empty().append(response);
             }

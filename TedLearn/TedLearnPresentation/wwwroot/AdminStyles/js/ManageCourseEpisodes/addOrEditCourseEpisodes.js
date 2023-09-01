@@ -1,8 +1,8 @@
-$(".time-picker").hunterTimePicker({
-    timeFormat: 'HH:mm:ss',
-    lan:'en'
-});
-
+let options = {
+    time: true,
+    date: false,
+};
+jalaliDatepicker.startWatch(options);
 
 const form = document.getElementById("form"); 
 const title = document.getElementById("title");

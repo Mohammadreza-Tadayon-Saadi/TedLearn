@@ -6,6 +6,7 @@ namespace TedLearnPresentation.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize]
+[Route("/Admin/ManageCourseGroups")]
 public class ManageCourseGroupsController : Controller
 {
     #region ConstructorInjection
@@ -26,29 +27,25 @@ public class ManageCourseGroupsController : Controller
 
     #region MainPage
 
-    [Route("/Admin/ManageCourseGroups/ShowGroups")]
-    [Route("/ManageCourseGroups/ShowGroups")]
+    [Route("ShowGroups")]
     public IActionResult ShowGroups()
     {
         return View();
     }
 
-    [Route("/GetGroups/{message}")]
-    public async Task<IActionResult> GetGroups(string message, CancellationToken cancellationToken)
+    [Route("/Admin/ManageCourseGroups/GetGroups/GetAllGroups")]
+    [Route("/Admin/ManageCourseGroups/GetGroups/GetAllDeletedGroups")]
+    public async Task<IActionResult> GetGroups(CancellationToken cancellationToken)
     {
-        if (message == "GetAllGroups")
-        {
-            ViewBag.Groups = true;
-            var groups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken , isDeleted: false);
-            return PartialView("GetGroupsAjax", groups);
-        }
-        else if (message == "GetAllDeletedGroups")
-        {
-            ViewBag.DeletedGroups = true;
-            var deletedGroups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken, isDeleted: true);
-            return PartialView("GetGroupsAjax", deletedGroups);
-        }
-        return NotFound();
+        IEnumerable<ShowCourseGroupDto> groups;
+        var routePattern = HttpContext.Request.Path.Value;
+
+        if (routePattern.Contains("GetAllGroups"))
+            groups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken, isDeleted: false);
+        else
+            groups = await _courseGroupServices.GetCourseGroupsAsync(cancellationToken, isDeleted: true);
+
+        return PartialView("GetGroupsAjax", groups);
     }
 
     #endregion
@@ -56,15 +53,13 @@ public class ManageCourseGroupsController : Controller
 
     #region AddGroup
 
-    [Route("/Admin/ManageCourseGroups/AddGroup")]
-    [Route("/ManageCourseGroups/AddGroup")]
+    [Route("AddGroup")]
     public IActionResult AddGroup()
     {
         return View();
     }
 
-    [Route("/Admin/ManageCourseGroups/AddGroup")]
-    [Route("/ManageCourseGroups/AddGroup")]
+    [Route("AddGroup")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> AddGroup(AddGroupDto model , CancellationToken cancellationToken)
@@ -89,8 +84,7 @@ public class ManageCourseGroupsController : Controller
 
     #region EditGroup
 
-    [Route("/Admin/ManageCourseGroups/EditGroup/{groupId:int}")]
-    [Route("/ManageCourseGroups/EditGroup/{groupId:int}")]
+    [Route("EditGroup/{groupId:int}")]
     public async Task<IActionResult> EditGroup(int groupId , CancellationToken cancellationToken)
     {
         var group = await _courseGroupServices.GetGroupForEditAsync(groupId , cancellationToken);
@@ -105,8 +99,7 @@ public class ManageCourseGroupsController : Controller
         return View(group);
     }
 
-    [Route("/Admin/ManageCourseGroups/EditGroup")]
-    [Route("/ManageCourseGroups/EditGroup")]
+    [Route("EditGroup")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> EditGroup(EditGroupDto model, string preTitle, CancellationToken cancellationToken)
@@ -120,7 +113,7 @@ public class ManageCourseGroupsController : Controller
         if (Convert.ToBase64String(group.Version) != model.Base64Version)
         {
             TempData["ConcurrencyInEditGroup"] = true;
-            return Redirect($"/ManageCourseGroups/EditGroup/{model.GroupId}");
+            return Redirect($"/Admin/ManageCourseGroups/EditGroup/{model.GroupId}");
         }
 
         #region ValidationInput
@@ -154,8 +147,7 @@ public class ManageCourseGroupsController : Controller
 
     #region MainPage
 
-    [Route("/Admin/ManageCourseGroups/ShowSubGroups/{ParentId:int}")]
-    [Route("/ManageCourseGroups/ShowSubGroups/{ParentId:int}")]
+    [Route("ShowSubGroups/{ParentId:int}")]
     public async Task<IActionResult> ShowSubGroups(int ParentId , CancellationToken cancellationToken)
     {
         if (!await _courseGroupServices.IsCourseGroupExistAsync(ParentId , cancellationToken)) return NotFound();
@@ -165,21 +157,19 @@ public class ManageCourseGroupsController : Controller
         return View();
     }
 
-    [Route("/GetSubGroups/{message}/{groupId:int}")]
-    public async Task<IActionResult> GetSubGroups(string message, int groupId, CancellationToken cancellationToken)
+    [Route("GetSubGroups/GetAllSubGroupsForGroup/{groupId:int}")]
+    [Route("GetSubGroups/GetAllDeletedSubGroupsForGroup/{groupId:int}")]
+    public async Task<IActionResult> GetSubGroups(int groupId, CancellationToken cancellationToken)
     {
-        if (message == "GetAllSubGroupsForGroup")
-        {
-            var subGroup = await _courseGroupServices.GetAllSubGroupsForGroupAsync(groupId , cancellationToken , isDeleted:false);
-            return PartialView("GetSubGroupsAjax", subGroup);
-        }
-        if (message == "GetAllDeletedSubGroupsForGroup")
-        {
-            var deletedSubGroup = await _courseGroupServices.GetAllSubGroupsForGroupAsync(groupId, cancellationToken, isDeleted: true);
-            return PartialView("GetSubGroupsAjax", deletedSubGroup);
-        }
+        IEnumerable<ShowCourseGroupDto> subGroup;
+        var routePattern = HttpContext.Request.Path.Value;
 
-        return NotFound();
+        if (routePattern.Contains("GetAllSubGroupsForGroup"))
+            subGroup = await _courseGroupServices.GetAllSubGroupsForGroupAsync(groupId, cancellationToken, isDeleted: false);
+        else
+            subGroup = await _courseGroupServices.GetAllSubGroupsForGroupAsync(groupId, cancellationToken, isDeleted: true);
+
+        return PartialView("GetSubGroupsAjax", subGroup);
     }
 
     #endregion
@@ -187,8 +177,7 @@ public class ManageCourseGroupsController : Controller
 
     #region AddSubGroup
 
-    [Route("/Admin/ManageCourseGroups/AddSubGroup")]
-    [Route("/ManageCourseGroups/AddSubGroup")]
+    [Route("AddSubGroup")]
     public async Task<IActionResult> AddSubGroup(CancellationToken cancellationToken)
     {
         var model = new AddSubGroupDto
@@ -199,8 +188,7 @@ public class ManageCourseGroupsController : Controller
         return View(model);
     }
 
-    [Route("/Admin/ManageCourseGroups/AddSubGroup")]
-    [Route("/ManageCourseGroups/AddSubGroup")]
+    [Route("AddSubGroup")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> AddSubGroup(AddSubGroupDto model , CancellationToken cancellationToken)
@@ -240,8 +228,7 @@ public class ManageCourseGroupsController : Controller
 
     #region EditSubGroup
 
-    [Route("/Admin/ManageCourseGroups/EditSubGroup/{groupId:int}")]
-    [Route("/ManageCourseGroups/EditSubGroup/{groupId:int}")]
+    [Route("EditSubGroup/{groupId:int}")]
     public async Task<IActionResult> EditSubGroup(int groupId , CancellationToken cancellationToken)
     {
         var subGroup = await _courseGroupServices.GetCourseGroupByGroupIdAsync(groupId, cancellationToken , withTracking:false);
@@ -259,8 +246,7 @@ public class ManageCourseGroupsController : Controller
         return View(model);
     }
 
-    [Route("/Admin/ManageCourseGroups/EditSubGroup")]
-    [Route("/ManageCourseGroups/EditSubGroup")]
+    [Route("EditSubGroup")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> EditSubGroup(EditSubGroupDto model, string preTitle , CancellationToken cancellationToken)
@@ -280,7 +266,7 @@ public class ManageCourseGroupsController : Controller
         if (Convert.ToBase64String(courseGroup.Version) != model.Base64Version)
         {
             TempData["ConcurrencyInEditSubGroup"] = true;
-            return Redirect($"/ManageCourseGroups/EditSubGroup/{model.GroupId}");
+            return Redirect($"/Admin/ManageCourseGroups/EditSubGroup/{model.GroupId}");
         }
 
 
@@ -314,19 +300,18 @@ public class ManageCourseGroupsController : Controller
 
     #region DeleteCourseGroup
 
-    [Route("/Admin/ManageCourseGroups/DeleteCourseGroup/{groupId}/{parentId}")]
-    [Route("/ManageCourseGroups/DeleteCourseGroup/{groupId}/{parentId}")]
+    [Route("DeleteCourseGroup/{groupId}/{parentId}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> DeleteCourseGroup(int groupId, int parentId , CancellationToken cancellationToken)
     {
-        var group = await _courseGroupServices.GetCourseGroupByGroupIdAsync(groupId , cancellationToken);
+        var group = await _courseGroupServices.GetCourseGroupByGroupIdAsync(groupId, cancellationToken, getActive: true);
         if (group == null) return NotFound();
 
         group.IsDelete = true;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect((parentId == 1) ? "/GetGroups/GetAllGroups" : $"/GetSubGroups/GetAllSubGroupsForGroup/{parentId}");
+        return Redirect((parentId == 1) ? "/Admin/ManageCourseGroups/GetGroups/GetAllGroups" : $"/Admin/ManageCourseGroups/GetSubGroups/GetAllSubGroupsForGroup/{parentId}");
     }
 
     #endregion
@@ -335,19 +320,18 @@ public class ManageCourseGroupsController : Controller
 
     #region RestoreCourseGroup
 
-    [Route("/Admin/ManageCourseGroups/RestoreGroup/{groupId}/{parentId:int}")]
-    [Route("/ManageCourseGroups/RestoreGroup/{groupId}/{parentId:int}")]
+    [Route("RestoreGroup/{groupId}/{parentId:int}")]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<IActionResult> RestoreCourseGroup(int groupId, int parentId , CancellationToken cancellationToken)
     {
-        var group = await _courseGroupServices.GetCourseGroupByGroupIdAsync(groupId, cancellationToken);
+        var group = await _courseGroupServices.GetCourseGroupByGroupIdAsync(groupId, cancellationToken , getActive: false);
         if (group == null) return NotFound();
 
         group.IsDelete = false;
         await _transactions.SaveChangesAsync(cancellationToken);
 
-        return Redirect((parentId == 1) ? "/GetGroups/GetAllDeletedGroups" : $"/GetSubGroups/GetAllDeletedSubGroupsForGroup/{parentId}");
+        return Redirect((parentId == 1) ? "/Admin/ManageCourseGroups/GetGroups/GetAllDeletedGroups" : $"/Admin/ManageCourseGroups/GetSubGroups/GetAllDeletedSubGroupsForGroup/{parentId}");
     }
 
     #endregion

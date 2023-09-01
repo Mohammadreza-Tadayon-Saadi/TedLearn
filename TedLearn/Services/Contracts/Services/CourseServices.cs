@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Services.DTOs.AdminPanel.Course;
 using Services.DTOs.Home.Course;
+using Services.DTOs.UserPanel.Order;
 using System.Linq.Expressions;
 
 namespace Services.Contracts.Services;
@@ -15,6 +16,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
 
     private readonly DbSet<CourseStatus> _courseStatus;
     private readonly DbSet<UserRole> _userRole;
+    private readonly DbSet<UserCourse> _userCourse;
     private readonly ICourseGroupServices _courseGroupServices;
     private readonly ITransactionDbContextServices _transactions;
     
@@ -22,6 +24,7 @@ public class CourseServices : BaseServices<Course>, ICourseServices
     {
         _courseStatus = _context.Set<CourseStatus>();
         _userRole = _context.Set<UserRole>();
+        _userCourse = _context.Set<UserCourse>();
         _courseGroupServices = courseGroupServices;
         _transactions = transactions;
     }
@@ -100,6 +103,9 @@ public class CourseServices : BaseServices<Course>, ICourseServices
 
     public async Task<bool> IsCourseExistAsync(int courseId, CancellationToken cancellationToken = default)
         => await TableNoTracking.Where(c => c.CourseId == courseId).AnyAsync(cancellationToken);
+
+    public async Task<bool> IsCourseExistAsync(string courseTitle, CancellationToken cancellationToken = default)
+        => await TableNoTracking.Where(c => c.CourseTitle == courseTitle).AnyAsync(cancellationToken);
 
     public async Task<IEnumerable<SelectListItem>> GetCourseSelectListAsync(CancellationToken cancellationToken = default)
         =>  await TableNoTracking.Where(c => !c.IsDelete)
@@ -185,11 +191,69 @@ public class CourseServices : BaseServices<Course>, ICourseServices
         return model;
     }
 
+    public async Task<ShowCourseDetailsDto> GetCourseForShowAsync(string courseTitle, CancellationToken cancellationToken = default)
+        => await ShowCourseDetailsDto.ProjectTo(TableNoTracking
+                                                .Include(c => c.CourseToGroup)
+                                                .Include(c => c.User)
+                                                .Include(c => c.CourseStatus)
+                                                .Include(c => c.CourseSeasons).ThenInclude(cs => cs.CourseEpisodes)
+                                                .Where(c => c.CourseTitle == courseTitle && !c.IsDelete))
+                                    .SingleOrDefaultAsync(cancellationToken);
+
+    public async Task<bool> IsUserInCourseAsync(int userId, int courseId, CancellationToken cancellationToken = default)
+        => await _context.Set<UserCourse>().Where(uc => uc.UserId == userId && uc.CourseId == courseId)
+                    .AnyAsync(cancellationToken);
+
+    public async Task<int> GetCourseIdByCourseTitleAsync(string courseTitle, CancellationToken cancellationToken = default)
+        => await TableNoTracking.Where(c => c.CourseTitle == courseTitle)
+                    .Select(c => c.CourseId)
+                    .SingleOrDefaultAsync(cancellationToken);
+
+    public async Task<decimal> GetCoursePriceByIdAsync(int courseId, CancellationToken cancellationToken = default)
+        => await TableNoTracking.Where(c => c.CourseId == courseId)
+                    .Select(c => c.CoursePrice)
+                    .SingleOrDefaultAsync(cancellationToken);
+
+    public async Task<GetMyCoursesDto> GetUserCoursesAsync(int userId , int take = 10 , int pageId = 1, CancellationToken cancellationToken = default)
+    {
+        var model = new GetMyCoursesDto();
+        int skip = (pageId - 1) * take;
+
+        IQueryable<UserCourse> result = _userCourse
+                                        .Where(uc => !uc.Course.IsDelete)
+                                        .Include(uc => uc.Course).ThenInclude(c => c.User);
+
+
+        var totalCount = result.Count();
+
+        var pageCount = totalCount / take;
+        if (totalCount % take != 0) pageCount++;
+
+        model.MyCourses = await ShowMyCoursesDto.ProjectTo(result.Skip(skip).Take(take)).ToListAsync(cancellationToken);
+        model.Paginantion = new PaginantionDto
+        {
+            ItemsCount = totalCount,
+            PageCount = pageCount,
+            Currentpage = pageId,
+            ItemsPerPage = take
+        };
+
+        return model;
+    }
+
 
 
     public async Task AddCourseAsync(Course course, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false)
     {
         await Entity.AddAsync(course, cancellationToken);
+
+        if (withSaveChanges)
+            await _transactions.SaveChangesAsync(cancellationToken, configureAwait);
+    }
+
+    public async Task AddUserCourseAsync(UserCourse userCourse, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false)
+    {
+        await _userCourse.AddAsync(userCourse, cancellationToken);
 
         if (withSaveChanges)
             await _transactions.SaveChangesAsync(cancellationToken, configureAwait);

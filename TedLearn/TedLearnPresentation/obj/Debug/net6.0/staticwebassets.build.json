@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "TVBnmhc7DbgStYaBqDzZQUsGlOeDzpBICGc8CtDi1Og=",
+  "Hash": "6Kt4u7CbXmW2yJXVzrmIRFz8yP3iT249Ue9ZlL2nCqw=",
   "Source": "TedLearnPresentation",
   "BasePath": "_content/TedLearnPresentation",
   "Mode": "Default",
@@ -527,40 +527,6 @@
       "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\addOrEditCourseEpisodes.js"
     },
     {
-      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\jquery-timepicker.js",
-      "SourceId": "TedLearnPresentation",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
-      "BasePath": "_content/TedLearnPresentation",
-      "RelativePath": "AdminStyles/js/ManageCourseEpisodes/jquery-timepicker.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\jquery-timepicker.js"
-    },
-    {
-      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\timePicker.js",
-      "SourceId": "TedLearnPresentation",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
-      "BasePath": "_content/TedLearnPresentation",
-      "RelativePath": "AdminStyles/js/ManageCourseEpisodes/timePicker.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\timePicker.js"
-    },
-    {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageCourseGroups\\addOrEditCourseGroups.js",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
@@ -644,23 +610,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\ManageUserDiscounts\\addOrEditUserDiscount.js"
-    },
-    {
-      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageUserDiscounts\\kamadatepicker.min.js",
-      "SourceId": "TedLearnPresentation",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
-      "BasePath": "_content/TedLearnPresentation",
-      "RelativePath": "AdminStyles/js/ManageUserDiscounts/kamadatepicker.min.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\AdminStyles\\js\\ManageUserDiscounts\\kamadatepicker.min.js"
     },
     {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageUsers\\addUser.js",
@@ -1037,6 +986,57 @@
       "OriginalItemSpec": "wwwroot\\Courses\\course-episodes-file\\Rec 0004.rar"
     },
     {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-video\\free\\Rec 0001.mp4",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "Courses/course-episodes-video/free/Rec 0001.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Courses\\course-episodes-video\\free\\Rec 0001.mp4"
+    },
+    {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-video\\free\\Rec 0002.mp4",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "Courses/course-episodes-video/free/Rec 0002.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Courses\\course-episodes-video\\free\\Rec 0002.mp4"
+    },
+    {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-video\\purchacable\\Rec 0001.mp4",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "Courses/course-episodes-video/purchacable/Rec 0001.mp4",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Courses\\course-episodes-video\\purchacable\\Rec 0001.mp4"
+    },
+    {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Courses\\course-image\\play-pusepng.png"
+    },
+    {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\css\\jalalidatepicker.min.css",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "css/jalalidatepicker.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\jalalidatepicker.min.css"
     },
     {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\css\\output.css",
@@ -20910,6 +20927,23 @@
       "OriginalItemSpec": "wwwroot\\js\\addQuestion.js"
     },
     {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\basket.js",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "js/basket.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\basket.js"
+    },
+    {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\ckeditor\\ckeditor.js",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
@@ -22270,6 +22304,23 @@
       "OriginalItemSpec": "wwwroot\\js\\forgetPassword.js"
     },
     {
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\jalalidatepicker.min.js",
+      "SourceId": "TedLearnPresentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
+      "BasePath": "_content/TedLearnPresentation",
+      "RelativePath": "js/jalalidatepicker.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\jalalidatepicker.min.js"
+    },
+    {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\jquery-3.6.0.min.js",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
@@ -22491,12 +22542,12 @@
       "OriginalItemSpec": "wwwroot\\js\\training.js"
     },
     {
-      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202307.txt",
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202308.log",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
       "BasePath": "_content/TedLearnPresentation",
-      "RelativePath": "SeriLog/ErrorLog202307.txt",
+      "RelativePath": "SeriLog/ErrorLog202308.log",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -22505,15 +22556,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\SeriLog\\ErrorLog202307.txt"
+      "OriginalItemSpec": "wwwroot\\SeriLog\\ErrorLog202308.log"
     },
     {
-      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202308.txt",
+      "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202309.log",
       "SourceId": "TedLearnPresentation",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\",
       "BasePath": "_content/TedLearnPresentation",
-      "RelativePath": "SeriLog/ErrorLog202308.txt",
+      "RelativePath": "SeriLog/ErrorLog202309.log",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -22522,7 +22573,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\SeriLog\\ErrorLog202308.txt"
+      "OriginalItemSpec": "wwwroot\\SeriLog\\ErrorLog202309.log"
     },
     {
       "Identity": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\UserAvatar\\3083135f840146ddb1f6ffe01593c24d.jpg",

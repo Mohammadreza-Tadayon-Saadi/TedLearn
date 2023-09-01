@@ -1,10 +1,11 @@
-﻿@using Core.Convertors
-@using Core.Utilities
-@model Services.DTOs.UserPanel.TransactionReportsWithPaginationDto
+﻿@using Core.Convertors;
+@using Core.Utilities;
+@using Services.DTOs.UserPanel.Transaction;
+@model TransactionReportsWithPaginationDto
 
 @if (Model.TransactionReports.Any())
 {
-    @foreach (var item in Model.TransactionReports)
+    foreach (var item in Model.TransactionReports)
     {
         <tr class="text-gray-700 cursor-default border-b-[1px] border-slate-300 text-center">
             @if (item.TypeId == 1)
@@ -37,8 +38,6 @@
             @*<span pre-pageId="@(Model.PageCount + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 text-center"><i class="fi fi-rr-angle-small-right relative top-[2px]"></i></span>*@
         </td>
     </tr>
-
-
 }
 else
 {

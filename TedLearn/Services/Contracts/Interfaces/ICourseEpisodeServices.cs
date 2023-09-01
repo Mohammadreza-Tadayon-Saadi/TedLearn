@@ -1,6 +1,6 @@
 ﻿using Data.Entities.Products.Courses;
-using Services.Dto.AdminPanel.Course.CourseEpisode;
 using Services.DTOs.AdminPanel.Course.CourseEpisode;
+using Services.DTOs.Home.CourseEpisode;
 
 namespace Services.Contracts.Interfaces;
 
@@ -12,6 +12,8 @@ public interface ICourseEpisodeServices
     Task<EditEpisodeDto> GetEpisodeForEditAsync(int episodeId, CancellationToken cancellationToken = default);
     Task<CourseEpisode> GetEpisodeByIdAsync(int episodeId, CancellationToken cancellationToken = default, bool withTracking = true, bool? getActive = null);
     Task<TimeSpan> GetTotalTimeForCourseAsync(int courseId, CancellationToken cancellationToken = default);
+    Task<GetEpisodeForDownloadDto> GetEpisodeForDownloadAsync(string episodeTitle, int seasonId, CancellationToken cancellationToken = default);
+    Task<GetEpisodeForShowOnlineDto> GetEpisodeForShowOnlineAsync(int episodeId , CancellationToken cancellation = default);
 
     Task AddEpisodeAsync(CourseEpisode courseEpisode, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);
     Task UpdateCourseEpisodeAsync(CourseEpisode courseEpisode, CancellationToken cancellationToken = default, bool withSaveChanges = true, bool configureAwait = false);

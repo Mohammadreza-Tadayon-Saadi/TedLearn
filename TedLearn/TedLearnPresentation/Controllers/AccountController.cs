@@ -166,7 +166,9 @@ public class AccountController : Controller
 
         #endregion
 
-        return Redirect("/Home/SuccesSign");
+        TempData["SuccesSign"] = true;
+
+        return Redirect("/Home");
     }
 
     #endregion
@@ -236,7 +238,8 @@ public class AccountController : Controller
 
         if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl)) return Redirect(ReturnUrl);
 
-        return Redirect("/Home/SuccessSign");
+        TempData["SuccesSign"] = true;
+        return Redirect("/Home");
     }
 
     #endregion

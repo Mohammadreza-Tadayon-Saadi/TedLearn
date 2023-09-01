@@ -93,14 +93,6 @@
       "PackagePath": "staticwebassets\\AdminStyles\\js\\ManageCourseEpisodes\\addOrEditCourseEpisodes.js"
     },
     {
-      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\jquery-timepicker.js",
-      "PackagePath": "staticwebassets\\AdminStyles\\js\\ManageCourseEpisodes\\jquery-timepicker.js"
-    },
-    {
-      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageCourseEpisodes\\timePicker.js",
-      "PackagePath": "staticwebassets\\AdminStyles\\js\\ManageCourseEpisodes\\timePicker.js"
-    },
-    {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageCourseGroups\\addOrEditCourseGroups.js",
       "PackagePath": "staticwebassets\\AdminStyles\\js\\ManageCourseGroups\\addOrEditCourseGroups.js"
     },
@@ -119,10 +111,6 @@
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageUserDiscounts\\addOrEditUserDiscount.js",
       "PackagePath": "staticwebassets\\AdminStyles\\js\\ManageUserDiscounts\\addOrEditUserDiscount.js"
-    },
-    {
-      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageUserDiscounts\\kamadatepicker.min.js",
-      "PackagePath": "staticwebassets\\AdminStyles\\js\\ManageUserDiscounts\\kamadatepicker.min.js"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\AdminStyles\\js\\ManageUsers\\GetRolesForUser.js",
@@ -241,6 +229,18 @@
       "PackagePath": "staticwebassets\\Courses\\course-episodes-file\\Rec 0004.rar"
     },
     {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-video\\free\\Rec 0001.mp4",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-video\\free\\Rec 0001.mp4"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-video\\free\\Rec 0002.mp4",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-video\\free\\Rec 0002.mp4"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-episodes-video\\purchacable\\Rec 0001.mp4",
+      "PackagePath": "staticwebassets\\Courses\\course-episodes-video\\purchacable\\Rec 0001.mp4"
+    },
+    {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg",
       "PackagePath": "staticwebassets\\Courses\\course-image\\9371bd6f5a874ca995461db8eecea834.jpg"
     },
@@ -257,12 +257,12 @@
       "PackagePath": "staticwebassets\\Courses\\course-image\\play-pusepng.png"
     },
     {
-      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202307.txt",
-      "PackagePath": "staticwebassets\\SeriLog\\ErrorLog202307.txt"
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202308.log",
+      "PackagePath": "staticwebassets\\SeriLog\\ErrorLog202308.log"
     },
     {
-      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202308.txt",
-      "PackagePath": "staticwebassets\\SeriLog\\ErrorLog202308.txt"
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\SeriLog\\ErrorLog202309.log",
+      "PackagePath": "staticwebassets\\SeriLog\\ErrorLog202309.log"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\UserAvatar\\3083135f840146ddb1f6ffe01593c24d.jpg",
@@ -287,6 +287,10 @@
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\UserPanel\\userPanel.js",
       "PackagePath": "staticwebassets\\UserPanel\\userPanel.js"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\css\\jalalidatepicker.min.css",
+      "PackagePath": "staticwebassets\\css\\jalalidatepicker.min.css"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\css\\output.css",
@@ -4957,6 +4961,10 @@
       "PackagePath": "staticwebassets\\js\\addQuestion.js"
     },
     {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\basket.js",
+      "PackagePath": "staticwebassets\\js\\basket.js"
+    },
+    {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\ckeditor\\LICENSE.md",
       "PackagePath": "staticwebassets\\js\\ckeditor\\LICENSE.md"
     },
@@ -5275,6 +5283,10 @@
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\forgetPassword.js",
       "PackagePath": "staticwebassets\\js\\forgetPassword.js"
+    },
+    {
+      "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\jalalidatepicker.min.js",
+      "PackagePath": "staticwebassets\\js\\jalalidatepicker.min.js"
     },
     {
       "Id": "C:\\Tedi\\GitHubProjects\\TedLearn\\TedLearn\\TedLearnPresentation\\wwwroot\\js\\jquery-3.6.0.min.js",

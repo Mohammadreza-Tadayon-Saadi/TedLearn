@@ -3,7 +3,7 @@ using Core.Utilities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Services.DTOs.UserPanel;
+using Services.DTOs.UserPanel.Home;
 
 namespace TedLearnPresentation.Areas.UserPanel.Controllers;
 

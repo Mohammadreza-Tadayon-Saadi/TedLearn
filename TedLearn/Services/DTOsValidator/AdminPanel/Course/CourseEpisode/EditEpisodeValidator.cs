@@ -1,6 +1,6 @@
 ﻿using Core.Utilities;
 using FluentValidation;
-using Services.Dto.AdminPanel.Course.CourseEpisode;
+using Services.DTOs.AdminPanel.Course.CourseEpisode;
 
 namespace Services.DTOsValidator.AdminPanel.Course.CourseEpisode;
 
@@ -19,7 +19,7 @@ public class EditEpisodeValidator : AbstractValidator<EditEpisodeDto>
         });
 
         RuleFor(c => c.Time).Cascade(CascadeMode.Stop)
-            .NotEmpty().WithMessage("لطفا زمان قسمت را وارد کنید.")
+            .NotNull().WithMessage("لطفا زمان قسمت را وارد کنید.")
             .Must(timeSpan => timeSpan >= TimeSpan.Zero).WithMessage("لطفا زمان قسمت را به درستی وارد کنید.");
     }
 }

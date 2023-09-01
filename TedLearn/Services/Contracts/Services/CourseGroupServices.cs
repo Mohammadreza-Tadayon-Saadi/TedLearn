@@ -33,12 +33,12 @@ public class CourseGroupServices : BaseServices<CourseGroup>, ICourseGroupServic
         => await EditGroupDto.ProjectTo(TableNoTracking.Where(cg => cg.GroupId == groupId))
                     .SingleOrDefaultAsync(cancellationToken);
 
-    public async Task<CourseGroup> GetCourseGroupByGroupIdAsync(int groupId, CancellationToken cancellation, bool withTracking = true)
+    public async Task<CourseGroup> GetCourseGroupByGroupIdAsync(int groupId, CancellationToken cancellation, bool withTracking = true, bool? getActive = null)
     {
         if (withTracking)
-            return await Table.Where(cg => cg.GroupId == groupId).SingleOrDefaultAsync(cancellation);
+            return await Table.Where(cg => cg.GroupId == groupId && (getActive.HasValue ? cg.IsDelete == !getActive : true)).SingleOrDefaultAsync(cancellation);
         else
-            return await TableNoTracking.Where(cg => cg.GroupId == groupId).SingleOrDefaultAsync(cancellation);
+            return await TableNoTracking.Where(cg => cg.GroupId == groupId && (getActive.HasValue ? cg.IsDelete == !getActive : true)).SingleOrDefaultAsync(cancellation);
     }
 
     public async Task<IEnumerable<ShowCourseGroupDto>> GetAllSubGroupsForGroupAsync(int groupId, CancellationToken cancellationToken = default, bool? isDeleted = null)

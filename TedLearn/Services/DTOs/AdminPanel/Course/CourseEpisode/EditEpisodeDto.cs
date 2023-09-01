@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Services.Dto.AdminPanel.Course.CourseEpisode;
+namespace Services.DTOs.AdminPanel.Course.CourseEpisode;
 
 public class EditEpisodeDto : BaseDto<EditEpisodeDto , Data.Entities.Products.Courses.CourseEpisode>
 {

@@ -200,45 +200,52 @@
                 <!-- Corses -->
                 <article class="z-30 w-full md:w-1/2 lg:w-3/5 xl:w-3/4 mt-4 md:mt-0">
                     <div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-6 md:gap-6 grid-course">
-                            <!-- Course -->
-                            @await Component.InvokeAsync(typeof(CourseViewComponent) , new CourseViewComponentOptions(Model.CourseCards , take: 12) )
-                            <!-- End Course -->
-                        </div>
-                        @if (Model.Paginantion.PageCount > 1)
+                        @if (Model.CourseCards.Any())
                         {
-                            <div class="flex flex-wrap justify-center items-center gap-4 mt-8">
-                                <select name="take" id="take" class="text-sm font-semibold py-1 px-4 outline-none text-black bg-slate-100 rounded-lg shadow-sm shadow-slate-400 drop-shadow-md border border-slate-200">
-                                    <option value="12">12</option>
-                                    <option value="24">24</option>
-                                    <option value="36" selected>36</option>
-                                </select>
-
-
-                                <div dir="ltr" id="paging" class="my-4 flex flex-row-reverse justify-center">
-                                    @if (Model.Paginantion.Currentpage != 1)
-                                    {
-                                        <a pageId="@(Model.Paginantion.Currentpage - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-right relative top-[3px]"></i></a>
-                                    }
-                                    @for (int i = 1; i <= Model.Paginantion.PageCount; i++)
-                                    {
-                                        <a pageId="@i" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px]
-                                            @((i == Model.Paginantion.Currentpage)? "bg-indigo-700":"bg-indigo-300")">@i</a>
-                                    }
-                                    @if (Model.Paginantion.Currentpage != Model.Paginantion.PageCount)
-                                    {
-                                        <a pageId="@(Model.Paginantion.Currentpage + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-left relative top-[3px]"></i></a>
-                                    }
-                                </div>
-                                <!--
-                                <div class="mt-6 flex flex-row-reverse justify-center">
-                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 mx-[2px]">۱</a>
-                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-300 text-slate-100 mx-[2px]">۲</a>
-                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-300 text-slate-100 mx-[2px]">۳</a>
-                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-right relative top-[3px]"></i></a>
-                                </div>
-                                 -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-y-6 md:gap-6 grid-course">
+                                <!-- Course -->
+                                @await Component.InvokeAsync(typeof(CourseViewComponent) , new CourseViewComponentOptions(Model.CourseCards , take: 12 , ifListEmptyLoadAll: false))
+                                <!-- End Course -->
                             </div>
+                            @if (Model.Paginantion.PageCount > 1)
+                            {
+                                <div class="flex flex-wrap justify-center items-center gap-4 mt-8">
+                                    <select name="take" id="take" class="text-sm font-semibold py-1 px-4 outline-none text-black bg-slate-100 rounded-lg shadow-sm shadow-slate-400 drop-shadow-md border border-slate-200">
+                                        <option value="12">12</option>
+                                        <option value="24">24</option>
+                                        <option value="36" selected>36</option>
+                                    </select>
+
+
+                                    <div dir="ltr" id="paging" class="my-4 flex flex-row-reverse justify-center">
+                                        @if (Model.Paginantion.Currentpage != 1)
+                                        {
+                                            <a pageId="@(Model.Paginantion.Currentpage - 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-right relative top-[3px]"></i></a>
+                                        }
+                                        @for (int i = 1; i <= Model.Paginantion.PageCount; i++)
+                                        {
+                                            <a pageId="@i" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px]
+                                            @((i == Model.Paginantion.Currentpage)? "bg-indigo-700":"bg-indigo-300")">@i</a>
+                                        }
+                                        @if (Model.Paginantion.Currentpage != Model.Paginantion.PageCount)
+                                        {
+                                            <a pageId="@(Model.Paginantion.Currentpage + 1)" class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-left relative top-[3px]"></i></a>
+                                        }
+                                    </div>
+                                    <!--
+                                    <div class="mt-6 flex flex-row-reverse justify-center">
+                                        <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 mx-[2px]">۱</a>
+                                        <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-300 text-slate-100 mx-[2px]">۲</a>
+                                        <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-300 text-slate-100 mx-[2px]">۳</a>
+                                        <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-right relative top-[3px]"></i></a>
+                                    </div>
+                                     -->
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <partial name="_Error404" />
                         }
                     </div>
                 </article>

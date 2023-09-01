@@ -250,7 +250,7 @@ public class ManageCoursesController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteCourse(int courseId , CancellationToken cancellationToken)
     {
-        var course = await _courseServices.GetCourseByIdAsync(courseId , cancellationToken);
+        var course = await _courseServices.GetCourseByIdAsync(courseId , cancellationToken , getActive: true);
         if (course == null) return PartialView("_Error404");
 
         course.IsDelete = true;

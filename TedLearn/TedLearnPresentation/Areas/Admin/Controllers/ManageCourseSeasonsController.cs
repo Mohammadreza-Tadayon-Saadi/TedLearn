@@ -172,7 +172,7 @@ public class ManageCourseSeasonsController : Controller
     [HttpPost]
     public async Task<IActionResult> DeleteSeasons(int seasonId, CancellationToken cancellationToken)
     {
-        var season = await _courseSeasonServices.GetCourseSeasonByIdAsync(seasonId, cancellationToken);
+        var season = await _courseSeasonServices.GetCourseSeasonByIdAsync(seasonId, cancellationToken, getActive: true);
         if (season == null) return PartialView("_Error404");
 
         season.IsDelete = true;
@@ -191,7 +191,7 @@ public class ManageCourseSeasonsController : Controller
     [HttpPost]
     public async Task<IActionResult> RestoreSeasons(int seasonId, CancellationToken cancellationToken)
     {
-        var season = await _courseSeasonServices.GetCourseSeasonByIdAsync(seasonId, cancellationToken);
+        var season = await _courseSeasonServices.GetCourseSeasonByIdAsync(seasonId, cancellationToken, getActive: false);
         if (season == null) return PartialView("_Error404");
 
         season.IsDelete = false;

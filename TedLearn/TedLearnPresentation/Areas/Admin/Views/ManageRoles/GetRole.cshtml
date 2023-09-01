@@ -24,6 +24,11 @@ else @if (Model.Any(r => r.IsDelete))
             <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                 <span class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">@item.CreateDate.MiladiToShamsi()</span>
             </td>
+            <td class="p-2 align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                <form id="form-role" method="post" asp-controller="ManageRoles" asp-action="RestoreRole" asp-route-roleId="@item.RoleId">
+                    <button type="button" class="text-xs rounded-lg py-2 px-4 mr-2 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> بازگردانی </button>
+                </form>
+            </td>
             <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                 @if (item.CanDeleteOrEdit)
                 {
@@ -36,13 +41,16 @@ else @if (Model.Any(r => r.IsDelete))
                     <span class="text-red-500 font-semibold text-xs py-2 px-4">این نقش قابل ویرایش و یا حذف نیست.</span>
                 }
             </td>
-            <td class="p-2 align-middle flex justify-center bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                <form id="form-role" method="post" asp-controller="ManageRoles" asp-action="RestoreRole" asp-route-roleId="@item.RoleId">
-                    <button type="button" class="text-xs rounded-lg py-2 px-4 mr-2 bg-slate-100 font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400"> بازگردانی </button>
-                </form>
-            </td>
         </tr>
     }
+
+    <script>
+        const tr = document.querySelector('.table-head-tr');
+        const th = document.createElement("th");
+        th.textContent = "توضیحات";
+        th.className = "px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70";
+        tr.appendChild(th);
+    </script>
 }
 else
     foreach (var item in Model)
@@ -78,4 +86,3 @@ else
 
 
 <script asp-append-version="true" src="/AdminStyles/js/ManageRoles/GetRoleAjax.js"></script>
-

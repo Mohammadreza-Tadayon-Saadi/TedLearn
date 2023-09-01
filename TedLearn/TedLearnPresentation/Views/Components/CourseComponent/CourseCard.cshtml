@@ -17,14 +17,14 @@
         <!-- End Discount -->
         <!-- Course Image (Header Card) -->
         <div class="flex justify-center w-full h-[11rem]">
-            <a href="/Home/ShowCourse/@item.CourseTitle" class="w-full">
+            <a href="/Home/Courses/ShowCourse/@item.CourseTitle" class="w-full">
                 <img class="w-full h-full" src="/Courses/course-image/@item.CourseImage" alt="@item.CourseTitle Image">
             </a>
         </div>
         <!-- End Course Image (Header Card) -->
         <!-- Teacher & Title Course (Main Card) -->
         <div class="pt-4 px-2 font-semibold w-full h-32">
-            <a href="/Home/ShowCourse/@item.CourseTitle" class="truncate transition-colors duration-300 block hover:text-sky-400">@item.CourseTitle</a>
+            <a href="/Home/Courses/ShowCourse/@item.CourseTitle" class="truncate transition-colors duration-300 block hover:text-sky-400">@item.CourseTitle</a>
             <div class="flex justify-between">
                 <a href="#" class="my-4 text-sm text-gray-600">
                     <span class="mt-4 relative text-gray-400 ml-1">
@@ -46,7 +46,7 @@
                     }
                 }
             </div>
-            <a href="/Home/ShowCourse/@item.CourseTitle" class="text-sm text-indigo-700">
+            <a href="/Home/Courses/ShowCourse/@item.CourseTitle" class="text-sm text-indigo-700">
                 مشاهده دوره
                 <span class="relative top-1"><i class="fi fi-rr-arrow-alt-left"></i></span>
             </a>
@@ -73,4 +73,5 @@
 
     </div>
 }
+
 <!-- End Course -->

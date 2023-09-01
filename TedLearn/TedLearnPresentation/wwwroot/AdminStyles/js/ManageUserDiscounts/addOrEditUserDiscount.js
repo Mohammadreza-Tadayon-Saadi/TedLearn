@@ -1,3 +1,9 @@
+let options = {
+    time: true,
+    date: true,
+}
+jalaliDatepicker.startWatch(options);
+
 const form = document.getElementById("form"); 
 const discountCode = document.getElementById("discountCode");
 const percent = document.getElementById("percent");
@@ -9,11 +15,11 @@ discountCode.addEventListener("keyup" , function(){
     checkDiscountCode();
 });
 
-startDate.addEventListener("keyup", function () {
+startDate.addEventListener("change", function () {
     checkStartDate();
 });
 
-endDate.addEventListener("keyup", function () {
+endDate.addEventListener("change", function () {
     checkEndDate();
 });
 
@@ -55,9 +61,11 @@ function checkDiscountCode(){
 
 function checkStartDate() {
     const startDateValue = startDate.value.trim();
-    const startDateLength = startDateValue.length;
 
-    if (startDateLength > 10 || !isDate(startDateValue)) {
+    if (startDateValue === '') {
+        setError(startDate, 'لطفا تاریخ شروع را وارد کنید.');
+        return false;
+    } else if (!isDate(startDateValue)) {
         setError(startDate, 'لطفا تاریخ را به درستی وارد کنید.');
         return false;
     } else {
@@ -68,9 +76,11 @@ function checkStartDate() {
 
 function checkEndDate() {
     const endDateValue = endDate.value.trim();
-    const endDateLength = endDateValue.length;
 
-    if (endDateLength > 10 || !isDate(endDateValue)) {
+    if (endDateValue === '') {
+        setError(endDate, 'لطفا تاریخ اتمام را وارد کنید.');
+        return false;
+    } else if (!isDate(endDateValue)) {
         setError(endDate, 'لطفا تاریخ را به درستی وارد کنید.');
         return false;
     } else {
@@ -104,31 +114,21 @@ function checkUsableCount() {
 }
 
 function setError(input, message) {
-    var formControl = input;
-    if (input.classList.contains("date")) {
-        formControl = input.parentElement.parentElement;
-    } else {
-        formControl = formControl.parentElement;
-    }
+    var formControl = input.parentElement;
     const span = formControl.querySelector('span.block');
     span.innerHTML = message;
     span.classList.remove('hidden');
     formControl.className = 'form-control text-gray-700 my-4 mx-2 error';
 }
 
-function setSuccess(input){
-    var formControl = input;
-    if (input.classList.contains("date")) {
-        formControl = input.parentElement.parentElement;
-    } else {
-        formControl = input.parentElement;
-    }
+function setSuccess(input) {
+    var formControl = input.parentElement;
     const span = formControl.querySelector('span.block');
     span.classList.add('hidden');
     formControl.className = 'form-control text-gray-700 my-4 mx-2';
 }
 
-const datePattern = /^[1-4]\d{3}\/((0[1-6]\/((3[0-1])|([1-2][0-9])|(0[1-9])))|((1[0-2]|(0[7-9]))\/(30|([1-2][0-9])|(0[1-9]))))$/;
+const datePattern = /^(\d{4})\/([0-9]|0[1-9]|1[0-2])\/([0-9]|0[1-9]|[12][0-9]|3[01]) ([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
 function isDate(date) {
     return datePattern.test(date);
 }

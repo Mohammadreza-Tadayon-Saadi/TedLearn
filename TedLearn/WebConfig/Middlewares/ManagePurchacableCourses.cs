@@ -7,7 +7,7 @@ public static class PurchacableCoursesHandlerMiddlewareExtentions
 {
     public static void UsePurchacableCoursesHandler(this IApplicationBuilder app)
     {
-        app.UseMiddleware<CustomExceptionHandlerMiddleware>();
+        app.UseMiddleware<ManagePurchacableCourses>();
     }
 }
 
@@ -22,12 +22,25 @@ public class ManagePurchacableCourses
     public async Task InvokeAsync(HttpContext context)
     {
         var request = context.Request.Path.Value.ToString().ToLower();
-        if (request.StartsWith("/courses/course-episodes-video/purchacable") || request.StartsWith("/courses/course-episodes-file"))
-        {
-            var FromUrl = context.Request.Headers["Referer"].ToString();
-            if (!String.IsNullOrEmpty(FromUrl) && (FromUrl.StartsWith("https://localhost:7256") || FromUrl.StartsWith("http://localhost:7256")))
-                await _next(context);
-        }
-        else await _next(context);
+        
+        var securedFolders = new string[]{ "/courses/course-episodes-video/purchacable", "/courses/course-episodes-file",
+           "/DownloadSeriLog" , "/SeriLog"  };
+        bool isValid = true;
+
+        foreach (var item in securedFolders)
+            if (request.StartsWith(item.ToLower()))
+            {
+                var FromUrl = context.Request.Headers["Referer"].ToString();
+                if (!String.IsNullOrEmpty(FromUrl) && (FromUrl.StartsWith("https://localhost:7199") || FromUrl.StartsWith("http://localhost:7199")))
+                    await _next.Invoke(context);
+                else
+                {
+                    isValid = false;
+                    context.Response.Redirect("/Error404");
+                }
+            }
+
+        if(isValid)
+            await _next.Invoke(context);
     }
 }

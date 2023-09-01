@@ -3,6 +3,14 @@
     $("#description-section > *").fadeOut();
     $("#requirement-section > *").fadeOut();
 
+    const textarea = document.getElementById('comment-users');
+    if (textarea) {
+        ClassicEditor.create(textarea, {
+            ckfinder: { uploadUrl: '/Home/UploadImage' },
+            language: 'fa',
+            toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', '|', 'blockQuote', 'link']
+        });
+    }
     $("#comment").on("click", function () {
         $("#course-option > *").addClass("hidden");
         $("#course-option-item > li").removeClass("active");
@@ -15,19 +23,12 @@
 
         const courseId = document.getElementById("result-comment").getAttribute("csecure");
 
-        $("#result-comment").load("/Courses/ShowComment/" + courseId);
+        $("#result-comment").load(`/Home/Courses/ShowComment/${courseId}`);
 
         const status = document.getElementById("status").getAttribute("cstatus");
         if (status == 'پایان یافته' && $('#comment-users').length) {
-            ClassicEditor.create(document.getElementById('comment-users'), {
-                ckfinder: { uploadUrl:'/Home/UploadImage'},
-                language: 'fa',
-                toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', '|' , 'blockQuote', 'link']
-            });
-
             // userComment
             const form = document.getElementById('form');
-            const textarea = document.getElementById('comment-users');
             const showChar = document.querySelector('.count-chars');
             const maxChars = textarea.getAttribute("data-max-chars");
             showChar.innerHTML = maxChars;
@@ -44,6 +45,7 @@
                     showChar.classList.remove('text-red-600');
                 }
             });
+            const validationComment = form.querySelector('.validation-comment');
 
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -51,13 +53,24 @@
                 const textareaValue = textarea.value;
                 const textareaValueLength = textareaValue.length;
                 const commentIdvalue = commentIdInput.value;
-                if (textareaValue === '' || textareaValueLength > maxChars) { e.preventDefault(); }
+                if (textareaValue === '' || textareaValueLength > maxChars) {
+                    validationComment.classList.remove('hidden');
+                    validationComment.classList.add('block');
+                    e.preventDefault();
+                }
                 else {
+                    validationComment.classList.remove('block');
+                    validationComment.classList.add('hidden');
+                    let btn = form.querySelector('#form-submit');
+                    btn.setAttribute('disabled', '');
+                    btn.innerText = "لطفا چند لحظه صبر کنید ...";
                     $.ajax({
                         type: "POST",
-                        url: "/Courses/AddComment/" + courseId,
+                        url: `/Home/Courses/AddComment/${courseId}`,
                         data: { comment: textareaValue, replyId: commentIdvalue, pageId: currentPage },
                         success: function (response) {
+                            btn.removeAttribute('disabled');
+                            btn.innerText = "ثبت دیدگاه";
                             $("#result-comment").empty().append(response);
                             textarea.value = '';
                             showChar.innerHTML = maxChars;
@@ -130,8 +143,9 @@
             item.addEventListener("click", function () {
                 $.ajax({
                     type: "POST",
-                    url: "/Home/ShowCourse/OnlineEpisode/" + courseTitle + "/" + episodeTitle,
+                    url: `/Home/ShowCourse/OnlineEpisode/${courseTitle}/${episodeTitle}`,
                     success: function (response) {
+                        console.log(response);
                         if (response.startsWith('/Account')) {
                             window.location.href = response;
                         } else if (response == 404) {

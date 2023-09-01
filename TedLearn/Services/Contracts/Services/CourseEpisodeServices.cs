@@ -1,9 +1,8 @@
 ﻿using Data.Context;
-using Data.Entities.Persons.Users;
 using Data.Entities.Products.Courses;
 using Microsoft.EntityFrameworkCore;
-using Services.Dto.AdminPanel.Course.CourseEpisode;
 using Services.DTOs.AdminPanel.Course.CourseEpisode;
+using Services.DTOs.Home.CourseEpisode;
 
 namespace Services.Contracts.Services;
 
@@ -54,6 +53,18 @@ public class CourseEpisodeServices : BaseServices<CourseEpisode> , ICourseEpisod
         var totalTime = times.Sum(t => t.Ticks);
         return new TimeSpan(totalTime);
     }
+
+    public async Task<GetEpisodeForDownloadDto> GetEpisodeForDownloadAsync(string episodeTitle, int seasonId, CancellationToken cancellationToken = default)
+        => await GetEpisodeForDownloadDto.ProjectTo(TableNoTracking
+                                        .Where(ce => ce.EpisodeTitle == episodeTitle && ce.SeasonId == seasonId && !ce.IsDelete)
+                                        .Include(ce => ce.CourseSeason).ThenInclude(cs => cs.Course))
+                        .SingleOrDefaultAsync(cancellationToken);
+
+    public async Task<GetEpisodeForShowOnlineDto> GetEpisodeForShowOnlineAsync(int episodeId, CancellationToken cancellation = default)
+        => await GetEpisodeForShowOnlineDto.ProjectTo(TableNoTracking
+                                                    .Include(ce => ce.CourseSeason).ThenInclude(cs => cs.Course)
+                                                    .Where(ce => ce.EpisodeId == episodeId && !ce.IsDelete))
+                        .SingleOrDefaultAsync(cancellation);
 
 
     public async Task AddEpisodeAsync(CourseEpisode courseEpisode, CancellationToken cancellationToken = default, 

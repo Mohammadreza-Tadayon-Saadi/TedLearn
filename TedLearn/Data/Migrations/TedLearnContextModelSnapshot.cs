@@ -80,6 +80,9 @@ namespace Data.Migrations
                     b.Property<int>("DiscountId")
                         .HasColumnType("int");
 
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
                     b.Property<byte>("Percent")
                         .HasColumnType("tinyint");
 
@@ -92,6 +95,9 @@ namespace Data.Migrations
                     b.HasKey("UserDiscountId");
 
                     b.HasIndex("DiscountId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
@@ -188,7 +194,7 @@ namespace Data.Migrations
                         {
                             RoleId = 11001,
                             CanDeleteOrEdit = true,
-                            CreateDate = new DateTime(2023, 7, 11, 0, 42, 17, 585, DateTimeKind.Local).AddTicks(6899),
+                            CreateDate = new DateTime(2023, 8, 25, 18, 30, 41, 825, DateTimeKind.Local).AddTicks(8065),
                             IsDelete = false,
                             RoleName = "کاربر عادی"
                         },
@@ -196,7 +202,7 @@ namespace Data.Migrations
                         {
                             RoleId = 11002,
                             CanDeleteOrEdit = true,
-                            CreateDate = new DateTime(2023, 7, 11, 0, 42, 17, 585, DateTimeKind.Local).AddTicks(6915),
+                            CreateDate = new DateTime(2023, 8, 25, 18, 30, 41, 825, DateTimeKind.Local).AddTicks(8089),
                             IsDelete = false,
                             RoleName = "ادمین"
                         },
@@ -204,7 +210,7 @@ namespace Data.Migrations
                         {
                             RoleId = 11003,
                             CanDeleteOrEdit = true,
-                            CreateDate = new DateTime(2023, 7, 11, 0, 42, 17, 585, DateTimeKind.Local).AddTicks(6917),
+                            CreateDate = new DateTime(2023, 8, 25, 18, 30, 41, 825, DateTimeKind.Local).AddTicks(8091),
                             IsDelete = false,
                             RoleName = "استاد"
                         },
@@ -212,7 +218,7 @@ namespace Data.Migrations
                         {
                             RoleId = 11004,
                             CanDeleteOrEdit = true,
-                            CreateDate = new DateTime(2023, 7, 11, 0, 42, 17, 585, DateTimeKind.Local).AddTicks(6918),
+                            CreateDate = new DateTime(2023, 8, 25, 18, 30, 41, 825, DateTimeKind.Local).AddTicks(8093),
                             IsDelete = false,
                             RoleName = "مدیر سایت"
                         });
@@ -818,11 +824,19 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("Data.Entities.Sales.Order", "Order")
+                        .WithOne("UserDiscount")
+                        .HasForeignKey("Data.Entities.Persons.Discounts.UserDiscount", "OrderId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("Data.Entities.Persons.Users.User", "User")
                         .WithMany("UserDiscounts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Order");
 
                     b.Navigation("UDiscount");
 
@@ -1124,6 +1138,9 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Sales.Order", b =>
                 {
                     b.Navigation("OrderDetails");
+
+                    b.Navigation("UserDiscount")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 ﻿using Data.Entities.Persons.Transactions;
-using Services.DTOs.UserPanel;
+using Services.DTOs.UserPanel.Home;
+using Services.DTOs.UserPanel.Transaction;
 
 namespace Services.Contracts.Interfaces;
 

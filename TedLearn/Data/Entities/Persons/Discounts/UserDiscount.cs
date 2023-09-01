@@ -1,5 +1,6 @@
 ﻿using Data.Entities.BaseEntity;
 using Data.Entities.Persons.Users;
+using Data.Entities.Sales;
 
 namespace Data.Entities.Persons.Discounts;
 
@@ -8,6 +9,7 @@ public class UserDiscount : IEntity
 {
     [Key]
     public int UserDiscountId { get; set; }
+    public int OrderId { get; set; }
     public int UserId { get; set; }
     public int DiscountId { get; set; }
     public byte Percent { get; set; }
@@ -20,6 +22,9 @@ public class UserDiscount : IEntity
 
     [ForeignKey(nameof(DiscountId))]
     public UDiscount UDiscount { get; set; }
+
+    [ForeignKey(nameof(OrderId))]
+    public Order Order { get; set; }
 
     #endregion
 }

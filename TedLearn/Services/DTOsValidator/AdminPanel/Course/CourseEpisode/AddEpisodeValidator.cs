@@ -17,7 +17,7 @@ public class AddEpisodeValidator : AbstractValidator<AddEpisodeDto>
             .Must(c => FileChecker.IsRarFile(c)).WithMessage("لطفا فقط فایل rar بارگذاری کنید.");
 
         RuleFor(c => c.Time).Cascade(CascadeMode.Stop)
-            .NotEmpty().WithMessage("لطفا زمان قسمت را وارد کنید.")
+            .NotNull().WithMessage("لطفا زمان قسمت را وارد کنید.")
             .Must(timeSpan => timeSpan >= TimeSpan.Zero).WithMessage("لطفا زمان قسمت را به درستی وارد کنید.");
     }
 }

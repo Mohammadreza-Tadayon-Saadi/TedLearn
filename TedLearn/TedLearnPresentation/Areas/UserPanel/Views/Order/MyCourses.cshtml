@@ -1,0 +1,116 @@
+﻿@using Core.Convertors
+@using Services.DTOs.UserPanel.Order;
+@model GetMyCoursesDto
+@{
+    ViewData["Title"] = "دوره های من";
+}
+
+<section class="w-[85%] md:w-3/4">
+    <!-- Rout -->
+    <article class="flex justify-center text-sm md:text-base w-full h-12 md:h-16 mt-8 md:mt-4 md:mb-6">
+        <div class="w-11/12 border border-slate-300 rounded-xl shadow-xl bg-slate-50">
+            <ul class="flex flex-wrap h-full items-center pr-4 font-bold text-gray-500">
+                <li class="relative top-1">
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                    <a href="Index.html" class="text-base md:text-lg lg:text-xl hover:text-indigo-700 transition-colors duration-300"><i class="fi fi-rr-home"></i></a>
+                </li>
+                <li class="text-[12px] sm:text-sm md:text-base">
+                    <a href="UserPanel.html" class="inline-block relative bottom-[px] hover:text-indigo-700 transition-colors duration-300">پنل کاربری</a>
+                    <span class="text-base md:text-lg lg:text-xl mx-1 sm:mx-2 md:mx-3 relative top-1">
+                        <i class="fi fi-rr-angle-small-left"></i>
+                    </span>
+                </li>
+                <li class="text-indigo-700 text-[12px] sm:text-sm md:text-base">
+                    <p>@ViewData["Title"]</p>
+                </li>
+            </ul>
+        </div>
+    </article>
+    <!-- End Rout -->
+    <!-- MyCourses -->
+    <article class="flex justify-center text-sm sm:text-base lg:text-sm xl:text-base w-full mt-8 md:mt-4 mb-6">
+        <div class="w-11/12 border border-slate-300 rounded-xl drop-shadow-xl shadow-lg bg-slate-50 overflow-hidden">
+            <!-- Header MyCourses -->
+            <div class="mx-3 sm:mx-6 mt-6">
+                <p class="text-[15px] sm:text-sm md:text-lg font-semibold">@ViewData["Title"] :</p>
+            </div>
+            <!-- End Header MyCourses -->
+            <!-- Table Information For Courses -->
+            <section class="my-4">
+                <div class="container">
+                    <div class="flex flex-wrap">
+                        <div class="w-full px-4">
+                            <div id="Table-Scroll" class="max-w-full overflow-x-scroll sm:overflow-auto rounded-lg shadow-md drop-shadow-md">
+                                <table class="table-auto w-[550px] sm:w-full">
+                                    <thead>
+                                        <tr class="bg-indigo-700 text-slate-200 text-center">
+                                            <th class="py-3">عنوان دوره</th>
+                                            <th class="py-3 border-indigo-900">مدرس</th>
+                                            <th class="py-3 border-indigo-900">تاریخ آخرین بروزرسانی</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-slate-50">
+                                        @if (Model.MyCourses.Any())
+                                        {
+                                            foreach (var item in Model.MyCourses)
+                                            {
+                                                <tr class="text-gray-700 cursor-default border-b-[1px] border-slate-300 text-center hover:bg-slate-300">
+                                                    <td class="py-2 text-blue-600 font-semibold"><a class="transition-color duration-300 hover:text-sky-400" href="/Home/Courses/ShowCourse/@item.CourseTitle">@item.CourseTitle</a></td>
+                                                    <td class="py-2 ">
+                                                        @item.TeacherName
+                                                        @if (!String.IsNullOrEmpty(item.TeacherWebsite))
+                                                        {
+                                                            <a href="https://@item.TeacherWebsite" class="text-blue-500">(رزومه)</a>
+                                                        }
+                                                    </td>
+                                                    <td class="py-2">@item.LastOfUpdate.MiladiToShamsi()</td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class="text-gray-700 cursor-default border-b-[1px] border-slate-300">
+                                                <td colspan="3" class="text-center py-4">شما هنوز دوره ای خریداری نکرده اید.</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            @if (Model.Paginantion.PageCount > 1)
+                            {
+                                <div dir="ltr" id="paging" class="my-4 flex flex-row-reverse justify-center">
+                                    @for (int i = 1; i <= Model.Paginantion.PageCount; i++)
+                                    {
+                                        if (i == Model.Paginantion.Currentpage)
+                                        {
+                                            <span class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px] bg-indigo-700">@i</span>
+                                        }
+                                        else
+                                        {
+                                            <a href="/UserPanel/MyCourses?pageId=@i">
+                                                <span class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full text-slate-100 text-center mx-[2px] bg-indigo-300">@i</span>
+                                            </a>
+                                        }
+                                    }
+                                </div>
+                                
+                               @* <div class="mt-6 flex flex-row-reverse justify-center">
+                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-left relative top-[3px]"></i></a>
+                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100 mx-[2px]">۱</a>
+                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-300 text-slate-100 mx-[2px]">۲</a>
+                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-300 text-slate-100 mx-[2px]">۳</a>
+                                    <a class="w-7 h-7 cursor-pointer flex items-center justify-center rounded-full bg-indigo-700 text-slate-100"><i class="fi fi-rr-angle-small-right relative top-[3px]"></i></a>
+                                </div>*@
+                                
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- End Table Information For Courses -->
+        </div>
+    </article>
+    <!-- End MyCourses -->
+</section>

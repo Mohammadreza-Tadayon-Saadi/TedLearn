@@ -1,11 +1,13 @@
-﻿@*@model Tuple<List<TedLearn_Core.ViewModels.Orders.ShowBasketForUserViewModel> , int>
-@inject TedLearn_Core.Services.Interfaces.IUserPanelServices _userPanelServices;
+﻿@using Core.CustomResults;
+@using Core.Utilities;
+@using Services.DTOs.Home.Order;
+@using TedLearnPresentation.ViewComponents.CourseGroupComponents;
+@model ShowBasketForUserDto
+@inject IUserPanelServices _userPanelServices;
 @{
     ViewData["Title"] = "سبد خرید";
-    var totalPrice = Model.Item1.Sum(o => o.OrderPrice);
-    var orderId = Model.Item1.Select(o => o.OrderId).FirstOrDefault();
-    var discount = Model.Item1.Select(o => o.Discount).FirstOrDefault();
-    var userStock = _userPanelServices.GetStockForUser(Model.Item2);
+    var totalPrice = Model.OrderDetails.Select(o => o.Price).Sum();
+    var userStock = await _userPanelServices.GetStockForUserAsync(User.Identity.GetUserId<int>());
     var disType = ViewBag.DiscountType as string;
 }
 
@@ -36,160 +38,88 @@
         </section>
         <!-- End Rout -->
         <!-- Navbar Course -->
-        @await Component.InvokeAsync("CourseGroupComponent")
+        @await Component.InvokeAsync(typeof(CourseGroupViewComponent))
         <!-- End Navbar Course -->
     </header>
 }
-@if (disType != null)
-{
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
-        <div id="notice" class="scale-up-center w-72 bg-slate-100 rounded-md p-2">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="text-6xl fa @((disType.StartsWith("S")) ? "fa-circle-check text-green-500":"fa-warning text-red-500")"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                @switch (disType)
-                {
-                    case "NotFound":
-                        {
-                            <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                            <p class="text-sm text-center mt-2">
-                                کد تخفیف وارد شده معتبر نمیباشد.
-                            </p>
-                            break;
-                        }
-                    case "IsUsedByUser":
-                        {
-                            <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                            <p class="text-sm text-center mt-2">
-                                شما قبلا از این کد تخفیف استفاده کرده اید.امکان استفاده دوباره وجود ندارد!
-                            </p>
-                            break;
-                        }
-                    case "NotStartedDate":
-                        {
-                            <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                            <p class="text-sm text-center mt-2">
-                                هنوز روز آن فرا نرسیده است.
-                            </p>
-                            break;
-                        }
-                    case "ExpireDate":
-                        {
-                            <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                            <p class="text-sm text-center mt-2">
-                                مهلت استفاده از این کد تخفیف تمام شده است!
-                            </p>
-                            break;
-                        }
-                    case "IsFinished":
-                        {
-                            <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                            <p class="text-sm text-center mt-2">
-                                متاسفانه تعداد این کد تخفیف تمام شده است.
-                            </p>
-                            break;
-                        }
-                    case "Successed":
-                        {
-                            <h1 class="font-semibold text-lg text-center">عملیات موفق</h1>
-                            <p class="text-sm text-center mt-2">
-                                کد تخفیف با موفقیت بر روی کل فاکتور اعمال شد.
-                            </p>
-                            break;
-                        }
-                }
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 @((disType.StartsWith("S")) ? "bg-green-500":"bg-red-500") text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
 
-    <script src="/js/notice.js"></script>
+@if (!String.IsNullOrEmpty(disType))
+{
+    switch (disType)
+    {
+        case "NotFound":
+            {
+                var card = new MessageCardInfo("عملیات ناموفق", "کد تخفیف وارد شده معتبر نمیباشد.", MessageCardStatus.Warning);
+                <partial name="_MessageCardInfo" model="@card" />
+                break;
+            }
+        case "IsUsedByUser":
+            {
+                var card = new MessageCardInfo("عملیات ناموفق", "شما قبلا از این کد تخفیف استفاده کرده اید.امکان استفاده دوباره وجود ندارد!", MessageCardStatus.Warning);
+                <partial name="_MessageCardInfo" model="@card" />
+                break;
+            }
+        case "NotStartedDate":
+            {
+                var card = new MessageCardInfo("عملیات ناموفق", "هنوز روز آن فرا نرسیده است.", MessageCardStatus.Warning);
+                <partial name="_MessageCardInfo" model="@card" />
+                break;
+            }
+        case "ExpireDate":
+            {
+                var card = new MessageCardInfo("عملیات ناموفق", "مهلت استفاده از این کد تخفیف تمام شده است!", MessageCardStatus.Warning);
+                <partial name="_MessageCardInfo" model="@card" />
+                break;
+            }
+        case "IsFinished":
+            {
+                var card = new MessageCardInfo("عملیات ناموفق", "متاسفانه ظرفیت استفاده از این کد تخفیف به تکمیل شده است.", MessageCardStatus.Warning);
+                <partial name="_MessageCardInfo" model="@card" />
+                break;
+            }
+    }
 }
 @if (ViewBag.SqlException == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
-        <div id="notice" class="scale-up-center w-72 bg-slate-100 rounded-md p-2">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">خطای ناشناخته</h1>
-                <p class="text-sm text-center mt-2">
-                    متاسفانه خطایی سمت سرور رخ داده است.لطفا دوباره امتحان کنید و در صورت رخ دادن دوباره این خطا به مدیر سیستم اطلاع دهید.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    var card = new MessageCardInfo("خطای ناشناخته", "متاسفانه خطایی سمت سرور رخ داده است.لطفا دوباره امتحان کنید و در صورت رخ دادن دوباره این خطا به پشتیبانی اطلاع دهید.", MessageCardStatus.Error);
+    <partial name="_MessageCardInfo" model="@card" />
 }
 @if (ViewBag.AppOrTimeOutExeption == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
-        <div id="notice" class="scale-up-center w-72 bg-slate-100 rounded-md p-2">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-warning text-6xl text-red-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات ناموفق</h1>
-                <p class="text-sm text-center mt-2">
-                    متاسفانه درخواست شما انجام نشد.لطفا چند دقیقه ی دیگر دوباره امتحان کنید.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-red-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    var card = new MessageCardInfo("عملیات ناموفق", "متاسفانه درخواست شما انجام نشد.لطفا چند دقیقه ی دیگر دوباره امتحان کنید.", MessageCardStatus.Error);
+    <partial name="_MessageCardInfo" model="@card" />
 }
-@if (ViewBag.Successed == true)
+@if (ViewBag.SuccessedAddDiscount == true)
 {
-    <div id="Bg-Navbar-Black" class="z-[1001] overflow-hidden flex justify-center items-center w-full h-full fixed bg-black bg-opacity-50 top-0 right-0">
-        <div id="notice" class="scale-up-center w-72 bg-slate-100 rounded-md p-2">
-            <!-- Header -->
-            <div class="w-full h-24 flex justify-center items-center">
-                <span><i class="fa fa-circle-check text-6xl text-green-500"></i></span>
-            </div>
-            <!-- End Header -->
-            <div class="w-full h-auto">
-                <h1 class="font-semibold text-lg text-center">عملیات موفق</h1>
-                <p class="text-sm text-center mt-2">
-                    دوره با موفقیت از سبد خرید شما حذف شد.
-                </p>
-            </div>
-            <div class="w-full h-12 flex justify-center items-end">
-                <button id="ok" class="w-16 h-8 bg-green-500 text-slate-50 text-sm rounded-md" type="button">فهمیدم</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/notice.js"></script>
+    var card = new MessageCardInfo("عملیات موفق", "کد تخفیف با موفقیت بر روی فاکتور اعمال شد.", MessageCardStatus.Ok);
+    <partial name="_MessageCardInfo" model="@card" />
+}
+@if (ViewBag.AddOrderSuccessed == true)
+{
+    var card = new MessageCardInfo("عملیات موفق", "دوره با موفقیت به سبد خرید شما اضافه شد.", MessageCardStatus.Ok);
+    <partial name="_MessageCardInfo" model="@card" />
+}
+@if (ViewBag.RemoveDetailSuccessed == true)
+{
+    var card = new MessageCardInfo("عملیات موفق", "دوره با موفقیت از سبد خرید شما حذف شد.", MessageCardStatus.Ok);
+    <partial name="_MessageCardInfo" model="@card" />
+}
+@if (ViewBag.Concurrency == true)
+{
+    var card = new MessageCardInfo("خطای همزمانی", "متاسفانه داده های قبلی با داده های اصلی در سرور مغایرت داشت.لطفا دوباره امتحان کنید.", MessageCardStatus.Error);
+    <partial name="_MessageCardInfo" model="@card" />
 }
 
 <main class="w-full min-h-auto flex justify-center mb-10 mt-6 z-40">
     <div class="w-11/12 lg:w-[98%] h-full flex flex-wrap justify-between">
-        @if (Model.Item1.Any())
+        @if (Model.OrderDetails.Any())
         {
             <!-- Sale Options -->
             <section class="w-full lg:w-[30%] h-full">
                 <!-- Information -->
                 <article class="w-full h-full py-2 px-3 bg-slate-50 rounded-lg border border-slate-300 shadow-md shadow-slate-400">
                     <!-- Discount -->
-                    <form id="form" action="/AddDiscountToOrder/@orderId" method="post" class="w-full h-auto mt-2">
+                    <form id="form" action="/AddDiscountToOrder/@Model.OrderId" method="post" class="w-full h-auto mt-2">
                         @Html.AntiForgeryToken()
                         <div class="flex w-full">
                             <input type="text" id="code" name="code" data-max-chars="50" class="px-3 py-2 w-4/5 text-base outline-none border-t border-b border-r border-slate-300 rounded-tr-md rounded-br-md focus:border-slate-400 transition-colors duration-300 placeholder:font-semibold placeholder:text-gray-600 placeholder:text-sm" placeholder="کد تخفیف ...">
@@ -203,7 +133,7 @@
                     </div>
                     <!-- End Line For Seperate -->
 
-                    <form action="/FinalyOrder/@orderId" method="post" class="w-full">
+                    <form action="/FinalyOrder/@Model.OrderId" method="post" class="w-full">
                         @Html.AntiForgeryToken()
                         <!-- Wallet -->
                         <div class="flex justify-between text-sm text-gray-700 lg:text-[13px] xl:text-sm font-semibold mt-4">
@@ -211,7 +141,7 @@
                                 <span class="relative top-0.5 text-gray-400 ml-1"><i class="fi fi-rr-wallet"></i></span>
                                 موجودی کیف پول شما :
                             </p>
-                            <span>@userStock.ToString("#,0 تومان")</span>
+                            <span>@userStock.ToToman()</span>
                         </div>
                         <!-- End Wallet -->
                         <!-- SalesAmount -->
@@ -220,18 +150,18 @@
                                 <span class="relative top-0.5 text-gray-400 ml-1"><i class="fi fi-rr-dollar"></i></span>
                                 مبلغ کل :
                             </p>
-                            <span class="@((userStock >= totalPrice) ? "" : "text-red-500")">@totalPrice.ToString("#,0 تومان")</span>
+                            <span class="@((userStock >= totalPrice) ? "" : "text-red-500")">@totalPrice.ToToman()</span>
                         </div>
                         <!-- End SalesAmount -->
                         <!-- Discount -->
-                        @if (discount != 0)
+                        @if (Model.Discount != 0)
                         {
                             <div class="flex justify-between text-sky-500 text-sm lg:text-[13px] xl:text-sm font-semibold mt-4">
                                 <p>
                                     <span class="relative top-0.5 ml-1"><i class="fi fi-rr-stars"></i></span>
-                                    تخفیف : (@((int)(discount * 100))%)
+                                    تخفیف : (@((int)(Model.Discount * 100))%)
                                 </p>
-                                <span>@((totalPrice * discount).ToString("#,0 تومان"))</span>
+                                <span>@((totalPrice * Model.Discount).ToToman())</span>
                             </div>
                         }
                         <!-- End Discount -->
@@ -242,12 +172,12 @@
                         <!-- Sibmit -->
                         <div class="w-full flex flex-wrap justify-center">
                             <!-- Total Amount -->
-                            @if (discount != 0)
+                            @if (Model.Discount != 0)
                             {
-                                <p class="font-semibold">مبلغ کل : @((totalPrice * (1 - discount)).ToString("#,0 تومان"))</p>
+                                <p class="font-semibold">مبلغ کل : @((totalPrice * (1 - Model.Discount)).ToToman())</p>
                             }
                             <!-- End Total Amount -->
-                            @if (userStock >= (totalPrice * (1 - discount)))
+                            @if (userStock >= (totalPrice * (1 - Model.Discount)))
                             {
                                 <button type="submit" class="flex justify-center items-center mt-4 bg-green-500 border-[1px] shadow-lg border-green-600 w-full h-10 text-slate-100 rounded-lg hover:bg-green-600 transition-colors duration-300">پرداخت نهایی</button>
                             }
@@ -274,7 +204,7 @@
                         </h1>
 
                         <!-- Count Of Order -->
-                        <span class="text-xs bg-indigo-700 py-2 px-4 rounded-full text-slate-50">@Model.Item1.Count مورد</span>
+                        <span class="text-xs bg-indigo-700 py-2 px-4 rounded-full text-slate-50">@Model.OrderDetails.Count() مورد</span>
                         <!-- End Count Of Order -->
                     </div>
 
@@ -284,7 +214,7 @@
 
                     <div class="flex flex-wrap justify-center w-full mt-6 relative">
                         <!-- Course -->
-                        @foreach (var item in Model.Item1)
+                        @foreach (var item in Model.OrderDetails)
                         {
                             <article class="flex flex-wrap justify-center w-full my-6">
                                 <!-- Main Course -->
@@ -302,7 +232,7 @@
                                         <!-- Price & Teacher -->
                                         <div class="flex flex-wrap justify-between font-semibold text-sm text-gray-600">
                                             <p class="mt-1 ml-2">مدرس : <span>@item.TeacherName</span></p>
-                                            <p class="mt-1 text-green-600">قیمت دوره : <span>@item.CoursePrice.ToString("#,0 تومان")</span></p>
+                                            <p class="mt-1 text-green-600">قیمت دوره : <span>@item.Price.ToToman()</span></p>
                                         </div>
                                         <!-- End Price & Teacher -->
                                         <!-- Line For Separate -->
@@ -313,26 +243,26 @@
                                         <!-- End Line For Separate -->
                                         <!-- Title -->
                                         <div class="md:h-20 md:flex md:flex-wrap md:items-center mt-4 mb-2 md:my-0">
-                                            <a href="/Home/ShowCourse/@item.CourseTitle" class="w-full text-base font-semibold break-words transition-colors duration-300 hover:text-sky-400">@item.CourseTitle</a>
-                                            
+                                            <a href="/Home/Courses/ShowCourse/@item.CourseTitle" target="_blank" class="w-full text-base font-semibold break-words transition-colors duration-300 hover:text-sky-400">@item.CourseTitle</a>
+
 
 
                                             <!-- take it -->
-                                            @if (item.Discount != 0)
-                                            {
-                                                <p class="mt-2 text-slate-50 bg-basket-discount bg-red-600 px-12 font-semibold text-sm relative hidden sm:block">
-                                                    مهلت استفاده از این تخفیف :
-                                                    <span class="ml-2">50%</span>
-                                                    <span>12:25:30</span>
-                                                </p>
-                                                <p class="sm:hidden text-sky-500 mt-4 text-sm relative">
-                                                    <span class="block mb-2">
-                                                        <i class="fi fi-rr-stars"></i>
-                                                        تخفیف : 50%
-                                                    </span>
-                                                    <span>مهلت استفاده : 12:25:30</span>
-                                                </p>
-                                            }
+                                            @*@if (item.Discount != 0)
+                                    {
+                                    <p class="mt-2 text-slate-50 bg-basket-discount bg-red-600 px-12 font-semibold text-sm relative hidden sm:block">
+                                    مهلت استفاده از این تخفیف :
+                                    <span class="ml-2">50%</span>
+                                    <span>12:25:30</span>
+                                    </p>
+                                    <p class="sm:hidden text-sky-500 mt-4 text-sm relative">
+                                    <span class="block mb-2">
+                                    <i class="fi fi-rr-stars"></i>
+                                    تخفیف : 50%
+                                    </span>
+                                    <span>مهلت استفاده : 12:25:30</span>
+                                    </p>
+                                    }*@
 
 
                                         </div>
@@ -366,48 +296,5 @@
 </main>
 
 @section Scripts{
-    <script type="text/javascript">
-        const form = document.getElementById("form");
-        const discountCode = document.getElementById("code");
-
-        form.addEventListener('submit', (e) => {
-            if (checkDiscountCode() === true) {
-                e.stopPropagation();
-            } else {
-                e.preventDefault();
-            }
-        });
-
-        function checkDiscountCode() {
-            const discountCodeValue = discountCode.value.trim();
-            const discountCodeLength = discountCodeValue.length;
-            const maxChars = discountCode.getAttribute("data-max-chars");
-
-            if (discountCodeValue === '') {
-                setError(discountCode, 'لطفا کد تخفیف را وارد کنید.');
-                return false;
-            } else if (discountCodeLength > maxChars) {
-                setError(discountCode, 'کد تخفیف نباید بیشتر از ' + maxChars + ' کارکتر باشد.( ' + discountCodeLength + ')');
-                return false;
-            } else {
-                setSuccess(discountCode);
-                return true;
-            }
-        }
-
-        function setError(input, message) {
-            var formControl = input.parentElement;
-            const span = document.querySelector('span.codValidate');
-            span.innerHTML = message;
-            span.classList.remove('hidden');
-            formControl.className = 'flex w-full error';
-        }
-
-        function setSuccess(input) {
-            var formControl = input.parentElement;
-            const span = formControl.querySelector('span.codValidate');
-            span.classList.add('hidden');
-            formControl.className = 'flex w-full';
-        }
-    </script>
-}*@
+    <script src="/js/basket.js"></script>
+}

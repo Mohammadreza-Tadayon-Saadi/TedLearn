@@ -14,7 +14,7 @@
                 <div class="flex-auto px-0 pt-0 pb-2">
                     <div class="header-options">
                         <a class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px" asp-controller="ManageCourseGroups" asp-action="AddSubGroup">افزودن زیر گروه جدید</a>
-                        <form id="form-info" method="post" action="/GetSubGroups/GetAllDeletedSubGroupsForGroup/@parentId" class="deleted-or-active-group">
+                        <form id="form-info" method="post" action="/Admin/ManageCourseGroups/GetSubGroups/GetAllDeletedSubGroupsForGroup/@parentId" class="deleted-or-active-group">
                             <button type="button" class="px-8 py-2 text-xs font-bold leading-normal text-center text-white align-middle transition-all ease-in bg-blue-500 border-0 rounded-lg shadow-md select-none bg-150 bg-x-25 hover:shadow-xs hover:-translate-y-px"> زیر گروه های حذف شده </button>
                         </form>
                     </div>
@@ -41,6 +41,6 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $("#result").load("/GetSubGroups/GetAllSubGroupsForGroup/"+@parentId);
+        $("#result").load("/Admin/ManageCourseGroups/GetSubGroups/GetAllSubGroupsForGroup/" + @parentId);
     </script>
 }

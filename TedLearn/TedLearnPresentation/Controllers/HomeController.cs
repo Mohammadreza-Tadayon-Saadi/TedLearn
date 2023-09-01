@@ -15,10 +15,13 @@ public class HomeController : Controller
 
     [Route("/")]
     [Route("/Home")]
-    [Route("/Home/{SuccessSign?}")]
-    public IActionResult Index(string? SuccessSign)
+    public IActionResult Index()
     {
-        if (SuccessSign != null) ViewBag.SuccessSign = true;
+        if (TempData.ContainsKey("SuccesSign"))
+        {
+            ViewBag.SuccessSign = TempData["SuccesSign"];
+            TempData.Remove("SuccesSign");
+        }
         return View();
     }
 }
